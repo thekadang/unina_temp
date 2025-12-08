@@ -202,43 +202,41 @@ html {
  * Blur Position Synchronization System
  * 화면과 PDF 출력 시 블러 위치가 동일하도록 보장
  *
- * 문제: 화면(min-h-screen)과 인쇄(297mm)의 컨테이너 높이가 달라
- *       동일한 % 위치가 다른 절대 위치로 변환됨
+ * 핵심 문제:
+ *   - 화면: min-h-screen (가변 높이, 예: 900px)
+ *   - PDF: h-[297mm] (고정 A4 높이, 약 1123px)
+ *   - 블러 위치가 컨테이너 기준 %로 저장됨
+ *   - 같은 %가 다른 픽셀 위치를 가리킴
  *
- * 해결: 블러 영역을 가진 페이지는 화면에서도 A4 비율을 유지
+ * 해결: 블러가 있는 페이지는 화면에서도 A4 높이를 사용
+ *       → 화면과 PDF의 컨테이너 크기가 동일해짐
+ *       → 동일한 % 위치 = 동일한 픽셀 위치
  */
 
-/* 블러 영역을 포함할 수 있는 페이지 컨테이너에 대한 공통 스타일 */
+/* 블러 컨테이너 기본 스타일 */
 .blur-container {
   position: relative;
 }
 
-/* 화면에서 A4 비율 유지 - 블러가 있는 페이지에만 적용 */
-@media screen {
-  .blur-container[data-has-blur="true"] {
-    /* A4 비율 유지 */
-    aspect-ratio: 210 / 297;
-    min-height: auto !important;
-    /* 컨테이너 크기를 내용에 맞게 조정하되 A4 비율 유지 */
-  }
+/* 블러가 있는 페이지: 화면에서도 A4 높이 강제 적용 */
+.blur-container[data-has-blur="true"] {
+  /* 화면에서도 A4 높이 사용하여 PDF와 동일한 컨테이너 크기 */
+  min-height: 297mm !important;
+  height: 297mm !important;
+  /* 콘텐츠가 넘치면 스크롤 */
+  overflow: auto;
+  /* 상단 정렬로 콘텐츠 시작 위치 일치 */
+  justify-content: flex-start !important;
 }
 
-/* 인쇄 시 블러 영역 위치 보정 */
+/* 인쇄 시 블러 컨테이너 스타일 */
 @media print {
   .blur-container {
-    /* 인쇄 시 A4 높이 고정 */
-    height: 297mm;
+    /* 인쇄 시에도 A4 높이 유지 */
+    height: 297mm !important;
     min-height: 297mm !important;
-    max-height: 297mm;
-    overflow: hidden;
-    position: relative;
-  }
-
-  /* 블러 영역이 컨테이너 내에서 올바른 위치 유지 */
-  .blur-container .blur-region-print,
-  .blur-container [data-blur-region="true"] {
-    /* 인쇄 시에도 동일한 % 위치 유지 */
-    position: absolute;
+    /* 상단 정렬 유지 */
+    justify-content: flex-start !important;
   }
 }
 

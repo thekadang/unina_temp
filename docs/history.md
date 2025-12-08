@@ -474,6 +474,53 @@ case 'process':
 
 ---
 
+## History #10
+**날짜**: 2025-12-08
+**사용자 질문**: 위치가 안맞는다... 위치로 계산하지 말고 내가 가리려는 부분을 파악해서 가려줄 순 없나??
+
+### 수행한 작업
+- [x] 블러 위치 불일치 문제 심층 분석
+- [x] **핵심 원인 발견**:
+  - 화면: `min-h-screen` = 가변 높이 (예: 900px)
+  - PDF: `print:h-[297mm]` = 고정 A4 높이 (약 1123px)
+  - 블러 위치가 컨테이너 기준 %로 저장됨
+  - 같은 % 값이 다른 픽셀 위치를 가리킴
+- [x] **해결책: 화면에서도 블러가 있는 페이지에 A4 높이 강제 적용**
+  - `.blur-container[data-has-blur="true"]`에 `height: 297mm !important` 적용
+  - 화면과 PDF의 컨테이너 크기가 동일해짐
+  - 동일한 % 위치 = 동일한 픽셀 위치
+- [x] globals.css 블러 동기화 시스템 업데이트
+- [x] 빌드 성공 확인 ✅
+
+### 변경된 파일
+- 📝 `src/styles/globals.css` - 블러 위치 동기화 CSS 개선
+  - 블러가 있는 페이지에 화면에서도 A4 높이(297mm) 강제 적용
+  - `overflow: auto`로 콘텐츠가 넘칠 경우 스크롤 가능
+  - 상단 정렬(`justify-content: flex-start`)로 콘텐츠 시작 위치 일치
+- 📝 `src/components/CoverPage.tsx` - 구조 정리 (일관성 유지)
+
+### 기술적 해결 내용
+| 문제 | 원인 | 해결 |
+|------|------|------|
+| 화면/PDF 블러 위치 불일치 | 컨테이너 높이 차이 (가변 vs 고정) | 블러 있는 페이지만 화면에서도 A4 높이 고정 |
+
+### 주요 CSS 변경
+```css
+/* 블러가 있는 페이지: 화면에서도 A4 높이 강제 적용 */
+.blur-container[data-has-blur="true"] {
+  min-height: 297mm !important;
+  height: 297mm !important;
+  overflow: auto;
+  justify-content: flex-start !important;
+}
+```
+
+### 참조한 문서
+- `src/styles/globals.css` - 블러 위치 동기화 CSS
+- `src/components/BlurOverlay.tsx` - 블러 영역 컴포넌트
+
+---
+
 ## 롤백 안내
 
 롤백이 필요한 경우:

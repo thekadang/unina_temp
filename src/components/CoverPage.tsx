@@ -41,7 +41,7 @@ export function CoverPage({
   const [showStylePicker, setShowStylePicker] = useState<string | null>(null);
 
   return (
-    <div 
+    <div
       className="min-h-screen flex flex-col items-center justify-center p-4 md:p-6 lg:p-8 py-12 md:py-16 pb-24 md:pb-28 lg:pb-32 relative overflow-hidden print:h-[297mm] print:py-10 print:px-12 print:pb-12 blur-container"
       data-has-blur={blurRegions.length > 0 ? "true" : undefined}
       onMouseEnter={() => setIsHovered(true)}
