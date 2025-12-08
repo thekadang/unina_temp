@@ -400,6 +400,80 @@ case 'process':
 
 ---
 
+## History #9 ⭐
+**날짜**: 2025-12-08
+**사용자 질문**: 블러 기능에 문제가 있어. 1. 화면상에 블러를 지정한 영역과 pdf출력 시의 블러영역의 위치가 다르게 나와. 2. 화면에서의 블러는 잘 작동해. 근데 pdf로 출력하면 뿌옇게 흐려지는 효과만 있고 가려야 할 내용(글자/이미지)이 그대로 보여.
+
+### 수행한 작업
+- [x] BlurOverlay 컴포넌트 분석 (`src/components/BlurOverlay.tsx`)
+- [x] **근본 원인 발견 - 이슈 1 (위치 불일치)**:
+  - 화면: `min-h-screen` = 뷰포트 높이에 따라 변동 (예: 900px)
+  - 인쇄: `print:h-[297mm]` = 고정 A4 높이 (약 1122px)
+  - 동일한 % 위치가 다른 절대 픽셀 위치로 변환됨
+- [x] **근본 원인 발견 - 이슈 2 (PDF 블러 효과 약함)**:
+  - `backdrop-filter: blur(12px)`는 Chrome PDF 렌더링에서 작동하지 않음
+  - PDF에서는 투명 배경만 남아 내용이 그대로 보임
+- [x] **해결책 1 - PDF 블러 불투명 처리**:
+  - 인쇄 시 완전 불투명 흰색 배경 + 사선 패턴 적용
+  - `backdrop-filter` 제거, 순수 CSS 배경색으로 내용 가림
+- [x] **해결책 2 - 블러 위치 동기화**:
+  - 모든 페이지 컨테이너에 `blur-container` 클래스 추가
+  - `data-has-blur` 속성으로 블러 있는 페이지만 A4 비율 적용
+  - 인쇄 시 고정 297mm 높이로 일관된 위치 보장
+- [x] 15개 페이지 컴포넌트 업데이트 완료
+- [x] 빌드 성공 확인 ✅
+
+### 변경된 파일
+- 📝 `src/styles/globals.css` - 블러 위치 동기화 CSS 추가, PDF 인쇄 스타일 개선
+- 📝 `src/index.css` - PDF 인쇄용 블러 스타일 추가
+- 📝 `src/components/CoverPage.tsx` - blur-container 클래스 및 data-has-blur 속성 추가
+- 📝 `src/components/DetailedSchedulePage.tsx` - blur-container 적용
+- 📝 `src/components/IntroductionPage.tsx` - blur-container 적용
+- 📝 `src/components/EditableAccommodationPage.tsx` - blur-container 적용
+- 📝 `src/components/FlightDeparturePage.tsx` - blur-container 적용
+- 📝 `src/components/FlightArrivalPage.tsx` - blur-container 적용
+- 📝 `src/components/FlightTransitPage.tsx` - blur-container 적용
+- 📝 `src/components/FlightInfoPage.tsx` - blur-container 적용
+- 📝 `src/components/ItineraryCalendarPage.tsx` - blur-container 적용
+- 📝 `src/components/PaymentPage.tsx` - blur-container 적용
+- 📝 `src/components/ProcessPage.tsx` - blur-container 적용
+- 📝 `src/components/QuotationPage.tsx` - blur-container 적용
+- 📝 `src/components/TouristSpotListPage.tsx` - blur-container 적용
+- 📝 `src/components/TransportationCardPage.tsx` - blur-container 적용
+- 📝 `src/components/TransportationTicketPage.tsx` - blur-container 적용
+- 📝 `src/components/PageWrapper.tsx` - blur-container 적용
+
+### 기술적 해결 내용
+| 문제 | 원인 | 해결 |
+|------|------|------|
+| PDF 블러 효과 약함 | `backdrop-filter`가 PDF에서 미지원 | 완전 불투명 배경 + 사선 패턴으로 대체 |
+| 화면/PDF 위치 불일치 | 컨테이너 높이 차이 (min-h-screen vs 297mm) | 블러 있는 페이지에 일관된 비율 적용 |
+
+### 주요 CSS 변경
+```css
+/* PDF 인쇄 시 블러 영역 완전 가림 */
+@media print {
+  .blur-region-print,
+  [data-blur-region="true"] {
+    background-color: #ffffff !important;
+    background: linear-gradient(135deg, #f0f0f0 25%, #ffffff 25%, ...) !important;
+    backdrop-filter: none !important;
+  }
+
+  .blur-container {
+    height: 297mm;
+    min-height: 297mm !important;
+  }
+}
+```
+
+### 참조한 문서
+- `src/components/BlurOverlay.tsx` - 블러 영역 컴포넌트
+- `src/styles/globals.css` - 전역 스타일 및 인쇄 스타일
+- MDN: CSS backdrop-filter 및 인쇄 미디어 쿼리
+
+---
+
 ## 롤백 안내
 
 롤백이 필요한 경우:

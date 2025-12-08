@@ -36,7 +36,8 @@ export function PageWrapper({
 
   return (
     <div
-      className={`relative ${className}`}
+      className={`relative blur-container ${className}`}
+      data-has-blur={blurRegions.length > 0 ? "true" : undefined}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

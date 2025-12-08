@@ -311,7 +311,8 @@ export function TransportationTicketPage({
 
   return (
     <div 
-      className="relative min-h-screen bg-white p-8 print:p-8"
+      className="relative min-h-screen bg-white p-8 print:p-8 blur-container"
+      data-has-blur={blurRegions.length > 0 ? "true" : undefined}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
