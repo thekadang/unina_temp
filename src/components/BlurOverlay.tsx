@@ -70,34 +70,61 @@ export function BlurOverlay({
     };
   }, [isBlurMode, handleElementClick, handleElementHover]);
 
+  // 블러 스타일 (인라인 - Tailwind purge 우회)
+  const blurStyle = {
+    filter: 'blur(8px)',
+    userSelect: 'none' as const,
+    pointerEvents: 'none' as const
+  };
+
   // 블러 스타일 적용
   useEffect(() => {
-    // 모든 data-blur-key 요소에서 블러 클래스 제거
+    // 모든 data-blur-key 요소에서 블러 스타일 제거
     document.querySelectorAll('[data-blur-key]').forEach(el => {
-      el.classList.remove('blur-active');
+      const htmlEl = el as HTMLElement;
+      htmlEl.style.filter = '';
+      htmlEl.style.userSelect = '';
+      htmlEl.style.pointerEvents = '';
     });
 
-    // 블러된 요소에 클래스 추가
+    // 블러된 요소에 인라인 스타일 추가
     blurredKeys.forEach(key => {
-      const el = document.querySelector(`[data-blur-key="${key}"]`);
+      const el = document.querySelector(`[data-blur-key="${key}"]`) as HTMLElement;
       if (el) {
-        el.classList.add('blur-active');
+        el.style.filter = blurStyle.filter;
+        el.style.userSelect = blurStyle.userSelect;
+        el.style.pointerEvents = blurStyle.pointerEvents;
       }
     });
   }, [blurredKeys]);
 
-  // 호버 하이라이트 적용
+  // 호버 하이라이트 스타일
+  const hoverStyle = {
+    outline: '2px dashed #8b5cf6',
+    outlineOffset: '2px',
+    cursor: 'pointer',
+    backgroundColor: 'rgba(139, 92, 246, 0.1)'
+  };
+
+  // 호버 하이라이트 적용 (인라인 스타일 사용 - Tailwind purge 우회)
   useEffect(() => {
     // 이전 하이라이트 제거
     document.querySelectorAll('[data-blur-key]').forEach(el => {
-      el.classList.remove('blur-hover');
+      const htmlEl = el as HTMLElement;
+      htmlEl.style.outline = '';
+      htmlEl.style.outlineOffset = '';
+      htmlEl.style.cursor = '';
+      htmlEl.style.backgroundColor = '';
     });
 
     // 현재 호버된 요소에 하이라이트
     if (hoveredKey && isBlurMode) {
-      const el = document.querySelector(`[data-blur-key="${hoveredKey}"]`);
+      const el = document.querySelector(`[data-blur-key="${hoveredKey}"]`) as HTMLElement;
       if (el) {
-        el.classList.add('blur-hover');
+        el.style.outline = hoverStyle.outline;
+        el.style.outlineOffset = hoverStyle.outlineOffset;
+        el.style.cursor = hoverStyle.cursor;
+        el.style.backgroundColor = hoverStyle.backgroundColor;
       }
     }
   }, [hoveredKey, isBlurMode]);
@@ -107,7 +134,11 @@ export function BlurOverlay({
     if (!isBlurMode) {
       setHoveredKey(null);
       document.querySelectorAll('[data-blur-key]').forEach(el => {
-        el.classList.remove('blur-hover');
+        const htmlEl = el as HTMLElement;
+        htmlEl.style.outline = '';
+        htmlEl.style.outlineOffset = '';
+        htmlEl.style.cursor = '';
+        htmlEl.style.backgroundColor = '';
       });
     }
   }, [isBlurMode]);

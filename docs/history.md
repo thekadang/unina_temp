@@ -627,6 +627,59 @@ case 'process':
 
 ---
 
+## History #13
+**날짜**: 2025-12-08
+**사용자 질문**: 블러 모드에서 선택할 수 있는 요소들이 보이지 않아. 마우스를 움직이면 요소들이 표시되고 선택하면 블러처리가 될 줄 알았는데..
+
+### 수행한 작업
+- [x] 브라우저에서 블러 모드 호버 하이라이트 문제 디버깅
+- [x] **근본 원인 발견**: Tailwind CSS 4의 purge 기능이 동적으로 추가되는 클래스 제거
+  - `.blur-hover`, `.blur-active` 클래스가 스타일시트에 0개 규칙으로 존재
+  - CSS에 정의되어 있지만 빌드 시 사용되지 않는 것으로 판단되어 제거됨
+- [x] **해결책: CSS 클래스 대신 인라인 스타일 사용**
+  - 호버 하이라이트: JavaScript로 직접 `outline`, `backgroundColor` 등 적용
+  - 블러 효과: JavaScript로 직접 `filter: blur(8px)`, `userSelect`, `pointerEvents` 적용
+- [x] Playwright 브라우저 테스트로 수정 확인 ✅
+  - 호버 시 보라색 점선 테두리 표시 확인
+  - 클릭 시 블러 효과(흐림) 적용 확인
+
+### 변경된 파일
+- 📝 `src/components/BlurOverlay.tsx` - CSS 클래스 기반에서 인라인 스타일 기반으로 변경
+  - 호버 하이라이트 스타일 추가 (outline, outlineOffset, cursor, backgroundColor)
+  - 블러 스타일 추가 (filter, userSelect, pointerEvents)
+  - useEffect로 DOM 요소에 직접 스타일 적용
+
+### 기술적 해결 내용
+| 문제 | 원인 | 해결 |
+|------|------|------|
+| 호버 하이라이트 미표시 | `.blur-hover` CSS 규칙이 빌드에서 purge됨 | 인라인 스타일로 직접 적용 |
+| 블러 효과 미적용 | `.blur-active` CSS 규칙이 빌드에서 purge됨 | 인라인 스타일로 직접 적용 |
+
+### 주요 코드 변경
+```typescript
+// 호버 하이라이트 스타일 (인라인 - Tailwind purge 우회)
+const hoverStyle = {
+  outline: '2px dashed #8b5cf6',
+  outlineOffset: '2px',
+  cursor: 'pointer',
+  backgroundColor: 'rgba(139, 92, 246, 0.1)'
+};
+
+// 블러 스타일 (인라인 - Tailwind purge 우회)
+const blurStyle = {
+  filter: 'blur(8px)',
+  userSelect: 'none' as const,
+  pointerEvents: 'none' as const
+};
+```
+
+### 참조한 문서
+- `src/components/BlurOverlay.tsx` - 블러 오버레이 컴포넌트
+- `src/styles/globals.css` - 전역 CSS 스타일
+- `src/types/blur-region.ts` - 블러 영역 타입
+
+---
+
 ## 롤백 안내
 
 롤백이 필요한 경우:
