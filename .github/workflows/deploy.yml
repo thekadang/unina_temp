@@ -33,6 +33,13 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: List build output
+        run: |
+          echo "=== Build directory contents ==="
+          ls -la ./build/
+          echo "=== index.html content ==="
+          cat ./build/index.html
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
