@@ -569,6 +569,64 @@ case 'process':
 
 ---
 
+## History #12 ⭐
+**날짜**: 2025-12-08
+**사용자 질문**: 여전해.. 블러 범위를 마우스 드레그가 아니라 요소 범위로 하면 어때? p, span, h, div 등의 요소 범위로 블러 처리를 하면 좀 더 수월하려나?
+
+### 수행한 작업
+- [x] **좌표 기반 → 요소 기반 블러로 완전 전환**
+  - 기존: 마우스 드래그 → % 좌표 저장 → 화면/PDF 크기 차이로 위치 불일치
+  - 신규: DOM 요소 클릭 → `data-blur-key` 속성으로 요소 식별 → 크기 무관하게 정확한 블러
+- [x] BlurRegion 타입 수정: `x, y, width, height` 제거 → `fieldKey` 추가
+- [x] BlurOverlay 컴포넌트 재작성: 드래그 → 클릭 기반 선택
+- [x] CSS 스타일 추가: `.blur-active`, `.blur-hover` 클래스
+- [x] 모든 페이지 컴포넌트에 `data-blur-key` 속성 추가:
+  - CoverPage (6개 필드)
+  - IntroductionPage, DetailedSchedulePage, FlightInfoPage
+  - FlightDeparturePage, FlightArrivalPage, FlightTransitPage (각 13개 패턴)
+  - EditableAccommodationPage (20개 필드)
+  - ItineraryCalendarPage, PaymentPage, ProcessPage
+  - QuotationPage, TouristSpotListPage, TransportationCardPage, TransportationTicketPage
+- [x] 빌드 성공 ✅
+
+### 변경된 파일
+- 📝 `src/types/blur-region.ts` - 좌표 기반에서 fieldKey 기반으로 타입 변경
+- 📝 `src/components/BlurOverlay.tsx` - 클릭 기반 선택으로 완전 재작성
+- 📝 `src/styles/globals.css` - 요소 기반 블러 CSS 스타일 추가
+- 📝 `src/components/CoverPage.tsx` - data-blur-key 추가
+- 📝 `src/components/IntroductionPage.tsx` - data-blur-key 추가
+- 📝 `src/components/DetailedSchedulePage.tsx` - data-blur-key 추가
+- 📝 `src/components/FlightInfoPage.tsx` - data-blur-key 추가
+- 📝 `src/components/FlightDeparturePage.tsx` - data-blur-key 추가
+- 📝 `src/components/FlightArrivalPage.tsx` - data-blur-key 추가
+- 📝 `src/components/FlightTransitPage.tsx` - data-blur-key 추가
+- 📝 `src/components/EditableAccommodationPage.tsx` - data-blur-key 추가
+- 📝 `src/components/ItineraryCalendarPage.tsx` - data-blur-key 추가
+- 📝 `src/components/PaymentPage.tsx` - data-blur-key 추가
+- 📝 `src/components/ProcessPage.tsx` - data-blur-key 추가
+- 📝 `src/components/QuotationPage.tsx` - data-blur-key 추가
+- 📝 `src/components/TouristSpotListPage.tsx` - data-blur-key 추가
+
+### 기술적 해결 내용
+| 문제 | 원인 | 해결 |
+|------|------|------|
+| 블러 위치 화면/PDF 불일치 | 좌표 기반 % 저장 방식의 근본적 한계 | 요소 식별자(fieldKey) 기반으로 전환 |
+| 드래그 영역 정확도 | 사용자가 정확히 그리기 어려움 | 클릭 한 번으로 요소 전체 선택 |
+
+### 새 블러 시스템 사용법
+1. 블러 모드 활성화 (눈 아이콘 클릭)
+2. 블러 처리할 텍스트 요소 클릭 (보라색 테두리 하이라이트)
+3. 다시 클릭하면 블러 해제
+4. PDF 출력 시 선택한 요소 자동 블러 처리
+
+### 참조한 문서
+- `src/types/blur-region.ts`
+- `src/components/BlurOverlay.tsx`
+- `src/styles/globals.css`
+- 모든 페이지 컴포넌트 (15개 파일)
+
+---
+
 ## 롤백 안내
 
 롤백이 필요한 경우:

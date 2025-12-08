@@ -226,7 +226,8 @@ export function QuotationPage({
                 </>
               )
             ) : (
-              <h1 
+              <h1
+                data-blur-key="quotationPageTitle"
                 style={getStyleObject(data.quotationPageTitleStyle)}
               >
                 {data.quotationPageTitle || '견적서'}
@@ -278,7 +279,8 @@ export function QuotationPage({
                   )
                 ) : (
                   <div className="flex items-center gap-2">
-                    <p 
+                    <p
+                      data-blur-key={item.labelField}
                       className="text-gray-500 text-base font-bold text-[18px]"
                       style={getStyleObject(data.quotationSummaryLabelStyle)}
                     >
@@ -326,7 +328,8 @@ export function QuotationPage({
                   )
                 ) : (
                   <div className="flex items-center gap-2">
-                    <p 
+                    <p
+                      data-blur-key={item.field}
                       className="text-gray-800 text-lg text-[15px]"
                       style={getStyleObject(data.quotationSummaryValueStyle)}
                     >
@@ -371,7 +374,7 @@ export function QuotationPage({
                 </p>
               )
             ) : (
-              <p className="text-base print:text-sm opacity-90" style={getStyleObject(data.quotationEstimatedTitleStyle)}>₩ {data.estimatedCostTitle}</p>
+              <p data-blur-key="estimatedCostTitle" className="text-base print:text-sm opacity-90" style={getStyleObject(data.quotationEstimatedTitleStyle)}>₩ {data.estimatedCostTitle}</p>
             )}
             {isEditMode && editingField !== 'estimatedCostTitle' && (
               <StylePicker
@@ -405,7 +408,7 @@ export function QuotationPage({
                 </p>
               )
             ) : (
-              <p className="text-3xl print:text-2xl" style={getStyleObject(data.quotationEstimatedAmountStyle)}>{data.estimatedCostAmount}</p>
+              <p data-blur-key="estimatedCostAmount" className="text-3xl print:text-2xl" style={getStyleObject(data.quotationEstimatedAmountStyle)}>{data.estimatedCostAmount}</p>
             )}
             {isEditMode && editingField !== 'estimatedCostAmount' && (
               <StylePicker
@@ -439,7 +442,7 @@ export function QuotationPage({
                 </p>
               )
             ) : (
-              <p className="text-xs print:text-[10px] opacity-80" style={getStyleObject(data.quotationEstimatedNoteStyle)}>{data.estimatedCostNote}</p>
+              <p data-blur-key="estimatedCostNote" className="text-xs print:text-[10px] opacity-80" style={getStyleObject(data.quotationEstimatedNoteStyle)}>{data.estimatedCostNote}</p>
             )}
             {isEditMode && editingField !== 'estimatedCostNote' && (
               <StylePicker
@@ -477,7 +480,7 @@ export function QuotationPage({
                 </h3>
               )
             ) : (
-              <h3 className="text-green-700 text-base print:text-sm font-bold text-[20px]" style={getStyleObject(data.quotationIncludedTitleStyle)}>{data.includedItemsTitle}</h3>
+              <h3 data-blur-key="includedItemsTitle" className="text-green-700 text-base print:text-sm font-bold text-[20px]" style={getStyleObject(data.quotationIncludedTitleStyle)}>{data.includedItemsTitle}</h3>
             )}
             {isEditMode && editingField !== 'includedItemsTitle' && (
               <StylePicker
@@ -530,7 +533,7 @@ export function QuotationPage({
                 <div key={index} className="flex items-start gap-2 group">
                   <div className="w-1.5 h-1.5 print:w-1 print:h-1 rounded-full bg-green-500 flex-shrink-0 mt-1.5 print:mt-1 group-hover:scale-150 transition-transform" />
                   <div className="flex items-center gap-2 flex-1">
-                    <p className="text-gray-700 text-sm print:text-xs" style={getStyleObject(data.quotationIncludedItemStyle)}>{item}</p>
+                    <p data-blur-key={`includedItem-${index}`} className="text-gray-700 text-sm print:text-xs" style={getStyleObject(data.quotationIncludedItemStyle)}>{item}</p>
                     {index === 0 && isEditMode && (
                       <StylePicker
                         currentStyle={data.quotationIncludedItemStyle}
@@ -571,7 +574,7 @@ export function QuotationPage({
                 </h3>
               )
             ) : (
-              <h3 className="text-red-700 text-base print:text-sm font-bold text-[20px]" style={getStyleObject(data.quotationExcludedTitleStyle)}>{data.excludedItemsTitle}</h3>
+              <h3 data-blur-key="excludedItemsTitle" className="text-red-700 text-base print:text-sm font-bold text-[20px]" style={getStyleObject(data.quotationExcludedTitleStyle)}>{data.excludedItemsTitle}</h3>
             )}
             {isEditMode && editingField !== 'excludedItemsTitle' && (
               <StylePicker
@@ -626,7 +629,7 @@ export function QuotationPage({
                 <div key={index} className="flex items-start gap-2 group">
                   <div className="w-1.5 h-1.5 print:w-1 print:h-1 rounded-full bg-red-500 flex-shrink-0 mt-1.5 print:mt-1 group-hover:scale-150 transition-transform" />
                   <div className="flex items-center gap-2 flex-1">
-                    <p className="text-gray-700 text-sm print:text-xs" style={getStyleObject(data.quotationExcludedItemStyle)}>{item}</p>
+                    <p data-blur-key={`excludedItem-${index}`} className="text-gray-700 text-sm print:text-xs" style={getStyleObject(data.quotationExcludedItemStyle)}>{item}</p>
                     {index === 0 && isEditMode && (
                       <StylePicker
                         currentStyle={data.quotationExcludedItemStyle}
@@ -663,7 +666,7 @@ export function QuotationPage({
                   </p>
                 )
               ) : (
-                <p className="text-gray-600 text-xs print:text-[10px]" style={getStyleObject(data.quotationExcludedNoteStyle)}>
+                <p data-blur-key="excludedItemsNote" className="text-gray-600 text-xs print:text-[10px]" style={getStyleObject(data.quotationExcludedNoteStyle)}>
                   {data.excludedItemsNote}
                 </p>
               )}

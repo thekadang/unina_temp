@@ -260,7 +260,8 @@ export function FlightTransitPage({
                 </>
               )
             ) : (
-              <h1 
+              <h1
+                data-blur-key="flightTransitTitle"
                 className="text-3xl font-semibold text-cyan-600"
                 style={getStyleObject(data.flightTransitTitleStyle)}
               >
@@ -300,7 +301,8 @@ export function FlightTransitPage({
                 </>
               )
             ) : (
-              <p 
+              <p
+                data-blur-key="flightTransitDescription"
                 className="text-gray-600 pt-4"
                 style={getStyleObject(data.flightTransitDescriptionStyle)}
               >
@@ -386,7 +388,8 @@ export function FlightTransitPage({
                       </>
                     )
                   ) : (
-                    <h3 
+                    <h3
+                      data-blur-key={`segment-${index}-title`}
                       className="text-purple-700 font-bold text-[20px]"
                       style={getStyleObject(data.flightTransitSegmentTitleStyle)}
                     >
@@ -459,7 +462,8 @@ export function FlightTransitPage({
                     </div>
                   ) : (
                     <div className="flex items-center gap-2">
-                      <p 
+                      <p
+                        data-blur-key={`segment-${index}-airline`}
                         className="text-gray-800"
                         style={getStyleObject(data.flightTransitDataStyle)}
                       >
@@ -555,13 +559,15 @@ export function FlightTransitPage({
                     </div>
                   ) : (
                     <>
-                      <p 
+                      <p
+                        data-blur-key={`segment-${index}-departureTime`}
                         className="text-gray-800"
                         style={getStyleObject(data.flightTransitDataStyle)}
                       >
                         {segment.departureTime}
                       </p>
-                      <p 
+                      <p
+                        data-blur-key={`segment-${index}-departureAirport`}
                         className="text-gray-600 text-sm"
                         style={getStyleObject(data.flightTransitDataStyle)}
                       >
@@ -604,7 +610,8 @@ export function FlightTransitPage({
                           </>
                         )
                       ) : (
-                        <span 
+                        <span
+                          data-blur-key="flightTransitDirectBadge"
                           className="text-sm px-4 py-1 bg-purple-50 rounded-full text-purple-600 whitespace-nowrap"
                           style={getStyleObject(data.flightTransitDirectBadgeStyle)}
                         >
@@ -694,13 +701,15 @@ export function FlightTransitPage({
                     </div>
                   ) : (
                     <>
-                      <p 
+                      <p
+                        data-blur-key={`segment-${index}-arrivalTime`}
                         className="text-gray-800"
                         style={getStyleObject(data.flightTransitDataStyle)}
                       >
                         {segment.arrivalTime}
                       </p>
-                      <p 
+                      <p
+                        data-blur-key={`segment-${index}-arrivalAirport`}
                         className="text-gray-600 text-sm"
                         style={getStyleObject(data.flightTransitDataStyle)}
                       >
@@ -743,7 +752,8 @@ export function FlightTransitPage({
                         </>
                       )
                     ) : (
-                      <h3 
+                      <h3
+                        data-blur-key={`segment-${index}-servicesTitle`}
                         className={`text-gray-700 ${hasMultipleSegments ? 'text-sm' : ''}`}
                         style={getStyleObject(data.flightTransitServicesTitleStyle)}
                       >
@@ -772,7 +782,8 @@ export function FlightTransitPage({
                       {(segment.services || '').split('\n').filter(s => s.trim()).map((service, idx) => (
                         <div key={idx} className={`flex items-center gap-2 ${hasMultipleSegments ? 'text-xs' : 'text-sm'}`}>
                           <div className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0" />
-                          <span 
+                          <span
+                            data-blur-key={`segment-${index}-service-${idx}`}
                             className="text-gray-600"
                             style={getStyleObject(data.flightTransitServicesItemStyle)}
                           >
@@ -830,7 +841,8 @@ export function FlightTransitPage({
                     </>
                   )
                 ) : (
-                  <span 
+                  <span
+                    data-blur-key="flightTransitTransitLabel"
                     className="text-purple-700"
                     style={getStyleObject(data.flightTransitTransitLabelStyle)}
                   >
@@ -849,7 +861,8 @@ export function FlightTransitPage({
                 />
               ) : (
                 <div className="flex items-center gap-2">
-                  <span 
+                  <span
+                    data-blur-key="flightTransitTransitTime"
                     className="text-purple-900"
                     style={getStyleObject(data.flightTransitTransitValueStyle)}
                   >
@@ -901,7 +914,8 @@ export function FlightTransitPage({
                 </>
               )
             ) : (
-              <h3 
+              <h3
+                data-blur-key="flightTransitChecklistTitle"
                 className={`text-purple-800 ${hasMultipleSegments ? 'text-sm' : ''}`}
                 style={getStyleObject(data.flightTransitChecklistTitleStyle)}
               >
@@ -930,7 +944,8 @@ export function FlightTransitPage({
               {(flight.checklist || '').split('\n').filter(s => s.trim()).map((item, idx) => (
                 <li key={idx} className="flex items-start gap-2">
                   <span className="text-purple-600">•</span>
-                  <span 
+                  <span
+                    data-blur-key={`checklistItem-${idx}`}
                     className="text-purple-900"
                     style={getStyleObject(data.flightTransitChecklistItemStyle)}
                   >

@@ -1,188 +1,135 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { BlurRegion } from '../types/blur-region';
-import { X } from 'lucide-react';
 
 interface Props {
   pageId: string;
   blurRegions: BlurRegion[];
   isBlurMode: boolean;
-  isEditMode?: boolean;
   onAddBlurRegion: (region: Omit<BlurRegion, 'id' | 'pageId'>) => void;
   onRemoveBlurRegion: (regionId: string) => void;
 }
 
-export function BlurOverlay({ 
-  pageId, 
-  blurRegions, 
-  isBlurMode, 
-  isEditMode = false,
-  onAddBlurRegion, 
-  onRemoveBlurRegion 
+export function BlurOverlay({
+  pageId,
+  blurRegions,
+  isBlurMode,
+  onAddBlurRegion,
+  onRemoveBlurRegion
 }: Props) {
-  const [isDragging, setIsDragging] = useState(false);
-  const [startPos, setStartPos] = useState({ x: 0, y: 0 });
-  const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
-  const [contextMenu, setContextMenu] = useState<{ x: number; y: number; regionId: string } | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [hoveredKey, setHoveredKey] = useState<string | null>(null);
 
-  useEffect(() => {
-    const handleClickOutside = () => setContextMenu(null);
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
-  }, []);
+  // 블러된 fieldKey 목록
+  const blurredKeys = blurRegions.map(r => r.fieldKey);
 
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (!isBlurMode || !containerRef.current) return;
-    
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    setIsDragging(true);
-    setStartPos({ x, y });
-    setCurrentPos({ x, y });
-  };
+  // 요소 클릭 핸들러
+  const handleElementClick = useCallback((e: MouseEvent) => {
+    if (!isBlurMode) return;
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging || !containerRef.current) return;
-    
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    setCurrentPos({ x, y });
-  };
+    const target = e.target as HTMLElement;
+    const blurKey = target.closest('[data-blur-key]')?.getAttribute('data-blur-key');
 
-  const handleMouseUp = () => {
-    if (!isDragging || !containerRef.current) return;
-    
-    const rect = containerRef.current.getBoundingClientRect();
-    const containerWidth = rect.width;
-    const containerHeight = rect.height;
-    
-    const width = Math.abs(currentPos.x - startPos.x);
-    const height = Math.abs(currentPos.y - startPos.y);
-    
-    // Only create blur region if it's large enough
-    if (width > 10 && height > 10) {
-      const x = Math.min(startPos.x, currentPos.x);
-      const y = Math.min(startPos.y, currentPos.y);
-      
-      // Convert pixel values to percentages
-      const xPercent = (x / containerWidth) * 100;
-      const yPercent = (y / containerHeight) * 100;
-      const widthPercent = (width / containerWidth) * 100;
-      const heightPercent = (height / containerHeight) * 100;
-      
-      onAddBlurRegion({ 
-        x: xPercent, 
-        y: yPercent, 
-        width: widthPercent, 
-        height: heightPercent 
-      });
-    }
-    
-    setIsDragging(false);
-  };
+    if (!blurKey) return;
 
-  const handleContextMenu = (e: React.MouseEvent, regionId: string) => {
     e.preventDefault();
     e.stopPropagation();
-    setContextMenu({ x: e.clientX, y: e.clientY, regionId });
-  };
 
-  const handleRemoveBlur = (regionId: string) => {
-    onRemoveBlurRegion(regionId);
-    setContextMenu(null);
-  };
+    // 이미 블러된 요소인지 확인
+    const existingRegion = blurRegions.find(r => r.fieldKey === blurKey);
 
-  // Calculate current dragging rectangle
-  const getDragRect = () => {
-    if (!isDragging) return null;
-    
-    const x = Math.min(startPos.x, currentPos.x);
-    const y = Math.min(startPos.y, currentPos.y);
-    const width = Math.abs(currentPos.x - startPos.x);
-    const height = Math.abs(currentPos.y - startPos.y);
-    
-    return { x, y, width, height };
-  };
+    if (existingRegion) {
+      // 블러 해제
+      onRemoveBlurRegion(existingRegion.id);
+    } else {
+      // 블러 추가
+      onAddBlurRegion({ fieldKey: blurKey });
+    }
+  }, [isBlurMode, blurRegions, onAddBlurRegion, onRemoveBlurRegion]);
 
-  const dragRect = getDragRect();
+  // 요소 호버 핸들러
+  const handleElementHover = useCallback((e: MouseEvent) => {
+    if (!isBlurMode) {
+      setHoveredKey(null);
+      return;
+    }
+
+    const target = e.target as HTMLElement;
+    const blurKey = target.closest('[data-blur-key]')?.getAttribute('data-blur-key');
+    setHoveredKey(blurKey || null);
+  }, [isBlurMode]);
+
+  // 이벤트 리스너 등록
+  useEffect(() => {
+    if (isBlurMode) {
+      document.addEventListener('click', handleElementClick, true);
+      document.addEventListener('mouseover', handleElementHover);
+    }
+
+    return () => {
+      document.removeEventListener('click', handleElementClick, true);
+      document.removeEventListener('mouseover', handleElementHover);
+    };
+  }, [isBlurMode, handleElementClick, handleElementHover]);
+
+  // 블러 스타일 적용
+  useEffect(() => {
+    // 모든 data-blur-key 요소에서 블러 클래스 제거
+    document.querySelectorAll('[data-blur-key]').forEach(el => {
+      el.classList.remove('blur-active');
+    });
+
+    // 블러된 요소에 클래스 추가
+    blurredKeys.forEach(key => {
+      const el = document.querySelector(`[data-blur-key="${key}"]`);
+      if (el) {
+        el.classList.add('blur-active');
+      }
+    });
+  }, [blurredKeys]);
+
+  // 호버 하이라이트 적용
+  useEffect(() => {
+    // 이전 하이라이트 제거
+    document.querySelectorAll('[data-blur-key]').forEach(el => {
+      el.classList.remove('blur-hover');
+    });
+
+    // 현재 호버된 요소에 하이라이트
+    if (hoveredKey && isBlurMode) {
+      const el = document.querySelector(`[data-blur-key="${hoveredKey}"]`);
+      if (el) {
+        el.classList.add('blur-hover');
+      }
+    }
+  }, [hoveredKey, isBlurMode]);
+
+  // 블러 모드 종료 시 호버 상태 초기화
+  useEffect(() => {
+    if (!isBlurMode) {
+      setHoveredKey(null);
+      document.querySelectorAll('[data-blur-key]').forEach(el => {
+        el.classList.remove('blur-hover');
+      });
+    }
+  }, [isBlurMode]);
 
   return (
     <>
-      <div
-        ref={containerRef}
-        className={`absolute inset-0 ${isBlurMode ? 'z-40' : 'z-30'}`}
-        style={{ pointerEvents: isBlurMode ? 'auto' : 'none' }}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-      >
-        {/* Existing blur regions */}
-        {blurRegions.map((region) => (
-          <div
-            key={region.id}
-            className="absolute blur-region-print"
-            data-blur-region="true"
-            style={{
-              left: `${region.x}%`,
-              top: `${region.y}%`,
-              width: `${region.width}%`,
-              height: `${region.height}%`,
-              backgroundColor: 'rgba(255, 255, 255, 0.5)',
-              backdropFilter: 'blur(12px)',
-              WebkitBackdropFilter: 'blur(12px)',
-            }}
-            onContextMenu={(e) => handleContextMenu(e, region.id)}
-          >
-            {isBlurMode && (
-              <div className="absolute inset-0 border-2 border-red-400 border-dashed opacity-50 print:hidden" />
-            )}
-          </div>
-        ))}
-
-        {/* Current dragging rectangle */}
-        {isDragging && dragRect && (
-          <div
-            className="absolute border-2 border-blue-500 border-dashed bg-blue-500/10 print:hidden"
-            style={{
-              left: `${dragRect.x}px`,
-              top: `${dragRect.y}px`,
-              width: `${dragRect.width}px`,
-              height: `${dragRect.height}px`,
-            }}
-          />
-        )}
-      </div>
-
-      {/* Context menu */}
-      {contextMenu && (
-        <div
-          className="fixed bg-white rounded-lg shadow-xl border border-gray-200 py-1 z-[100] print:hidden"
-          style={{
-            left: `${contextMenu.x}px`,
-            top: `${contextMenu.y}px`,
-          }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <button
-            onClick={() => handleRemoveBlur(contextMenu.regionId)}
-            className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 flex items-center gap-2"
-          >
-            <X className="w-4 h-4" />
-            블러 취소
-          </button>
+      {/* 블러 모드 안내 */}
+      {isBlurMode && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 bg-purple-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 print:hidden">
+          클릭하여 블러 영역을 선택하세요 (다시 클릭하면 해제)
         </div>
       )}
 
-      {/* Blur mode indicator */}
+      {/* 블러 모드 오버레이 (클릭 이벤트 전파용) */}
       {isBlurMode && (
-        <div className="fixed top-20 left-1/2 -translate-x-1/2 bg-purple-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 print:hidden">
-          드래그하여 블러 영역을 지정하세요
-        </div>
+        <div
+          className="absolute inset-0 z-40 print:hidden"
+          style={{
+            pointerEvents: 'none',
+            cursor: 'pointer'
+          }}
+        />
       )}
     </>
   );

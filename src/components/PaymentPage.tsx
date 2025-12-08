@@ -241,7 +241,8 @@ export function PaymentPage({
                 </>
               )
             ) : (
-              <h1 
+              <h1
+                data-blur-key="paymentPageTitle"
                 style={getStyleObject(data.paymentPageTitleStyle)}
               >
                 {data.paymentPageTitle || '결제 안내'}
@@ -351,7 +352,8 @@ export function PaymentPage({
                     </div>
                   ) : (
                     <div className="flex items-start gap-2">
-                      <p 
+                      <p
+                        data-blur-key={info.field}
                         className={`flex-1 text-gray-700 text-sm print:text-xs whitespace-pre-line leading-relaxed ${
                           info.editable && isEditMode ? 'cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors' : ''
                         }`}
@@ -450,7 +452,8 @@ export function PaymentPage({
                   </div>
                 ) : (
                   <div className="flex items-center gap-2 mb-1.5 print:mb-1">
-                    <p 
+                    <p
+                      data-blur-key={`paymentMethod-${index}-title`}
                       className={`text-xs print:text-[10px] text-gray-500 ${
                         isEditMode ? 'cursor-pointer hover:bg-gray-50 p-1 rounded transition-colors' : ''
                       }`}
@@ -507,7 +510,8 @@ export function PaymentPage({
                       <div key={i} className="flex items-start gap-2">
                         <span className="text-cyan-500 mt-0.5 text-sm print:text-xs">•</span>
                         <div className="flex items-center gap-2 flex-1">
-                          <p 
+                          <p
+                            data-blur-key={`paymentMethod-${index}-details-line-${i}`}
                             className="text-gray-800 text-sm print:text-xs"
                             style={getStyleObject(data.paymentMethodItemDetailStyle)}
                           >
@@ -583,7 +587,8 @@ export function PaymentPage({
                     style={getStyleObject(data.paymentNoticesTitleStyle)}
                   />
                 ) : (
-                  <h4 
+                  <h4
+                    data-blur-key="paymentNoticesTitle"
                     className={`text-gray-900 text-sm print:text-xs font-bold text-[20px] ${
                       isEditMode ? 'cursor-pointer hover:bg-gray-50 px-2 py-1 rounded transition-colors' : ''
                     }`}
@@ -629,7 +634,8 @@ export function PaymentPage({
                     <li key={i} className="flex items-start gap-2">
                       <span className="text-cyan-500 mt-0.5">•</span>
                       <div className="flex items-center gap-2 flex-1">
-                        <span 
+                        <span
+                          data-blur-key={`paymentNotice-${i}`}
                           style={getStyleObject(data.paymentNoticesItemStyle)}
                         >
                           {notice}
@@ -724,7 +730,8 @@ export function PaymentPage({
               </div>
             ) : (
               <div className="flex items-center justify-center gap-2">
-                <p 
+                <p
+                  data-blur-key="contactPerson"
                   className={`${
                     isEditMode ? 'cursor-pointer hover:bg-white/10 px-3 py-1 rounded transition-colors' : ''
                   }`}
@@ -769,7 +776,8 @@ export function PaymentPage({
                 <p className="text-white/70 text-[10px] mt-1">Enter로 저장, Esc로 취소</p>
               </div>
             ) : (
-              <p 
+              <p
+                data-blur-key="contactEmail"
                 className={`${
                   isEditMode ? 'cursor-pointer hover:bg-white/10 inline-block px-3 py-1 rounded transition-colors' : ''
                 }`}
@@ -803,7 +811,8 @@ export function PaymentPage({
                 <p className="text-white/70 text-[10px] mt-1">Enter로 저장, Esc로 취소</p>
               </div>
             ) : (
-              <p 
+              <p
+                data-blur-key="contactPhone"
                 className={`${
                   isEditMode ? 'cursor-pointer hover:bg-white/10 inline-block px-3 py-1 rounded transition-colors' : ''
                 }`}

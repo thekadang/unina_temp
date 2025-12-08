@@ -320,7 +320,8 @@ export function ItineraryCalendarPage({ data, isEditMode, onUpdate, onDuplicate,
                 </>
               )
             ) : (
-              <h1 
+              <h1
+                data-blur-key="itineraryCalendarTitle"
                 className="text-2xl md:text-3xl font-semibold text-cyan-600"
                 style={getStyleObject(data.itineraryCalendarTitleStyle)}
               >
@@ -359,7 +360,8 @@ export function ItineraryCalendarPage({ data, isEditMode, onUpdate, onDuplicate,
                 </>
               )
             ) : (
-              <p 
+              <p
+                data-blur-key="itineraryCalendarDateRange"
                 className="text-gray-600 text-sm print:text-xs"
                 style={getStyleObject(data.itineraryCalendarDateRangeStyle)}
               >
@@ -419,7 +421,8 @@ export function ItineraryCalendarPage({ data, isEditMode, onUpdate, onDuplicate,
                   </>
                 )
               ) : (
-                <p 
+                <p
+                  data-blur-key="itineraryTransportTitle"
                   className="text-gray-700 text-sm"
                   style={getStyleObject(data.itineraryTransportTitleStyle)}
                 >
@@ -517,7 +520,8 @@ export function ItineraryCalendarPage({ data, isEditMode, onUpdate, onDuplicate,
                   </>
                 )
               ) : (
-                <p 
+                <p
+                  data-blur-key="itineraryCountryTitle"
                   className="text-gray-700 text-sm"
                   style={getStyleObject(data.itineraryCountryTitleStyle)}
                 >
@@ -531,7 +535,8 @@ export function ItineraryCalendarPage({ data, isEditMode, onUpdate, onDuplicate,
                   <div key={country} className="flex items-center gap-2">
                     <div className={`w-3 h-3 rounded-full flex-shrink-0 ${getCountryBadgeColor(country)}`} />
                     <div className="flex items-center gap-1">
-                      <span 
+                      <span
+                        data-blur-key={`itineraryCountryLabel-${country}`}
                         className="text-xs text-gray-700"
                         style={getStyleObject(data.itineraryCountryLabelStyle)}
                       >

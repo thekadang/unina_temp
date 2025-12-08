@@ -170,8 +170,9 @@ export function ProcessPage({
                 />
               </>
             ) : (
-              <h1 
-                className="text-3xl font-semibold text-cyan-600" 
+              <h1
+                data-blur-key="processPageTitle"
+                className="text-3xl font-semibold text-cyan-600"
                 style={getStyleObject(data.processPageTitleStyle)}
               >
                 {data.processPageTitle}
@@ -213,7 +214,8 @@ export function ProcessPage({
             )
           ) : (
             <div className="flex items-center justify-center gap-2 mb-6 print:mb-5">
-              <h3 
+              <h3
+                data-blur-key="processTitle"
                 className="text-cyan-600 text-base print:text-sm text-center font-bold text-[20px]"
                 style={getStyleObject(data.processTitleStyle)}
               >
@@ -268,7 +270,8 @@ export function ProcessPage({
                             </p>
                           )
                         ) : (
-                          <p 
+                          <p
+                            data-blur-key={`processLabel-${index}`}
                             className="text-gray-800 text-sm print:text-xs"
                             style={getStyleObject(data.processLabelStyle)}
                           >
@@ -309,7 +312,8 @@ export function ProcessPage({
                               </p>
                             )
                           ) : (
-                            <p 
+                            <p
+                              data-blur-key="processSubtext1"
                               className="text-gray-500 text-[11px] print:text-[9px]"
                               style={getStyleObject(data.processSubtextStyle)}
                             >
@@ -350,7 +354,8 @@ export function ProcessPage({
                             </p>
                           )
                         ) : (
-                          <p 
+                          <p
+                            data-blur-key="processSubtext2"
                             className="text-gray-500 text-[11px] print:text-[9px] mt-1"
                             style={getStyleObject(data.processSubtextStyle)}
                           >
@@ -380,7 +385,8 @@ export function ProcessPage({
                             </p>
                           )
                         ) : (
-                          <p 
+                          <p
+                            data-blur-key="processSubtext3"
                             className="text-gray-500 text-[11px] print:text-[9px] mt-1"
                             style={getStyleObject(data.processSubtextStyle)}
                           >
@@ -418,7 +424,8 @@ export function ProcessPage({
                   </p>
                 )
               ) : (
-                <p 
+                <p
+                  data-blur-key="processNote"
                   className="text-gray-600 text-xs print:text-[10px] text-center"
                   style={getStyleObject(data.processNoteStyle)}
                 >
@@ -469,7 +476,8 @@ export function ProcessPage({
                 </>
               )
             ) : (
-              <h3 
+              <h3
+                data-blur-key="serviceOptionsTitle"
                 className="text-center text-gray-700 text-base print:text-sm"
                 style={getStyleObject(data.serviceOptionsTitleStyle)}
               >
@@ -512,6 +520,7 @@ export function ProcessPage({
                       />
                     ) : (
                       <h4
+                        data-blur-key={`service-${index}-title`}
                         className={`text-sm print:text-xs ${
                           service.color === 'cyan' ? 'text-cyan-700' : 'text-yellow-700'
                         } ${isEditMode ? 'cursor-pointer hover:bg-gray-50 p-1 rounded transition-colors' : ''}`}
@@ -545,7 +554,8 @@ export function ProcessPage({
                         rows={2}
                       />
                     ) : (
-                      <p 
+                      <p
+                        data-blur-key={`service-${index}-description`}
                         className={`text-gray-600 text-xs print:text-[10px] ${isEditMode ? 'cursor-pointer hover:bg-gray-50 p-1 rounded transition-colors' : ''}`}
                         style={getStyleObject(data.serviceDescriptionStyle)}
                         onClick={() => startEdit(`service-${index}-description`, service.description)}
@@ -606,7 +616,8 @@ export function ProcessPage({
                       </>
                     )
                   ) : (
-                    <p 
+                    <p
+                      data-blur-key="serviceIncludesTitle"
                       className="text-gray-500 text-xs print:text-[10px]"
                       style={getStyleObject(data.serviceIncludesTitleStyle)}
                     >
@@ -643,7 +654,8 @@ export function ProcessPage({
                           }`}
                         />
                         <div className="flex items-center gap-2 flex-1">
-                          <p 
+                          <p
+                            data-blur-key={`service-${index}-includesItem-${i}`}
                             className="text-gray-700 text-xs print:text-[10px]"
                             style={getStyleObject(data.serviceIncludesItemStyle)}
                           >

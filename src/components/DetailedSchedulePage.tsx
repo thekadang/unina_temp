@@ -369,7 +369,8 @@ export function DetailedSchedulePage({
               />
             ) : (
               <h1
-                className={`text-3xl font-semibold text-cyan-600 ${ 
+                data-blur-key="detailedScheduleDayTitle"
+                className={`text-3xl font-semibold text-cyan-600 ${
                   isEditMode ? 'cursor-pointer hover:bg-gray-100 px-4 py-1 rounded transition-colors' : ''
                 }`}
                 style={getStyleObject(data.detailedScheduleDayTitleStyle)}
@@ -389,7 +390,8 @@ export function DetailedSchedulePage({
           </div>
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
           <div className="flex items-center justify-center gap-2 mb-8 print:mb-6">
-            <p 
+            <p
+              data-blur-key="detailedScheduleDate"
               className="text-sm print:text-xs text-gray-500"
               style={getStyleObject(data.detailedScheduleDateStyle)}
             >
@@ -492,7 +494,8 @@ export function DetailedSchedulePage({
                     {/* Time marker */}
                     <div className="flex flex-col items-center">
                       <div className="flex items-center gap-1">
-                        <div 
+                        <div
+                          data-blur-key="detailedScheduleTime"
                           className={`${currentTheme.badge} text-white text-xs print:text-[10px] px-2 py-1 rounded-lg whitespace-nowrap`}
                           style={getStyleObject(data.detailedScheduleTimeStyle)}
                         >
@@ -515,7 +518,8 @@ export function DetailedSchedulePage({
                     {/* Content */}
                     <div className="flex-1 pb-4">
                       <div className="flex items-center gap-2 mb-2">
-                        <h3 
+                        <h3
+                          data-blur-key="detailedScheduleTimelineTitleText"
                           className="text-sm print:text-xs text-gray-800"
                           style={getStyleObject(data.detailedScheduleTimelineTitleTextStyle)}
                         >
@@ -531,7 +535,8 @@ export function DetailedSchedulePage({
                         )}
                       </div>
                       <div className="flex items-center gap-2">
-                        <p 
+                        <p
+                          data-blur-key="detailedScheduleTimelineLocation"
                           className="text-xs print:text-[10px] text-gray-600"
                           style={getStyleObject(data.detailedScheduleTimelineLocationStyle)}
                         >
@@ -586,7 +591,8 @@ export function DetailedSchedulePage({
                     </>
                   )
                 ) : (
-                  <h2 
+                  <h2
+                    data-blur-key="detailedSchedulePickTitle"
                     className={`${currentTheme.title} text-xl print:text-lg`}
                     style={getStyleObject(data.detailedSchedulePickTitleStyle)}
                   >
@@ -603,7 +609,8 @@ export function DetailedSchedulePage({
                   {/* Header */}
                   <div className={`bg-gradient-to-r ${currentTheme.gradient} text-white rounded-xl px-4 py-2 print:py-1.5 mb-4 print:mb-3`}>
                     <div className="flex items-center gap-2">
-                      <span 
+                      <span
+                        data-blur-key="detailedScheduleCardNumber"
                         className="text-sm print:text-xs"
                         style={getStyleObject(data.detailedScheduleCardNumberStyle)}
                       >
@@ -629,6 +636,7 @@ export function DetailedSchedulePage({
                         />
                       ) : (
                         <h3
+                          data-blur-key="detailedScheduleCardTitle"
                           className={`text-sm print:text-xs flex-1 ${
                             isEditMode ? 'cursor-pointer hover:bg-white/20 px-2 py-1 rounded transition-colors' : ''
                           }`}

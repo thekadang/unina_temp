@@ -371,7 +371,8 @@ export function TouristSpotListPage({ data, dayNumber, isEditMode, onUpdate, onD
               />
             ) : (
               <h1
-                className={`text-3xl font-semibold text-cyan-600 ${ 
+                data-blur-key="detailedScheduleDayTitle"
+                className={`text-3xl font-semibold text-cyan-600 ${
                   isEditMode ? 'cursor-pointer hover:bg-gray-100 px-4 py-1 rounded transition-colors' : ''
                 }`}
                 style={getStyleObject(data.detailedScheduleDayTitleStyle)}
@@ -391,7 +392,8 @@ export function TouristSpotListPage({ data, dayNumber, isEditMode, onUpdate, onD
           </div>
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
           <div className="flex items-center justify-center gap-2 mb-8 print:mb-6">
-            <p 
+            <p
+              data-blur-key="detailedScheduleDate"
               className="text-sm print:text-xs text-gray-500"
               style={getStyleObject(data.detailedScheduleDateStyle)}
             >
@@ -477,7 +479,8 @@ export function TouristSpotListPage({ data, dayNumber, isEditMode, onUpdate, onD
                     </>
                   )
                 ) : (
-                  <h2 
+                  <h2
+                    data-blur-key="touristSpotPickTitle"
                     className={`${currentTheme.title} text-xl print:text-lg`}
                     style={getStyleObject(data.detailedSchedulePickTitleStyle)}
                   >
@@ -520,6 +523,7 @@ export function TouristSpotListPage({ data, dayNumber, isEditMode, onUpdate, onD
                         />
                       ) : (
                         <h3
+                          data-blur-key={`touristSpot-${dayNumber}-${item.id}-title`}
                           className={`text-sm print:text-xs flex-1 ${
                             isEditMode ? 'cursor-pointer hover:bg-white/20 px-2 py-1 rounded transition-colors' : ''
                           }`}
@@ -562,6 +566,7 @@ export function TouristSpotListPage({ data, dayNumber, isEditMode, onUpdate, onD
                           />
                         ) : (
                           <p
+                            data-blur-key={`touristSpot-${dayNumber}-${item.id}-location`}
                             className={`text-xs print:text-[10px] text-gray-700 flex-1 ${
                               isEditMode ? 'cursor-pointer hover:bg-gray-50 px-2 py-1 rounded transition-colors' : ''
                             }`}
@@ -600,6 +605,7 @@ export function TouristSpotListPage({ data, dayNumber, isEditMode, onUpdate, onD
                           />
                         ) : (
                           <p
+                            data-blur-key={`touristSpot-${dayNumber}-${item.id}-time`}
                             className={`text-xs print:text-[10px] text-gray-700 flex-1 ${
                               isEditMode ? 'cursor-pointer hover:bg-gray-50 px-2 py-1 rounded transition-colors' : ''
                             }`}
@@ -638,6 +644,7 @@ export function TouristSpotListPage({ data, dayNumber, isEditMode, onUpdate, onD
                           />
                         ) : (
                           <p
+                            data-blur-key={`touristSpot-${dayNumber}-${item.id}-activity`}
                             className={`text-xs print:text-[10px] text-gray-700 flex-1 ${
                               isEditMode ? 'cursor-pointer hover:bg-gray-50 px-2 py-1 rounded transition-colors' : ''
                             }`}
@@ -675,6 +682,7 @@ export function TouristSpotListPage({ data, dayNumber, isEditMode, onUpdate, onD
                           />
                         ) : (
                           <p
+                            data-blur-key={`touristSpot-${dayNumber}-${item.id}-notes`}
                             className={`text-xs print:text-[10px] text-gray-600 flex-1 ${
                               isEditMode ? 'cursor-pointer hover:bg-gray-50 px-2 py-1 rounded transition-colors' : ''
                             }`}

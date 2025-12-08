@@ -301,7 +301,8 @@ export function EditableAccommodationPage({
                 </>
               )
             ) : (
-              <h1 
+              <h1
+                data-blur-key="accommodationTitle"
                 className="text-3xl font-semibold text-cyan-600"
                 style={getStyleObject(data?.accommodationTitleStyle)}
               >
@@ -313,7 +314,8 @@ export function EditableAccommodationPage({
           <div className="flex items-center justify-center gap-2 pt-1">
             <MapPin className="w-4 h-4 print:w-3.5 print:h-3.5 text-cyan-600" />
             <div className="flex items-center gap-2">
-              <span 
+              <span
+                data-blur-key="accommodationLocation"
                 className={`text-gray-700 text-sm print:text-xs ${
                   isEditMode ? 'cursor-pointer hover:text-cyan-600 hover:underline transition-colors' : ''
                 }`}
@@ -430,7 +432,8 @@ export function EditableAccommodationPage({
         <div className="bg-white rounded-xl md:rounded-2xl p-4 md:p-5 print:p-4 shadow-lg border border-cyan-100 space-y-3 md:space-y-4 print:space-y-3 print:break-inside-avoid">
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-1.5 print:mb-1">
-              <h2 
+              <h2
+                data-blur-key="accommodationHotelName"
                 className="text-gray-900 text-base md:text-lg print:text-base"
                 style={getStyleObject(data?.accommodationHotelNameStyle)}
               >
@@ -444,7 +447,8 @@ export function EditableAccommodationPage({
                   backgroundColorClass="bg-white"
                 />
               )}
-              <span 
+              <span
+                data-blur-key="accommodationHotelType"
                 className="px-2.5 py-1 bg-cyan-100 text-cyan-700 rounded-full text-xs print:text-[10px]"
                 style={getStyleObject(data?.accommodationHotelTypeStyle)}
               >
@@ -465,7 +469,8 @@ export function EditableAccommodationPage({
               ))}
             </div>
             <div className="flex items-start gap-2">
-              <p 
+              <p
+                data-blur-key="accommodationDescription"
                 className="text-gray-600 text-sm print:text-xs leading-relaxed"
                 style={getStyleObject(data?.accommodationDescriptionStyle)}
               >
@@ -487,7 +492,8 @@ export function EditableAccommodationPage({
             <div className="bg-cyan-50 rounded-lg md:rounded-xl p-2.5 md:p-3 print:p-2.5">
               <div className="flex items-center gap-1.5 text-cyan-600 mb-1">
                 <Calendar className="w-3.5 h-3.5 print:w-3 print:h-3" />
-                <span 
+                <span
+                  data-blur-key="accommodationCheckInLabel"
                   className="text-xs print:text-[10px]"
                   style={getStyleObject(data?.accommodationCheckInLabelStyle)}
                 >
@@ -503,7 +509,8 @@ export function EditableAccommodationPage({
                 )}
               </div>
               <div className="flex items-center gap-1">
-                <p 
+                <p
+                  data-blur-key="accommodationCheckInTime"
                   className="text-gray-800 text-xs print:text-[10px]"
                   style={getStyleObject(data?.accommodationCheckInTimeStyle)}
                 >
@@ -522,7 +529,8 @@ export function EditableAccommodationPage({
             <div className="bg-yellow-50 rounded-lg md:rounded-xl p-2.5 md:p-3 print:p-2.5">
               <div className="flex items-center gap-1.5 text-yellow-600 mb-1">
                 <Calendar className="w-3.5 h-3.5 print:w-3 print:h-3" />
-                <span 
+                <span
+                  data-blur-key="accommodationCheckOutLabel"
                   className="text-xs print:text-[10px]"
                   style={getStyleObject(data?.accommodationCheckOutLabelStyle)}
                 >
@@ -538,7 +546,8 @@ export function EditableAccommodationPage({
                 )}
               </div>
               <div className="flex items-center gap-1">
-                <p 
+                <p
+                  data-blur-key="accommodationCheckOutTime"
                   className="text-gray-800 text-xs print:text-[10px]"
                   style={getStyleObject(data?.accommodationCheckOutTimeStyle)}
                 >
@@ -555,7 +564,8 @@ export function EditableAccommodationPage({
               </div>
             </div>
             <div className="col-span-2 md:col-span-1 print:col-span-1 bg-gradient-to-r from-cyan-500 to-cyan-600 text-white rounded-lg md:rounded-xl p-2.5 md:p-3 print:p-2.5 flex items-center justify-center gap-1">
-              <span 
+              <span
+                data-blur-key="accommodationNights"
                 className="text-sm print:text-xs"
                 style={getStyleObject(data?.accommodationNightsStyle)}
               >
@@ -576,7 +586,8 @@ export function EditableAccommodationPage({
           <div className="grid grid-cols-1 md:grid-cols-2 print:grid-cols-2 gap-3 md:gap-3 print:gap-2.5 pt-2.5 print:pt-2 border-t border-gray-200">
             <div>
               <div className="flex items-center gap-1 mb-1.5 print:mb-1">
-                <p 
+                <p
+                  data-blur-key="accommodationRoomTypeLabel"
                   className="text-gray-500 text-xs print:text-[10px]"
                   style={getStyleObject(data?.accommodationRoomTypeLabelStyle)}
                 >
@@ -592,7 +603,8 @@ export function EditableAccommodationPage({
                 )}
               </div>
               <div className="flex items-center gap-1">
-                <p 
+                <p
+                  data-blur-key="accommodationRoomType"
                   className="text-gray-800 text-sm print:text-xs"
                   style={getStyleObject(data?.accommodationRoomTypeStyle)}
                 >
@@ -610,7 +622,8 @@ export function EditableAccommodationPage({
             </div>
             <div>
               <div className="flex items-center gap-1 mb-1.5 print:mb-1">
-                <p 
+                <p
+                  data-blur-key="accommodationBreakfastLabel"
                   className="text-gray-500 text-xs print:text-[10px]"
                   style={getStyleObject(data?.accommodationBreakfastLabelStyle)}
                 >
@@ -629,7 +642,8 @@ export function EditableAccommodationPage({
                 {hotel.breakfast ? (
                   <>
                     <CheckCircle2 className="w-4 h-4 print:w-3.5 print:h-3.5 text-green-500" />
-                    <span 
+                    <span
+                      data-blur-key="accommodationBreakfastStatus"
                       className="text-green-600 text-sm print:text-xs"
                       style={getStyleObject(data?.accommodationBreakfastStatusStyle)}
                     >
@@ -639,7 +653,8 @@ export function EditableAccommodationPage({
                 ) : (
                   <>
                     <XCircle className="w-4 h-4 print:w-3.5 print:h-3.5 text-red-500" />
-                    <span 
+                    <span
+                      data-blur-key="accommodationBreakfastStatus"
                       className="text-red-600 text-sm print:text-xs"
                       style={getStyleObject(data?.accommodationBreakfastStatusStyle)}
                     >
@@ -661,7 +676,8 @@ export function EditableAccommodationPage({
 
           <div className="pt-2.5 print:pt-2 border-t border-gray-200">
             <div className="flex items-center gap-1 mb-2 print:mb-1.5">
-              <p 
+              <p
+                data-blur-key="accommodationFacilitiesLabel"
                 className="text-gray-500 text-xs print:text-[10px]"
                 style={getStyleObject(data?.accommodationFacilitiesLabelStyle)}
               >
@@ -680,6 +696,7 @@ export function EditableAccommodationPage({
               {hotel.facilities.map((facility, i) => (
                 <span
                   key={i}
+                  data-blur-key={`accommodation-facility-${i}`}
                   className="px-2.5 md:px-3 py-1.5 print:px-2.5 print:py-1 bg-gradient-to-br from-cyan-50 to-blue-50 text-cyan-700 rounded-full text-xs print:text-[10px] border border-cyan-100"
                   style={getStyleObject(data?.accommodationFacilityItemStyle)}
                 >
@@ -701,7 +718,8 @@ export function EditableAccommodationPage({
           <div className="pt-2.5 print:pt-2 border-t border-gray-200">
             <div className="flex items-center gap-1.5 mb-2 print:mb-1.5">
               <MapPinned className="w-4 h-4 print:w-3.5 print:h-3.5 text-cyan-600" />
-              <p 
+              <p
+                data-blur-key="accommodationAttractionsLabel"
                 className="text-gray-500 text-xs print:text-[10px]"
                 style={getStyleObject(data?.accommodationAttractionsLabelStyle)}
               >
@@ -720,6 +738,7 @@ export function EditableAccommodationPage({
               {hotel.nearbyAttractions.map((attraction, i) => (
                 <div
                   key={i}
+                  data-blur-key={`accommodation-attraction-${i}`}
                   className="px-2.5 md:px-3 py-2 print:px-2 print:py-1.5 bg-gradient-to-br from-yellow-50 to-orange-50 text-gray-700 rounded-lg text-xs print:text-[10px] border border-yellow-100 text-center"
                   style={getStyleObject(data?.accommodationAttractionItemStyle)}
                 >
@@ -739,7 +758,8 @@ export function EditableAccommodationPage({
 
           <div className="pt-2.5 print:pt-2 border-t border-gray-200">
             <div className="flex items-center gap-1 mb-1">
-              <p 
+              <p
+                data-blur-key="accommodationCityTaxLabel"
                 className="text-gray-500 text-xs print:text-[10px]"
                 style={getStyleObject(data?.accommodationCityTaxLabelStyle)}
               >
@@ -755,7 +775,8 @@ export function EditableAccommodationPage({
               )}
             </div>
             <div className="flex items-center gap-1">
-              <p 
+              <p
+                data-blur-key="accommodationCityTax"
                 className="text-gray-800 text-sm print:text-xs"
                 style={getStyleObject(data?.accommodationCityTaxStyle)}
               >

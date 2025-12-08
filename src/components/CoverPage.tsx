@@ -81,7 +81,6 @@ export function CoverPage({
           pageId={pageId}
           blurRegions={blurRegions}
           isBlurMode={isBlurMode}
-          isEditMode={isEditMode}
           onAddBlurRegion={onAddBlurRegion}
           onRemoveBlurRegion={onRemoveBlurRegion}
         />
@@ -114,7 +113,8 @@ export function CoverPage({
                 className="text-center text-2xl md:text-3xl font-semibold text-cyan-600 tracking-wider bg-white border-2 border-cyan-300 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 w-full max-w-md"
               />
             ) : (
-              <h1 
+              <h1
+                data-blur-key="coverMainTitle"
                 style={getStyleObject(data.coverMainTitleStyle)}
                 className="text-2xl md:text-3xl font-semibold text-cyan-600 tracking-wider"
               >
@@ -148,7 +148,8 @@ export function CoverPage({
                   className="text-center text-cyan-700 bg-white border-2 border-cyan-300 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 w-full max-w-xs"
                 />
               ) : (
-                <h2 
+                <h2
+                  data-blur-key="coverTitle"
                   style={getStyleObject(data.coverTitleStyle)}
                   className="text-cyan-700"
                 >
@@ -177,7 +178,8 @@ export function CoverPage({
                     className="text-center text-cyan-600 bg-white border-2 border-cyan-300 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 w-full max-w-xs"
                   />
                 ) : (
-                  <p 
+                  <p
+                    data-blur-key="coverPlanningLabel"
                     style={getStyleObject(data.coverPlanningLabelStyle)}
                     className="text-cyan-600"
                   >
@@ -205,7 +207,7 @@ export function CoverPage({
                     className="text-center bg-white border-2 border-cyan-300 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 w-full max-w-xs"
                   />
                 ) : (
-                  <p style={getStyleObject(data.coverDateStyle)}>{data.coverDate}</p>
+                  <p data-blur-key="coverDate" style={getStyleObject(data.coverDateStyle)}>{data.coverDate}</p>
                 )}
                 {isEditMode && (
                   <div className="relative flex-shrink-0">
@@ -235,7 +237,7 @@ export function CoverPage({
                 placeholder="담당자: "
               />
             ) : (
-              <p style={getStyleObject(data.plannerNameStyle)}>담당 플래너 : {data.plannerName}</p>
+              <p data-blur-key="plannerName" style={getStyleObject(data.plannerNameStyle)}>담당 플래너 : {data.plannerName}</p>
             )}
             {isEditMode && (
               <div className="relative flex-shrink-0">
@@ -271,7 +273,7 @@ export function CoverPage({
               className="w-full text-center text-gray-500 text-xs leading-relaxed bg-white border-2 border-cyan-300 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 resize-none"
             />
           ) : (
-            <div style={getStyleObject(data.coverCopyrightStyle)}>
+            <div data-blur-key="coverCopyright" style={getStyleObject(data.coverCopyrightStyle)}>
               {data.coverCopyright.split('\\n').map((line, idx) => (
                 <span key={idx}>
                   {line}

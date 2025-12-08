@@ -192,7 +192,8 @@ export function IntroductionPage({
                 />
               </>
             ) : (
-              <h1 
+              <h1
+                data-blur-key="introductionTitle"
                 className="text-3xl font-semibold text-cyan-600"
                 style={getStyleObject(data.introductionTitleStyle)}
               >
@@ -221,7 +222,8 @@ export function IntroductionPage({
                 />
               </>
             ) : (
-              <p 
+              <p
+                data-blur-key="introductionSubtitle"
                 className="text-gray-600"
                 style={getStyleObject(data.introductionSubtitleStyle)}
               >
@@ -254,7 +256,7 @@ export function IntroductionPage({
                         className="text-gray-500 text-base w-full bg-blue-50 px-2 py-1 rounded border border-blue-300 focus:outline-none focus:border-blue-500"
                       />
                     ) : (
-                      <p style={getStyleObject(item.labelStyle)} className="text-gray-500 text-base font-bold text-[20px]">
+                      <p data-blur-key={item.labelField} style={getStyleObject(item.labelStyle)} className="text-gray-500 text-base font-bold text-[20px]">
                         {item.label}
                       </p>
                     )}
@@ -279,7 +281,7 @@ export function IntroductionPage({
                         className="w-full text-gray-800 text-lg bg-white border-2 border-cyan-300 rounded-lg px-3 py-1 focus:outline-none focus:border-cyan-500"
                       />
                     ) : (
-                      <p style={getStyleObject(item.valueStyle)} className="text-gray-800 text-lg text-[16px]">
+                      <p data-blur-key={item.field} style={getStyleObject(item.valueStyle)} className="text-gray-800 text-lg text-[16px]">
                         {item.value}
                       </p>
                     )}
@@ -315,7 +317,7 @@ export function IntroductionPage({
                       className="text-gray-500 text-base w-full bg-blue-50 px-2 py-1 rounded border border-blue-300 focus:outline-none focus:border-blue-500"
                     />
                   ) : (
-                    <p style={getStyleObject(data.travelPeriodLabelStyle)} className="text-gray-500 text-base font-bold text-[20px]">
+                    <p data-blur-key="travelPeriodLabel" style={getStyleObject(data.travelPeriodLabelStyle)} className="text-gray-500 text-base font-bold text-[20px]">
                       {data.travelPeriodLabel}
                     </p>
                   )}
@@ -423,7 +425,8 @@ export function IntroductionPage({
                     </div>
                   </div>
                 ) : (
-                  <p 
+                  <p
+                    data-blur-key="periodDisplay"
                     className="text-gray-800 text-lg text-[16px]"
                     style={getStyleObject(data.periodDisplayStyle)}
                   >
@@ -451,7 +454,7 @@ export function IntroductionPage({
                     className="text-gray-700 w-full bg-yellow-100 px-2 py-1 rounded border border-yellow-300 focus:outline-none focus:border-yellow-500"
                   />
                 ) : (
-                  <p style={getStyleObject(data.importantRequestsLabelStyle)} className="text-gray-700 font-bold text-[20px]">
+                  <p data-blur-key="importantRequestsLabel" style={getStyleObject(data.importantRequestsLabelStyle)} className="text-gray-700 font-bold text-[20px]">
                     {data.importantRequestsLabel}
                   </p>
                 )}
@@ -473,7 +476,7 @@ export function IntroductionPage({
                     className="w-full text-gray-800 bg-white border-2 border-yellow-300 rounded-lg px-3 py-2 focus:outline-none focus:border-yellow-500 min-h-[80px] resize-y"
                   />
                 ) : (
-                  <p style={getStyleObject(data.specialRequestsStyle)} className="text-gray-800 text-[15px]">
+                  <p data-blur-key="specialRequests" style={getStyleObject(data.specialRequestsStyle)} className="text-gray-800 text-[15px]">
                     {data.specialRequests}
                   </p>
                 )}
@@ -504,7 +507,7 @@ export function IntroductionPage({
                 className="flex-1 bg-cyan-50 px-2 py-1 rounded border border-cyan-300 focus:outline-none focus:border-cyan-500"
               />
             ) : (
-              <h3 style={getStyleObject(data.highlightsTitleStyle)} className="text-cyan-600 font-bold text-[20px]">
+              <h3 data-blur-key="highlightsTitle" style={getStyleObject(data.highlightsTitleStyle)} className="text-cyan-600 font-bold text-[20px]">
                 {data.highlightsTitle}
               </h3>
             )}
@@ -541,7 +544,7 @@ export function IntroductionPage({
               {highlights.map((highlight, index) => (
                 <div key={index} className="flex items-start gap-3 group">
                   <CheckCircle2 className="w-5 h-5 text-cyan-500 flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
-                  <p style={getStyleObject(data.highlightsStyle)} className="text-gray-700 text-[15px]">
+                  <p data-blur-key="highlights" style={getStyleObject(data.highlightsStyle)} className="text-gray-700 text-[15px]">
                     {highlight}
                   </p>
                 </div>
