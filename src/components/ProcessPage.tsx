@@ -151,33 +151,34 @@ export function ProcessPage({
         {/* Header */}
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 mb-[3px]">
-            {isEditMode ? (
-              <>
-                <h1 
-                  className="text-3xl font-semibold text-cyan-600" 
+            <div data-blur-key="processPageTitle">
+              {isEditMode ? (
+                <>
+                  <h1
+                    className="text-3xl font-semibold text-cyan-600"
+                    style={getStyleObject(data.processPageTitleStyle)}
+                    contentEditable
+                    suppressContentEditableWarning
+                    onBlur={(e) => onUpdate?.({ processPageTitle: e.currentTarget.textContent || '' })}
+                  >
+                    {data.processPageTitle}
+                  </h1>
+                  <StylePicker
+                    currentStyle={data.processPageTitleStyle}
+                    onStyleChange={(style) => onUpdate?.({ processPageTitleStyle: style })}
+                    fieldKey="processPageTitle"
+                    backgroundColorClass="bg-white"
+                  />
+                </>
+              ) : (
+                <h1
+                  className="text-3xl font-semibold text-cyan-600"
                   style={getStyleObject(data.processPageTitleStyle)}
-                  contentEditable
-                  suppressContentEditableWarning
-                  onBlur={(e) => onUpdate?.({ processPageTitle: e.currentTarget.textContent || '' })}
                 >
                   {data.processPageTitle}
                 </h1>
-                <StylePicker
-                  currentStyle={data.processPageTitleStyle}
-                  onStyleChange={(style) => onUpdate?.({ processPageTitleStyle: style })}
-                  fieldKey="processPageTitle"
-                  backgroundColorClass="bg-white"
-                />
-              </>
-            ) : (
-              <h1
-                data-blur-key="processPageTitle"
-                className="text-3xl font-semibold text-cyan-600"
-                style={getStyleObject(data.processPageTitleStyle)}
-              >
-                {data.processPageTitle}
-              </h1>
-            )}
+              )}
+            </div>
           </div>
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
         </div>

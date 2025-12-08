@@ -291,82 +291,84 @@ export function ItineraryCalendarPage({ data, isEditMode, onUpdate, onDuplicate,
         {/* Header */}
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 mb-[3px]">
-            {isEditMode ? (
-              editingField === 'itineraryCalendarTitle' ? (
-                <input
-                  type="text"
-                  value={tempValue}
-                  onChange={(e) => setTempValue(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  onBlur={saveEdit}
-                  autoFocus
-                  className="text-2xl md:text-3xl font-semibold text-cyan-600 text-center bg-blue-50 px-4 py-2 rounded border border-blue-300 focus:outline-none focus:border-blue-500"
-                />
-              ) : (
-                <>
-                  <h1 
+            <div data-blur-key="itineraryCalendarTitle">
+              {isEditMode ? (
+                editingField === 'itineraryCalendarTitle' ? (
+                  <input
+                    type="text"
+                    value={tempValue}
+                    onChange={(e) => setTempValue(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    onBlur={saveEdit}
+                    autoFocus
+                    className="text-2xl md:text-3xl font-semibold text-cyan-600 text-center bg-blue-50 px-4 py-2 rounded border border-blue-300 focus:outline-none focus:border-blue-500"
+                  />
+                ) : (
+                  <h1
                     className="text-2xl md:text-3xl font-semibold text-cyan-600 cursor-pointer hover:bg-blue-50 px-4 py-2 rounded transition-colors"
                     style={getStyleObject(data.itineraryCalendarTitleStyle)}
                     onClick={() => startEdit('itineraryCalendarTitle', data.itineraryCalendarTitle)}
                   >
                     {data.itineraryCalendarTitle}
                   </h1>
-                  <StylePicker
-                    currentStyle={data.itineraryCalendarTitleStyle}
-                    onStyleChange={(style) => onUpdate?.({ itineraryCalendarTitleStyle: style })}
-                    fieldKey="itineraryCalendarTitle"
-                    backgroundColorClass="bg-white"
-                  />
-                </>
-              )
-            ) : (
-              <h1
-                data-blur-key="itineraryCalendarTitle"
-                className="text-2xl md:text-3xl font-semibold text-cyan-600"
-                style={getStyleObject(data.itineraryCalendarTitleStyle)}
-              >
-                {data.itineraryCalendarTitle}
-              </h1>
+                )
+              ) : (
+                <h1
+                  className="text-2xl md:text-3xl font-semibold text-cyan-600"
+                  style={getStyleObject(data.itineraryCalendarTitleStyle)}
+                >
+                  {data.itineraryCalendarTitle}
+                </h1>
+              )}
+            </div>
+            {isEditMode && editingField !== 'itineraryCalendarTitle' && (
+              <StylePicker
+                currentStyle={data.itineraryCalendarTitleStyle}
+                onStyleChange={(style) => onUpdate?.({ itineraryCalendarTitleStyle: style })}
+                fieldKey="itineraryCalendarTitle"
+                backgroundColorClass="bg-white"
+              />
             )}
           </div>
           <div className="w-20 md:w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-3 md:mb-4" />
           <div className="flex items-center justify-center gap-2">
-            {isEditMode ? (
-              editingField === 'itineraryCalendarDateRange' ? (
-                <input
-                  type="text"
-                  value={tempValue}
-                  onChange={(e) => setTempValue(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  onBlur={saveEdit}
-                  autoFocus
-                  className="text-gray-600 text-sm print:text-xs bg-blue-50 px-4 py-2 rounded border border-blue-300 focus:outline-none focus:border-blue-500"
-                />
-              ) : (
-                <>
-                  <p 
+            <div data-blur-key="itineraryCalendarDateRange">
+              {isEditMode ? (
+                editingField === 'itineraryCalendarDateRange' ? (
+                  <input
+                    type="text"
+                    value={tempValue}
+                    onChange={(e) => setTempValue(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    onBlur={saveEdit}
+                    autoFocus
+                    className="text-gray-600 text-sm print:text-xs bg-blue-50 px-4 py-2 rounded border border-blue-300 focus:outline-none focus:border-blue-500"
+                  />
+                ) : (
+                  <p
                     className="text-gray-600 text-sm print:text-xs cursor-pointer hover:bg-blue-50 px-4 py-2 rounded transition-colors"
                     style={getStyleObject(data.itineraryCalendarDateRangeStyle)}
                     onClick={() => startEdit('itineraryCalendarDateRange', data.itineraryCalendarDateRange)}
                   >
                     {dateRangeText}
                   </p>
-                  <StylePicker
-                    currentStyle={data.itineraryCalendarDateRangeStyle}
-                    onStyleChange={(style) => onUpdate?.({ itineraryCalendarDateRangeStyle: style })}
-                    fieldKey="itineraryCalendarDateRange"
-                    backgroundColorClass="bg-white"
-                  />
-                </>
-              )
-            ) : (
-              <p
-                data-blur-key="itineraryCalendarDateRange"
-                className="text-gray-600 text-sm print:text-xs"
-                style={getStyleObject(data.itineraryCalendarDateRangeStyle)}
-              >
-                {dateRangeText}
-              </p>
+                )
+              ) : (
+                <p
+                  className="text-gray-600 text-sm print:text-xs"
+                  style={getStyleObject(data.itineraryCalendarDateRangeStyle)}
+                >
+                  {dateRangeText}
+                </p>
+              )}
+            </div>
+            {isEditMode && editingField !== 'itineraryCalendarDateRange' && (
+              <StylePicker
+                currentStyle={data.itineraryCalendarDateRangeStyle}
+                onStyleChange={(style) => onUpdate?.({ itineraryCalendarDateRangeStyle: style })}
+                fieldKey="itineraryCalendarDateRange"
+                backgroundColorClass="bg-white"
+              />
             )}
           </div>
           {isEditMode && (
@@ -392,42 +394,43 @@ export function ItineraryCalendarPage({ data, isEditMode, onUpdate, onDuplicate,
           {/* Transport Legend */}
           <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl p-4 border border-yellow-100 print:break-inside-avoid">
             <div className="flex items-center gap-2 mb-2">
-              {isEditMode ? (
-                editingField === 'itineraryTransportTitle' ? (
-                  <input
-                    type="text"
-                    value={tempValue}
-                    onChange={(e) => setTempValue(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    onBlur={saveEdit}
-                    autoFocus
-                    className="text-gray-700 text-sm bg-yellow-100 px-2 py-1 rounded border border-yellow-300 focus:outline-none focus:border-yellow-500 w-full"
-                  />
-                ) : (
-                  <>
-                    <p 
+              <div data-blur-key="itineraryTransportTitle">
+                {isEditMode ? (
+                  editingField === 'itineraryTransportTitle' ? (
+                    <input
+                      type="text"
+                      value={tempValue}
+                      onChange={(e) => setTempValue(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                      onBlur={saveEdit}
+                      autoFocus
+                      className="text-gray-700 text-sm bg-yellow-100 px-2 py-1 rounded border border-yellow-300 focus:outline-none focus:border-yellow-500 w-full"
+                    />
+                  ) : (
+                    <p
                       className="text-gray-700 text-sm cursor-pointer hover:bg-yellow-100 px-2 py-1 rounded transition-colors"
                       style={getStyleObject(data.itineraryTransportTitleStyle)}
                       onClick={() => startEdit('itineraryTransportTitle', data.itineraryTransportTitle)}
                     >
                       {data.itineraryTransportTitle}
                     </p>
-                    <StylePicker
-                      currentStyle={data.itineraryTransportTitleStyle}
-                      onStyleChange={(style) => onUpdate?.({ itineraryTransportTitleStyle: style })}
-                      fieldKey="itineraryTransportTitle"
-                      backgroundColorClass="bg-yellow-50"
-                    />
-                  </>
-                )
-              ) : (
-                <p
-                  data-blur-key="itineraryTransportTitle"
-                  className="text-gray-700 text-sm"
-                  style={getStyleObject(data.itineraryTransportTitleStyle)}
-                >
-                  {data.itineraryTransportTitle}
-                </p>
+                  )
+                ) : (
+                  <p
+                    className="text-gray-700 text-sm"
+                    style={getStyleObject(data.itineraryTransportTitleStyle)}
+                  >
+                    {data.itineraryTransportTitle}
+                  </p>
+                )}
+              </div>
+              {isEditMode && editingField !== 'itineraryTransportTitle' && (
+                <StylePicker
+                  currentStyle={data.itineraryTransportTitleStyle}
+                  onStyleChange={(style) => onUpdate?.({ itineraryTransportTitleStyle: style })}
+                  fieldKey="itineraryTransportTitle"
+                  backgroundColorClass="bg-yellow-50"
+                />
               )}
             </div>
             <div className="grid grid-cols-2 gap-2">
@@ -491,42 +494,43 @@ export function ItineraryCalendarPage({ data, isEditMode, onUpdate, onDuplicate,
           {/* Country Legend */}
           <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl p-4 border border-cyan-100">
             <div className="flex items-center gap-2 mb-2">
-              {isEditMode ? (
-                editingField === 'itineraryCountryTitle' ? (
-                  <input
-                    type="text"
-                    value={tempValue}
-                    onChange={(e) => setTempValue(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    onBlur={saveEdit}
-                    autoFocus
-                    className="text-gray-700 text-sm bg-cyan-100 px-2 py-1 rounded border border-cyan-300 focus:outline-none focus:border-cyan-500 w-full"
-                  />
-                ) : (
-                  <>
-                    <p 
+              <div data-blur-key="itineraryCountryTitle">
+                {isEditMode ? (
+                  editingField === 'itineraryCountryTitle' ? (
+                    <input
+                      type="text"
+                      value={tempValue}
+                      onChange={(e) => setTempValue(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                      onBlur={saveEdit}
+                      autoFocus
+                      className="text-gray-700 text-sm bg-cyan-100 px-2 py-1 rounded border border-cyan-300 focus:outline-none focus:border-cyan-500 w-full"
+                    />
+                  ) : (
+                    <p
                       className="text-gray-700 text-sm cursor-pointer hover:bg-cyan-100 px-2 py-1 rounded transition-colors"
                       style={getStyleObject(data.itineraryCountryTitleStyle)}
                       onClick={() => startEdit('itineraryCountryTitle', data.itineraryCountryTitle)}
                     >
                       {data.itineraryCountryTitle}
                     </p>
-                    <StylePicker
-                      currentStyle={data.itineraryCountryTitleStyle}
-                      onStyleChange={(style) => onUpdate?.({ itineraryCountryTitleStyle: style })}
-                      fieldKey="itineraryCountryTitle"
-                      backgroundColorClass="bg-cyan-50"
-                    />
-                  </>
-                )
-              ) : (
-                <p
-                  data-blur-key="itineraryCountryTitle"
-                  className="text-gray-700 text-sm"
-                  style={getStyleObject(data.itineraryCountryTitleStyle)}
-                >
-                  {data.itineraryCountryTitle}
-                </p>
+                  )
+                ) : (
+                  <p
+                    className="text-gray-700 text-sm"
+                    style={getStyleObject(data.itineraryCountryTitleStyle)}
+                  >
+                    {data.itineraryCountryTitle}
+                  </p>
+                )}
+              </div>
+              {isEditMode && editingField !== 'itineraryCountryTitle' && (
+                <StylePicker
+                  currentStyle={data.itineraryCountryTitleStyle}
+                  onStyleChange={(style) => onUpdate?.({ itineraryCountryTitleStyle: style })}
+                  fieldKey="itineraryCountryTitle"
+                  backgroundColorClass="bg-cyan-50"
+                />
               )}
             </div>
             <div className="space-y-2">
@@ -535,13 +539,14 @@ export function ItineraryCalendarPage({ data, isEditMode, onUpdate, onDuplicate,
                   <div key={country} className="flex items-center gap-2">
                     <div className={`w-3 h-3 rounded-full flex-shrink-0 ${getCountryBadgeColor(country)}`} />
                     <div className="flex items-center gap-1">
-                      <span
-                        data-blur-key={`itineraryCountryLabel-${country}`}
-                        className="text-xs text-gray-700"
-                        style={getStyleObject(data.itineraryCountryLabelStyle)}
-                      >
-                        {country}
-                      </span>
+                      <div data-blur-key={`itineraryCountryLabel-${country}`}>
+                        <span
+                          className="text-xs text-gray-700"
+                          style={getStyleObject(data.itineraryCountryLabelStyle)}
+                        >
+                          {country}
+                        </span>
+                      </div>
                       {idx === 0 && isEditMode && (
                         <StylePicker
                           currentStyle={data.itineraryCountryLabelStyle}

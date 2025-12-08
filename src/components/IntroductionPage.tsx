@@ -173,9 +173,9 @@ export function IntroductionPage({
         {/* Header */}
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 mb-[3px]">
-            {isEditMode ? (
-              <>
-                <h1 
+            <div data-blur-key="introductionTitle">
+              {isEditMode ? (
+                <h1
                   className="text-3xl font-semibold text-cyan-600"
                   style={getStyleObject(data.introductionTitleStyle)}
                   contentEditable
@@ -184,28 +184,29 @@ export function IntroductionPage({
                 >
                   {data.introductionTitle}
                 </h1>
-                <StylePicker
-                  currentStyle={data.introductionTitleStyle}
-                  onStyleChange={(style) => onUpdate?.({ introductionTitleStyle: style })}
-                  fieldKey="introductionTitle"
-                  backgroundColorClass="bg-white"
-                />
-              </>
-            ) : (
-              <h1
-                data-blur-key="introductionTitle"
-                className="text-3xl font-semibold text-cyan-600"
-                style={getStyleObject(data.introductionTitleStyle)}
-              >
-                {data.introductionTitle}
-              </h1>
+              ) : (
+                <h1
+                  className="text-3xl font-semibold text-cyan-600"
+                  style={getStyleObject(data.introductionTitleStyle)}
+                >
+                  {data.introductionTitle}
+                </h1>
+              )}
+            </div>
+            {isEditMode && (
+              <StylePicker
+                currentStyle={data.introductionTitleStyle}
+                onStyleChange={(style) => onUpdate?.({ introductionTitleStyle: style })}
+                fieldKey="introductionTitle"
+                backgroundColorClass="bg-white"
+              />
             )}
           </div>
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
           <div className="flex items-center justify-center gap-2">
-            {isEditMode ? (
-              <>
-                <p 
+            <div data-blur-key="introductionSubtitle">
+              {isEditMode ? (
+                <p
                   className="text-gray-600"
                   style={getStyleObject(data.introductionSubtitleStyle)}
                   contentEditable
@@ -214,21 +215,22 @@ export function IntroductionPage({
                 >
                   {data.introductionSubtitle}
                 </p>
-                <StylePicker
-                  currentStyle={data.introductionSubtitleStyle}
-                  onStyleChange={(style) => onUpdate?.({ introductionSubtitleStyle: style })}
-                  fieldKey="introductionSubtitle"
-                  backgroundColorClass="bg-white"
-                />
-              </>
-            ) : (
-              <p
-                data-blur-key="introductionSubtitle"
-                className="text-gray-600"
-                style={getStyleObject(data.introductionSubtitleStyle)}
-              >
-                {data.introductionSubtitle}
-              </p>
+              ) : (
+                <p
+                  className="text-gray-600"
+                  style={getStyleObject(data.introductionSubtitleStyle)}
+                >
+                  {data.introductionSubtitle}
+                </p>
+              )}
+            </div>
+            {isEditMode && (
+              <StylePicker
+                currentStyle={data.introductionSubtitleStyle}
+                onStyleChange={(style) => onUpdate?.({ introductionSubtitleStyle: style })}
+                fieldKey="introductionSubtitle"
+                backgroundColorClass="bg-white"
+              />
             )}
           </div>
         </div>
@@ -247,19 +249,21 @@ export function IntroductionPage({
                 <div className="flex-1">
                   {/* Editable Label */}
                   <div className="flex items-center gap-2 mb-1">
-                    {isEditMode ? (
-                      <input
-                        type="text"
-                        value={item.label}
-                        onChange={(e) => onUpdate?.({ [item.labelField]: e.target.value })}
-                        style={getStyleObject(item.labelStyle)}
-                        className="text-gray-500 text-base w-full bg-blue-50 px-2 py-1 rounded border border-blue-300 focus:outline-none focus:border-blue-500"
-                      />
-                    ) : (
-                      <p data-blur-key={item.labelField} style={getStyleObject(item.labelStyle)} className="text-gray-500 text-base font-bold text-[20px]">
-                        {item.label}
-                      </p>
-                    )}
+                    <div data-blur-key={item.labelField}>
+                      {isEditMode ? (
+                        <input
+                          type="text"
+                          value={item.label}
+                          onChange={(e) => onUpdate?.({ [item.labelField]: e.target.value })}
+                          style={getStyleObject(item.labelStyle)}
+                          className="text-gray-500 text-base w-full bg-blue-50 px-2 py-1 rounded border border-blue-300 focus:outline-none focus:border-blue-500"
+                        />
+                      ) : (
+                        <p style={getStyleObject(item.labelStyle)} className="text-gray-500 text-base font-bold text-[20px]">
+                          {item.label}
+                        </p>
+                      )}
+                    </div>
                     {isEditMode && (
                       <StylePicker
                         currentStyle={item.labelStyle}
@@ -272,19 +276,21 @@ export function IntroductionPage({
                   
                   {/* Editable Value */}
                   <div className="flex items-center gap-2">
-                    {isEditMode ? (
-                      <input
-                        type="text"
-                        value={item.value}
-                        onChange={(e) => onUpdate?.({ [item.field]: e.target.value })}
-                        style={getStyleObject(item.valueStyle)}
-                        className="w-full text-gray-800 text-lg bg-white border-2 border-cyan-300 rounded-lg px-3 py-1 focus:outline-none focus:border-cyan-500"
-                      />
-                    ) : (
-                      <p data-blur-key={item.field} style={getStyleObject(item.valueStyle)} className="text-gray-800 text-lg text-[16px]">
-                        {item.value}
-                      </p>
-                    )}
+                    <div data-blur-key={item.field}>
+                      {isEditMode ? (
+                        <input
+                          type="text"
+                          value={item.value}
+                          onChange={(e) => onUpdate?.({ [item.field]: e.target.value })}
+                          style={getStyleObject(item.valueStyle)}
+                          className="w-full text-gray-800 text-lg bg-white border-2 border-cyan-300 rounded-lg px-3 py-1 focus:outline-none focus:border-cyan-500"
+                        />
+                      ) : (
+                        <p style={getStyleObject(item.valueStyle)} className="text-gray-800 text-lg text-[16px]">
+                          {item.value}
+                        </p>
+                      )}
+                    </div>
                     {isEditMode && (
                       <StylePicker
                         currentStyle={item.valueStyle}
@@ -308,19 +314,21 @@ export function IntroductionPage({
               <div className="flex-1">
                 {/* Editable Label */}
                 <div className="flex items-center gap-2 mb-1">
-                  {isEditMode ? (
-                    <input
-                      type="text"
-                      value={data.travelPeriodLabel}
-                      onChange={(e) => onUpdate?.({ travelPeriodLabel: e.target.value })}
-                      style={getStyleObject(data.travelPeriodLabelStyle)}
-                      className="text-gray-500 text-base w-full bg-blue-50 px-2 py-1 rounded border border-blue-300 focus:outline-none focus:border-blue-500"
-                    />
-                  ) : (
-                    <p data-blur-key="travelPeriodLabel" style={getStyleObject(data.travelPeriodLabelStyle)} className="text-gray-500 text-base font-bold text-[20px]">
-                      {data.travelPeriodLabel}
-                    </p>
-                  )}
+                  <div data-blur-key="travelPeriodLabel">
+                    {isEditMode ? (
+                      <input
+                        type="text"
+                        value={data.travelPeriodLabel}
+                        onChange={(e) => onUpdate?.({ travelPeriodLabel: e.target.value })}
+                        style={getStyleObject(data.travelPeriodLabelStyle)}
+                        className="text-gray-500 text-base w-full bg-blue-50 px-2 py-1 rounded border border-blue-300 focus:outline-none focus:border-blue-500"
+                      />
+                    ) : (
+                      <p style={getStyleObject(data.travelPeriodLabelStyle)} className="text-gray-500 text-base font-bold text-[20px]">
+                        {data.travelPeriodLabel}
+                      </p>
+                    )}
+                  </div>
                   {isEditMode && (
                     <StylePicker
                       currentStyle={data.travelPeriodLabelStyle}
@@ -410,12 +418,14 @@ export function IntroductionPage({
                       </Select>
                     </div>
                     <div className="flex items-center gap-2">
-                      <p 
-                        className="text-gray-600 text-lg" 
-                        style={getStyleObject(data.periodDisplayStyle)}
-                      >
-                        {getPeriodDisplay()}
-                      </p>
+                      <div data-blur-key="periodDisplay">
+                        <p
+                          className="text-gray-600 text-lg"
+                          style={getStyleObject(data.periodDisplayStyle)}
+                        >
+                          {getPeriodDisplay()}
+                        </p>
+                      </div>
                       <StylePicker
                         currentStyle={data.periodDisplayStyle || { size: '16px', weight: 'normal', color: '#6B7280' }}
                         onStyleChange={(style) => onUpdate({ periodDisplayStyle: style })}
@@ -425,13 +435,14 @@ export function IntroductionPage({
                     </div>
                   </div>
                 ) : (
-                  <p
-                    data-blur-key="periodDisplay"
-                    className="text-gray-800 text-lg text-[16px]"
-                    style={getStyleObject(data.periodDisplayStyle)}
-                  >
-                    {getPeriodDisplay()}
-                  </p>
+                  <div data-blur-key="periodDisplay">
+                    <p
+                      className="text-gray-800 text-lg text-[16px]"
+                      style={getStyleObject(data.periodDisplayStyle)}
+                    >
+                      {getPeriodDisplay()}
+                    </p>
+                  </div>
                 )}
               </div>
             </div>
@@ -445,19 +456,21 @@ export function IntroductionPage({
             <div className="flex-1">
               {/* Editable Label */}
               <div className="flex items-center gap-2 mb-2">
-                {isEditMode ? (
-                  <input
-                    type="text"
-                    value={data.importantRequestsLabel}
-                    onChange={(e) => onUpdate?.({ importantRequestsLabel: e.target.value })}
-                    style={getStyleObject(data.importantRequestsLabelStyle)}
-                    className="text-gray-700 w-full bg-yellow-100 px-2 py-1 rounded border border-yellow-300 focus:outline-none focus:border-yellow-500"
-                  />
-                ) : (
-                  <p data-blur-key="importantRequestsLabel" style={getStyleObject(data.importantRequestsLabelStyle)} className="text-gray-700 font-bold text-[20px]">
-                    {data.importantRequestsLabel}
-                  </p>
-                )}
+                <div data-blur-key="importantRequestsLabel">
+                  {isEditMode ? (
+                    <input
+                      type="text"
+                      value={data.importantRequestsLabel}
+                      onChange={(e) => onUpdate?.({ importantRequestsLabel: e.target.value })}
+                      style={getStyleObject(data.importantRequestsLabelStyle)}
+                      className="text-gray-700 w-full bg-yellow-100 px-2 py-1 rounded border border-yellow-300 focus:outline-none focus:border-yellow-500"
+                    />
+                  ) : (
+                    <p style={getStyleObject(data.importantRequestsLabelStyle)} className="text-gray-700 font-bold text-[20px]">
+                      {data.importantRequestsLabel}
+                    </p>
+                  )}
+                </div>
                 {isEditMode && (
                   <StylePicker
                     currentStyle={data.importantRequestsLabelStyle}
@@ -468,18 +481,20 @@ export function IntroductionPage({
                 )}
               </div>
               <div className="flex items-start gap-2">
-                {isEditMode ? (
-                  <textarea
-                    value={data.specialRequests}
-                    onChange={(e) => onUpdate?.({ specialRequests: e.target.value })}
-                    style={getStyleObject(data.specialRequestsStyle)}
-                    className="w-full text-gray-800 bg-white border-2 border-yellow-300 rounded-lg px-3 py-2 focus:outline-none focus:border-yellow-500 min-h-[80px] resize-y"
-                  />
-                ) : (
-                  <p data-blur-key="specialRequests" style={getStyleObject(data.specialRequestsStyle)} className="text-gray-800 text-[15px]">
-                    {data.specialRequests}
-                  </p>
-                )}
+                <div data-blur-key="specialRequests">
+                  {isEditMode ? (
+                    <textarea
+                      value={data.specialRequests}
+                      onChange={(e) => onUpdate?.({ specialRequests: e.target.value })}
+                      style={getStyleObject(data.specialRequestsStyle)}
+                      className="w-full text-gray-800 bg-white border-2 border-yellow-300 rounded-lg px-3 py-2 focus:outline-none focus:border-yellow-500 min-h-[80px] resize-y"
+                    />
+                  ) : (
+                    <p style={getStyleObject(data.specialRequestsStyle)} className="text-gray-800 text-[15px]">
+                      {data.specialRequests}
+                    </p>
+                  )}
+                </div>
                 {isEditMode && (
                   <StylePicker
                     currentStyle={data.specialRequestsStyle}
@@ -498,19 +513,21 @@ export function IntroductionPage({
           {/* Editable Title with Heart Icon */}
           <div className="flex items-center gap-2 mb-6">
             <Heart className="w-5 h-5 text-cyan-600" />
-            {isEditMode ? (
-              <input
-                type="text"
-                value={data.highlightsTitle}
-                onChange={(e) => onUpdate?.({ highlightsTitle: e.target.value })}
-                style={getStyleObject(data.highlightsTitleStyle)}
-                className="flex-1 bg-cyan-50 px-2 py-1 rounded border border-cyan-300 focus:outline-none focus:border-cyan-500"
-              />
-            ) : (
-              <h3 data-blur-key="highlightsTitle" style={getStyleObject(data.highlightsTitleStyle)} className="text-cyan-600 font-bold text-[20px]">
-                {data.highlightsTitle}
-              </h3>
-            )}
+            <div data-blur-key="highlightsTitle">
+              {isEditMode ? (
+                <input
+                  type="text"
+                  value={data.highlightsTitle}
+                  onChange={(e) => onUpdate?.({ highlightsTitle: e.target.value })}
+                  style={getStyleObject(data.highlightsTitleStyle)}
+                  className="flex-1 bg-cyan-50 px-2 py-1 rounded border border-cyan-300 focus:outline-none focus:border-cyan-500"
+                />
+              ) : (
+                <h3 style={getStyleObject(data.highlightsTitleStyle)} className="text-cyan-600 font-bold text-[20px]">
+                  {data.highlightsTitle}
+                </h3>
+              )}
+            </div>
             {isEditMode && (
               <StylePicker
                 currentStyle={data.highlightsTitleStyle}
@@ -544,9 +561,11 @@ export function IntroductionPage({
               {highlights.map((highlight, index) => (
                 <div key={index} className="flex items-start gap-3 group">
                   <CheckCircle2 className="w-5 h-5 text-cyan-500 flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
-                  <p data-blur-key="highlights" style={getStyleObject(data.highlightsStyle)} className="text-gray-700 text-[15px]">
-                    {highlight}
-                  </p>
+                  <div data-blur-key="highlights">
+                    <p style={getStyleObject(data.highlightsStyle)} className="text-gray-700 text-[15px]">
+                      {highlight}
+                    </p>
+                  </div>
                 </div>
               ))}
             </div>

@@ -357,28 +357,29 @@ export function DetailedSchedulePage({
           )}
           
           <div className="flex items-center justify-center gap-2 mb-[3px]">
-            {isEditMode && editingField === 'dayTitle' ? (
-              <input
-                type="text"
-                value={tempValue}
-                onChange={(e) => setTempValue(e.target.value)}
-                onKeyDown={handleKeyDown}
-                onBlur={saveEdit}
-                autoFocus
-                className="text-2xl print:text-xl bg-transparent border-b-2 border-cyan-400 focus:outline-none text-center px-4"
-              />
-            ) : (
-              <h1
-                data-blur-key="detailedScheduleDayTitle"
-                className={`text-3xl font-semibold text-cyan-600 ${
-                  isEditMode ? 'cursor-pointer hover:bg-gray-100 px-4 py-1 rounded transition-colors' : ''
-                }`}
-                style={getStyleObject(data.detailedScheduleDayTitleStyle)}
-                onClick={() => startEdit('dayTitle', daySchedule.title)}
-              >
-                {daySchedule.title}
-              </h1>
-            )}
+            <div data-blur-key="detailedScheduleDayTitle">
+              {isEditMode && editingField === 'dayTitle' ? (
+                <input
+                  type="text"
+                  value={tempValue}
+                  onChange={(e) => setTempValue(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  onBlur={saveEdit}
+                  autoFocus
+                  className="text-2xl print:text-xl bg-transparent border-b-2 border-cyan-400 focus:outline-none text-center px-4"
+                />
+              ) : (
+                <h1
+                  className={`text-3xl font-semibold text-cyan-600 ${
+                    isEditMode ? 'cursor-pointer hover:bg-gray-100 px-4 py-1 rounded transition-colors' : ''
+                  }`}
+                  style={getStyleObject(data.detailedScheduleDayTitleStyle)}
+                  onClick={() => startEdit('dayTitle', daySchedule.title)}
+                >
+                  {daySchedule.title}
+                </h1>
+              )}
+            </div>
             {isEditMode && (
               <StylePicker
                 currentStyle={data.detailedScheduleDayTitleStyle}
@@ -390,16 +391,17 @@ export function DetailedSchedulePage({
           </div>
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
           <div className="flex items-center justify-center gap-2 mb-8 print:mb-6">
-            <p
-              data-blur-key="detailedScheduleDate"
-              className="text-sm print:text-xs text-gray-500"
-              style={getStyleObject(data.detailedScheduleDateStyle)}
-            >
-              {dateStr} (DAY {dayNumber})
-              {daySchedule.customDate && isEditMode && (
-                <span className="text-xs text-cyan-600 ml-1">(수정됨)</span>
-              )}
-            </p>
+            <div data-blur-key="detailedScheduleDate">
+              <p
+                className="text-sm print:text-xs text-gray-500"
+                style={getStyleObject(data.detailedScheduleDateStyle)}
+              >
+                {dateStr} (DAY {dayNumber})
+                {daySchedule.customDate && isEditMode && (
+                  <span className="text-xs text-cyan-600 ml-1">(수정됨)</span>
+                )}
+              </p>
+            </div>
             {isEditMode && (
               <>
                 <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
@@ -494,12 +496,13 @@ export function DetailedSchedulePage({
                     {/* Time marker */}
                     <div className="flex flex-col items-center">
                       <div className="flex items-center gap-1">
-                        <div
-                          data-blur-key="detailedScheduleTime"
-                          className={`${currentTheme.badge} text-white text-xs print:text-[10px] px-2 py-1 rounded-lg whitespace-nowrap`}
-                          style={getStyleObject(data.detailedScheduleTimeStyle)}
-                        >
-                          {item.time}
+                        <div data-blur-key="detailedScheduleTime">
+                          <div
+                            className={`${currentTheme.badge} text-white text-xs print:text-[10px] px-2 py-1 rounded-lg whitespace-nowrap`}
+                            style={getStyleObject(data.detailedScheduleTimeStyle)}
+                          >
+                            {item.time}
+                          </div>
                         </div>
                         {index === 0 && isEditMode && (
                           <StylePicker
@@ -518,13 +521,14 @@ export function DetailedSchedulePage({
                     {/* Content */}
                     <div className="flex-1 pb-4">
                       <div className="flex items-center gap-2 mb-2">
-                        <h3
-                          data-blur-key="detailedScheduleTimelineTitleText"
-                          className="text-sm print:text-xs text-gray-800"
-                          style={getStyleObject(data.detailedScheduleTimelineTitleTextStyle)}
-                        >
-                          {item.title}
-                        </h3>
+                        <div data-blur-key="detailedScheduleTimelineTitleText">
+                          <h3
+                            className="text-sm print:text-xs text-gray-800"
+                            style={getStyleObject(data.detailedScheduleTimelineTitleTextStyle)}
+                          >
+                            {item.title}
+                          </h3>
+                        </div>
                         {index === 0 && isEditMode && (
                           <StylePicker
                             currentStyle={data.detailedScheduleTimelineTitleTextStyle}
@@ -535,13 +539,14 @@ export function DetailedSchedulePage({
                         )}
                       </div>
                       <div className="flex items-center gap-2">
-                        <p
-                          data-blur-key="detailedScheduleTimelineLocation"
-                          className="text-xs print:text-[10px] text-gray-600"
-                          style={getStyleObject(data.detailedScheduleTimelineLocationStyle)}
-                        >
-                          📍 {item.location}
-                        </p>
+                        <div data-blur-key="detailedScheduleTimelineLocation">
+                          <p
+                            className="text-xs print:text-[10px] text-gray-600"
+                            style={getStyleObject(data.detailedScheduleTimelineLocationStyle)}
+                          >
+                            📍 {item.location}
+                          </p>
+                        </div>
                         {index === 0 && isEditMode && (
                           <StylePicker
                             currentStyle={data.detailedScheduleTimelineLocationStyle}
@@ -562,42 +567,43 @@ export function DetailedSchedulePage({
           <div className="lg:col-span-3">
             <div className="space-y-4 print:space-y-3">
               <div className="flex items-center gap-2 mb-4 print:mb-3">
-                {isEditMode ? (
-                  editingField === 'pickTitle' ? (
-                    <input
-                      type="text"
-                      value={tempValue}
-                      onChange={(e) => setTempValue(e.target.value)}
-                      onKeyDown={handleKeyDown}
-                      onBlur={saveEdit}
-                      autoFocus
-                      className={`${currentTheme.title} text-xl print:text-lg bg-blue-50 px-3 py-1 rounded border border-blue-300 focus:outline-none focus:border-blue-500`}
-                    />
-                  ) : (
-                    <>
-                      <h2 
+                <div data-blur-key="detailedSchedulePickTitle">
+                  {isEditMode ? (
+                    editingField === 'pickTitle' ? (
+                      <input
+                        type="text"
+                        value={tempValue}
+                        onChange={(e) => setTempValue(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        onBlur={saveEdit}
+                        autoFocus
+                        className={`${currentTheme.title} text-xl print:text-lg bg-blue-50 px-3 py-1 rounded border border-blue-300 focus:outline-none focus:border-blue-500`}
+                      />
+                    ) : (
+                      <h2
                         className={`${currentTheme.title} text-xl print:text-lg cursor-pointer hover:bg-blue-50 px-3 py-1 rounded transition-colors`}
                         style={getStyleObject(data.detailedSchedulePickTitleStyle)}
                         onClick={() => startEdit('pickTitle', data.detailedSchedulePickTitle || "TODAY'S PICK")}
                       >
                         {data.detailedSchedulePickTitle || "TODAY'S PICK"}
                       </h2>
-                      <StylePicker
-                        currentStyle={data.detailedSchedulePickTitleStyle}
-                        onStyleChange={(style) => onUpdate?.({ detailedSchedulePickTitleStyle: style })}
-                        fieldKey="detailedSchedulePickTitle"
-                        backgroundColorClass="bg-white"
-                      />
-                    </>
-                  )
-                ) : (
-                  <h2
-                    data-blur-key="detailedSchedulePickTitle"
-                    className={`${currentTheme.title} text-xl print:text-lg`}
-                    style={getStyleObject(data.detailedSchedulePickTitleStyle)}
-                  >
-                    {data.detailedSchedulePickTitle || "TODAY'S PICK"}
-                  </h2>
+                    )
+                  ) : (
+                    <h2
+                      className={`${currentTheme.title} text-xl print:text-lg`}
+                      style={getStyleObject(data.detailedSchedulePickTitleStyle)}
+                    >
+                      {data.detailedSchedulePickTitle || "TODAY'S PICK"}
+                    </h2>
+                  )}
+                </div>
+                {isEditMode && editingField !== 'pickTitle' && (
+                  <StylePicker
+                    currentStyle={data.detailedSchedulePickTitleStyle}
+                    onStyleChange={(style) => onUpdate?.({ detailedSchedulePickTitleStyle: style })}
+                    fieldKey="detailedSchedulePickTitle"
+                    backgroundColorClass="bg-white"
+                  />
                 )}
               </div>
 
@@ -609,13 +615,14 @@ export function DetailedSchedulePage({
                   {/* Header */}
                   <div className={`bg-gradient-to-r ${currentTheme.gradient} text-white rounded-xl px-4 py-2 print:py-1.5 mb-4 print:mb-3`}>
                     <div className="flex items-center gap-2">
-                      <span
-                        data-blur-key="detailedScheduleCardNumber"
-                        className="text-sm print:text-xs"
-                        style={getStyleObject(data.detailedScheduleCardNumberStyle)}
-                      >
-                        {index + 1}.
-                      </span>
+                      <div data-blur-key="detailedScheduleCardNumber">
+                        <span
+                          className="text-sm print:text-xs"
+                          style={getStyleObject(data.detailedScheduleCardNumberStyle)}
+                        >
+                          {index + 1}.
+                        </span>
+                      </div>
                       {index === 0 && isEditMode && (
                         <StylePicker
                           currentStyle={data.detailedScheduleCardNumberStyle}
@@ -624,32 +631,33 @@ export function DetailedSchedulePage({
                           backgroundColorClass="bg-pink-500"
                         />
                       )}
-                      {isEditMode && editingField === `item-${item.id}-title` ? (
-                        <input
-                          type="text"
-                          value={tempValue}
-                          onChange={(e) => setTempValue(e.target.value)}
-                          onKeyDown={handleKeyDown}
-                          onBlur={saveEdit}
-                          autoFocus
-                          className="flex-1 bg-transparent border-b border-white/50 focus:outline-none text-sm print:text-xs"
-                        />
-                      ) : (
-                        <h3
-                          data-blur-key="detailedScheduleCardTitle"
-                          className={`text-sm print:text-xs flex-1 ${
-                            isEditMode ? 'cursor-pointer hover:bg-white/20 px-2 py-1 rounded transition-colors' : ''
-                          }`}
-                          style={getStyleObject(data.detailedScheduleCardTitleStyle)}
-                          onClick={() => {
-                            if (isEditMode) {
-                              startEdit(`item-${item.id}-title`, item.title);
-                            }
-                          }}
-                        >
-                          {item.title}
-                        </h3>
-                      )}
+                      <div data-blur-key="detailedScheduleCardTitle" className="flex-1">
+                        {isEditMode && editingField === `item-${item.id}-title` ? (
+                          <input
+                            type="text"
+                            value={tempValue}
+                            onChange={(e) => setTempValue(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                            onBlur={saveEdit}
+                            autoFocus
+                            className="w-full bg-transparent border-b border-white/50 focus:outline-none text-sm print:text-xs"
+                          />
+                        ) : (
+                          <h3
+                            className={`text-sm print:text-xs ${
+                              isEditMode ? 'cursor-pointer hover:bg-white/20 px-2 py-1 rounded transition-colors' : ''
+                            }`}
+                            style={getStyleObject(data.detailedScheduleCardTitleStyle)}
+                            onClick={() => {
+                              if (isEditMode) {
+                                startEdit(`item-${item.id}-title`, item.title);
+                              }
+                            }}
+                          >
+                            {item.title}
+                          </h3>
+                        )}
+                      </div>
                       {index === 0 && isEditMode && (
                         <StylePicker
                           currentStyle={data.detailedScheduleCardTitleStyle}

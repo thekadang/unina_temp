@@ -230,7 +230,7 @@ export function FlightTransitPage({
       <div className={`max-w-5xl mx-auto ${hasMultipleSegments ? 'space-y-6 print:space-y-4' : 'space-y-10 print:space-y-8'}`}>
         {/* Header */}
         <div className="text-center print:break-inside-avoid">
-          <div className="flex items-center justify-center gap-2 mb-[3px]">
+          <div className="flex items-center justify-center gap-2 mb-[3px]" data-blur-key="flightTransitTitle">
             {isEditMode ? (
               editingField === 'flightTransitTitle' ? (
                 <input
@@ -244,7 +244,7 @@ export function FlightTransitPage({
                 />
               ) : (
                 <>
-                  <h1 
+                  <h1
                     className="text-3xl font-semibold text-cyan-600 cursor-pointer hover:bg-blue-50 px-4 py-2 rounded transition-colors"
                     style={getStyleObject(data.flightTransitTitleStyle)}
                     onClick={() => startEdit('flightTransitTitle', data.flightTransitTitle)}
@@ -261,7 +261,6 @@ export function FlightTransitPage({
               )
             ) : (
               <h1
-                data-blur-key="flightTransitTitle"
                 className="text-3xl font-semibold text-cyan-600"
                 style={getStyleObject(data.flightTransitTitleStyle)}
               >
@@ -271,7 +270,7 @@ export function FlightTransitPage({
           </div>
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
           {/* Editable Description */}
-          <div className="flex items-center justify-center gap-2">
+          <div className="flex items-center justify-center gap-2" data-blur-key="flightTransitDescription">
             {isEditMode ? (
               editingField === 'flightTransitDescription' ? (
                 <input
@@ -285,7 +284,7 @@ export function FlightTransitPage({
                 />
               ) : (
                 <>
-                  <p 
+                  <p
                     className="text-gray-600 pt-4 cursor-pointer hover:bg-blue-50 px-4 py-2 rounded transition-colors inline-block"
                     style={getStyleObject(data.flightTransitDescriptionStyle)}
                     onClick={() => startEdit('flightTransitDescription', data.flightTransitDescription)}
@@ -302,7 +301,6 @@ export function FlightTransitPage({
               )
             ) : (
               <p
-                data-blur-key="flightTransitDescription"
                 className="text-gray-600 pt-4"
                 style={getStyleObject(data.flightTransitDescriptionStyle)}
               >

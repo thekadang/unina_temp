@@ -104,23 +104,24 @@ export function CoverPage({
             <Sparkles className="w-3 h-3 md:w-4 md:h-4 text-cyan-500" />
           </div>
           <div className="flex items-center justify-center gap-2">
-            {isEditMode ? (
-              <input
-                type="text"
-                value={data.coverMainTitle}
-                onChange={(e) => onUpdate?.({ coverMainTitle: e.target.value })}
-                style={getStyleObject(data.coverMainTitleStyle)}
-                className="text-center text-2xl md:text-3xl font-semibold text-cyan-600 tracking-wider bg-white border-2 border-cyan-300 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 w-full max-w-md"
-              />
-            ) : (
-              <h1
-                data-blur-key="coverMainTitle"
-                style={getStyleObject(data.coverMainTitleStyle)}
-                className="text-2xl md:text-3xl font-semibold text-cyan-600 tracking-wider"
-              >
-                {data.coverMainTitle}
-              </h1>
-            )}
+            <div data-blur-key="coverMainTitle">
+              {isEditMode ? (
+                <input
+                  type="text"
+                  value={data.coverMainTitle}
+                  onChange={(e) => onUpdate?.({ coverMainTitle: e.target.value })}
+                  style={getStyleObject(data.coverMainTitleStyle)}
+                  className="text-center text-2xl md:text-3xl font-semibold text-cyan-600 tracking-wider bg-white border-2 border-cyan-300 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 w-full max-w-md"
+                />
+              ) : (
+                <h1
+                  style={getStyleObject(data.coverMainTitleStyle)}
+                  className="text-2xl md:text-3xl font-semibold text-cyan-600 tracking-wider"
+                >
+                  {data.coverMainTitle}
+                </h1>
+              )}
+            </div>
             {isEditMode && (
               <div className="relative flex-shrink-0">
                 <StylePicker
@@ -139,23 +140,24 @@ export function CoverPage({
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl md:rounded-3xl p-6 md:p-8 lg:p-10 shadow-lg border border-cyan-100">
           <div className="space-y-4 md:space-y-6">
             <div className="flex items-center justify-center gap-2">
-              {isEditMode ? (
-                <input
-                  type="text"
-                  value={data.coverTitle}
-                  onChange={(e) => onUpdate?.({ coverTitle: e.target.value })}
-                  style={getStyleObject(data.coverTitleStyle)}
-                  className="text-center text-cyan-700 bg-white border-2 border-cyan-300 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 w-full max-w-xs"
-                />
-              ) : (
-                <h2
-                  data-blur-key="coverTitle"
-                  style={getStyleObject(data.coverTitleStyle)}
-                  className="text-cyan-700"
-                >
-                  {data.coverTitle}
-                </h2>
-              )}
+              <div data-blur-key="coverTitle">
+                {isEditMode ? (
+                  <input
+                    type="text"
+                    value={data.coverTitle}
+                    onChange={(e) => onUpdate?.({ coverTitle: e.target.value })}
+                    style={getStyleObject(data.coverTitleStyle)}
+                    className="text-center text-cyan-700 bg-white border-2 border-cyan-300 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 w-full max-w-xs"
+                  />
+                ) : (
+                  <h2
+                    style={getStyleObject(data.coverTitleStyle)}
+                    className="text-cyan-700"
+                  >
+                    {data.coverTitle}
+                  </h2>
+                )}
+              </div>
               {isEditMode && (
                 <div className="relative flex-shrink-0">
                   <StylePicker
@@ -169,23 +171,24 @@ export function CoverPage({
             </div>
             <div className="space-y-2 md:space-y-3 text-gray-700">
               <div className="flex items-center justify-center gap-2">
-                {isEditMode ? (
-                  <input
-                    type="text"
-                    value={data.coverPlanningLabel}
-                    onChange={(e) => onUpdate?.({ coverPlanningLabel: e.target.value })}
-                    style={getStyleObject(data.coverPlanningLabelStyle)}
-                    className="text-center text-cyan-600 bg-white border-2 border-cyan-300 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 w-full max-w-xs"
-                  />
-                ) : (
-                  <p
-                    data-blur-key="coverPlanningLabel"
-                    style={getStyleObject(data.coverPlanningLabelStyle)}
-                    className="text-cyan-600"
-                  >
-                    {data.coverPlanningLabel}
-                  </p>
-                )}
+                <div data-blur-key="coverPlanningLabel">
+                  {isEditMode ? (
+                    <input
+                      type="text"
+                      value={data.coverPlanningLabel}
+                      onChange={(e) => onUpdate?.({ coverPlanningLabel: e.target.value })}
+                      style={getStyleObject(data.coverPlanningLabelStyle)}
+                      className="text-center text-cyan-600 bg-white border-2 border-cyan-300 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 w-full max-w-xs"
+                    />
+                  ) : (
+                    <p
+                      style={getStyleObject(data.coverPlanningLabelStyle)}
+                      className="text-cyan-600"
+                    >
+                      {data.coverPlanningLabel}
+                    </p>
+                  )}
+                </div>
                 {isEditMode && (
                   <div className="relative flex-shrink-0">
                     <StylePicker
@@ -198,17 +201,19 @@ export function CoverPage({
                 )}
               </div>
               <div className="flex items-center justify-center gap-2">
-                {isEditMode ? (
-                  <input
-                    type="text"
-                    value={data.coverDate}
-                    onChange={(e) => onUpdate?.({ coverDate: e.target.value })}
-                    style={getStyleObject(data.coverDateStyle)}
-                    className="text-center bg-white border-2 border-cyan-300 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 w-full max-w-xs"
-                  />
-                ) : (
-                  <p data-blur-key="coverDate" style={getStyleObject(data.coverDateStyle)}>{data.coverDate}</p>
-                )}
+                <div data-blur-key="coverDate">
+                  {isEditMode ? (
+                    <input
+                      type="text"
+                      value={data.coverDate}
+                      onChange={(e) => onUpdate?.({ coverDate: e.target.value })}
+                      style={getStyleObject(data.coverDateStyle)}
+                      className="text-center bg-white border-2 border-cyan-300 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 w-full max-w-xs"
+                    />
+                  ) : (
+                    <p style={getStyleObject(data.coverDateStyle)}>{data.coverDate}</p>
+                  )}
+                </div>
                 {isEditMode && (
                   <div className="relative flex-shrink-0">
                     <StylePicker
@@ -227,18 +232,20 @@ export function CoverPage({
         {/* Planner Info */}
         <div className="bg-gradient-to-r from-cyan-500 to-cyan-600 text-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-lg">
           <div className="flex items-center justify-center gap-2">
-            {isEditMode ? (
-              <input
-                type="text"
-                value={data.plannerName}
-                onChange={(e) => onUpdate?.({ plannerName: e.target.value })}
-                style={getStyleObject(data.plannerNameStyle)}
-                className="text-center bg-cyan-600 text-white border-2 border-white/50 rounded-lg px-4 py-2 focus:outline-none focus:border-white placeholder-white/70 w-full max-w-xs"
-                placeholder="담당자: "
-              />
-            ) : (
-              <p data-blur-key="plannerName" style={getStyleObject(data.plannerNameStyle)}>담당 플래너 : {data.plannerName}</p>
-            )}
+            <div data-blur-key="plannerName">
+              {isEditMode ? (
+                <input
+                  type="text"
+                  value={data.plannerName}
+                  onChange={(e) => onUpdate?.({ plannerName: e.target.value })}
+                  style={getStyleObject(data.plannerNameStyle)}
+                  className="text-center bg-cyan-600 text-white border-2 border-white/50 rounded-lg px-4 py-2 focus:outline-none focus:border-white placeholder-white/70 w-full max-w-xs"
+                  placeholder="담당자: "
+                />
+              ) : (
+                <p style={getStyleObject(data.plannerNameStyle)}>담당 플래너 : {data.plannerName}</p>
+              )}
+            </div>
             {isEditMode && (
               <div className="relative flex-shrink-0">
                 <StylePicker
@@ -264,24 +271,26 @@ export function CoverPage({
               />
             </div>
           )}
-          {isEditMode ? (
-            <textarea
-              value={data.coverCopyright}
-              onChange={(e) => onUpdate?.({ coverCopyright: e.target.value })}
-              style={getStyleObject(data.coverCopyrightStyle)}
-              rows={3}
-              className="w-full text-center text-gray-500 text-xs leading-relaxed bg-white border-2 border-cyan-300 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 resize-none"
-            />
-          ) : (
-            <div data-blur-key="coverCopyright" style={getStyleObject(data.coverCopyrightStyle)}>
-              {data.coverCopyright.split('\\n').map((line, idx) => (
-                <span key={idx}>
-                  {line}
-                  {idx < data.coverCopyright.split('\\n').length - 1 && <br />}
-                </span>
-              ))}
-            </div>
-          )}
+          <div data-blur-key="coverCopyright">
+            {isEditMode ? (
+              <textarea
+                value={data.coverCopyright}
+                onChange={(e) => onUpdate?.({ coverCopyright: e.target.value })}
+                style={getStyleObject(data.coverCopyrightStyle)}
+                rows={3}
+                className="w-full text-center text-gray-500 text-xs leading-relaxed bg-white border-2 border-cyan-300 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 resize-none"
+              />
+            ) : (
+              <div style={getStyleObject(data.coverCopyrightStyle)}>
+                {data.coverCopyright.split('\\n').map((line, idx) => (
+                  <span key={idx}>
+                    {line}
+                    {idx < data.coverCopyright.split('\\n').length - 1 && <br />}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

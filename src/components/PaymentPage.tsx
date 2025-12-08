@@ -203,51 +203,50 @@ export function PaymentPage({
         {/* Header */}
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 mb-[3px]">
-            {isEditMode ? (
-              editingField === 'paymentPageTitle' ? (
-                <input
-                  type="text"
-                  value={tempValue}
-                  onChange={(e) => setTempValue(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      saveEdit();
-                    } else if (e.key === 'Escape') {
-                      e.preventDefault();
-                      cancelEdit();
-                    }
-                  }}
-                  onBlur={saveEdit}
-                  autoFocus
-                  className="text-2xl md:text-3xl font-semibold text-cyan-600 bg-blue-50 px-3 py-1 rounded border border-blue-300 focus:outline-none focus:border-blue-500"
-                  style={getStyleObject(data.paymentPageTitleStyle)}
-                />
-              ) : (
-                <>
-                  <h1 
+            <div data-blur-key="paymentPageTitle">
+              {isEditMode ? (
+                editingField === 'paymentPageTitle' ? (
+                  <input
+                    type="text"
+                    value={tempValue}
+                    onChange={(e) => setTempValue(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        saveEdit();
+                      } else if (e.key === 'Escape') {
+                        e.preventDefault();
+                        cancelEdit();
+                      }
+                    }}
+                    onBlur={saveEdit}
+                    autoFocus
+                    className="text-2xl md:text-3xl font-semibold text-cyan-600 bg-blue-50 px-3 py-1 rounded border border-blue-300 focus:outline-none focus:border-blue-500"
                     style={getStyleObject(data.paymentPageTitleStyle)}
-                    className="cursor-pointer hover:bg-blue-50 px-3 py-1 rounded transition-colors"
-                    onClick={() => startEdit('paymentPageTitle', data.paymentPageTitle || '결제 안내')}
-                  >
-                    {data.paymentPageTitle || '결제 안내'}
-                  </h1>
-                  <StylePicker
-                    currentStyle={data.paymentPageTitleStyle}
-                    onStyleChange={(style) => onUpdate({ paymentPageTitleStyle: style })}
-                    fieldKey="paymentPageTitle"
-                    backgroundColorClass="bg-white"
                   />
-                </>
-              )
-            ) : (
-              <h1
-                data-blur-key="paymentPageTitle"
-                style={getStyleObject(data.paymentPageTitleStyle)}
-              >
-                {data.paymentPageTitle || '결제 안내'}
-              </h1>
-            )}
+                ) : (
+                  <>
+                    <h1
+                      style={getStyleObject(data.paymentPageTitleStyle)}
+                      className="cursor-pointer hover:bg-blue-50 px-3 py-1 rounded transition-colors"
+                      onClick={() => startEdit('paymentPageTitle', data.paymentPageTitle || '결제 안내')}
+                    >
+                      {data.paymentPageTitle || '결제 안내'}
+                    </h1>
+                    <StylePicker
+                      currentStyle={data.paymentPageTitleStyle}
+                      onStyleChange={(style) => onUpdate({ paymentPageTitleStyle: style })}
+                      fieldKey="paymentPageTitle"
+                      backgroundColorClass="bg-white"
+                    />
+                  </>
+                )
+              ) : (
+                <h1 style={getStyleObject(data.paymentPageTitleStyle)}>
+                  {data.paymentPageTitle || '결제 안내'}
+                </h1>
+              )}
+            </div>
           </div>
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
         </div>
@@ -351,9 +350,8 @@ export function PaymentPage({
                       <p className="text-gray-400 text-[10px] mt-1">Ctrl+Enter로 저장, Esc로 취소</p>
                     </div>
                   ) : (
-                    <div className="flex items-start gap-2">
+                    <div data-blur-key={info.field} className="flex items-start gap-2">
                       <p
-                        data-blur-key={info.field}
                         className={`flex-1 text-gray-700 text-sm print:text-xs whitespace-pre-line leading-relaxed ${
                           info.editable && isEditMode ? 'cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors' : ''
                         }`}
@@ -429,51 +427,52 @@ export function PaymentPage({
             {data.paymentMethods.map((method, index) => (
               <div key={index} className="bg-white rounded-xl p-4 print:p-3 shadow-sm relative">
                 {/* Title */}
-                {isEditMode && editingField === `paymentMethod-${index}-title` ? (
-                  <div>
-                    <input
-                      type="text"
-                      value={tempValue}
-                      onChange={(e) => setTempValue(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          e.preventDefault();
-                          savePaymentMethodEdit();
-                        } else if (e.key === 'Escape') {
-                          e.preventDefault();
-                          cancelEdit();
-                        }
-                      }}
-                      onBlur={savePaymentMethodEdit}
-                      autoFocus
-                      className="w-full bg-transparent border-b-2 border-cyan-300 focus:outline-none text-xs print:text-[10px] text-gray-500 mb-1.5 print:mb-1"
-                    />
-                    <p className="text-gray-400 text-[10px] mt-1">Enter로 저장, Esc로 취소</p>
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2 mb-1.5 print:mb-1">
-                    <p
-                      data-blur-key={`paymentMethod-${index}-title`}
-                      className={`text-xs print:text-[10px] text-gray-500 ${
-                        isEditMode ? 'cursor-pointer hover:bg-gray-50 p-1 rounded transition-colors' : ''
-                      }`}
-                      style={getStyleObject(data.paymentMethodItemTitleStyle)}
-                      onClick={() => startPaymentMethodEdit(index, 'title', method.title)}
-                    >
-                      {method.title}
-                    </p>
-                    {index === 0 && isEditMode && editingField !== `paymentMethod-${index}-title` && (
-                      <div onClick={(e) => e.stopPropagation()}>
-                        <StylePicker
-                          currentStyle={data.paymentMethodItemTitleStyle}
-                          onStyleChange={(style) => onUpdate?.({ paymentMethodItemTitleStyle: style })}
-                          fieldKey="paymentMethodItemTitle"
-                          backgroundColorClass="bg-white"
-                        />
-                      </div>
-                    )}
-                  </div>
-                )}
+                <div data-blur-key={`paymentMethod-${index}-title`}>
+                  {isEditMode && editingField === `paymentMethod-${index}-title` ? (
+                    <div>
+                      <input
+                        type="text"
+                        value={tempValue}
+                        onChange={(e) => setTempValue(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                            savePaymentMethodEdit();
+                          } else if (e.key === 'Escape') {
+                            e.preventDefault();
+                            cancelEdit();
+                          }
+                        }}
+                        onBlur={savePaymentMethodEdit}
+                        autoFocus
+                        className="w-full bg-transparent border-b-2 border-cyan-300 focus:outline-none text-xs print:text-[10px] text-gray-500 mb-1.5 print:mb-1"
+                      />
+                      <p className="text-gray-400 text-[10px] mt-1">Enter로 저장, Esc로 취소</p>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2 mb-1.5 print:mb-1">
+                      <p
+                        className={`text-xs print:text-[10px] text-gray-500 ${
+                          isEditMode ? 'cursor-pointer hover:bg-gray-50 p-1 rounded transition-colors' : ''
+                        }`}
+                        style={getStyleObject(data.paymentMethodItemTitleStyle)}
+                        onClick={() => startPaymentMethodEdit(index, 'title', method.title)}
+                      >
+                        {method.title}
+                      </p>
+                      {index === 0 && isEditMode && editingField !== `paymentMethod-${index}-title` && (
+                        <div onClick={(e) => e.stopPropagation()}>
+                          <StylePicker
+                            currentStyle={data.paymentMethodItemTitleStyle}
+                            onStyleChange={(style) => onUpdate?.({ paymentMethodItemTitleStyle: style })}
+                            fieldKey="paymentMethodItemTitle"
+                            backgroundColorClass="bg-white"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
                 
                 {/* Details */}
                 {isEditMode && editingField === `paymentMethod-${index}-details` ? (
@@ -507,11 +506,10 @@ export function PaymentPage({
                     onClick={() => startPaymentMethodEdit(index, 'details', method.details)}
                   >
                     {method.details.split('\n').filter(item => item.trim()).map((line, i) => (
-                      <div key={i} className="flex items-start gap-2">
+                      <div key={i} data-blur-key={`paymentMethod-${index}-details-line-${i}`} className="flex items-start gap-2">
                         <span className="text-cyan-500 mt-0.5 text-sm print:text-xs">•</span>
                         <div className="flex items-center gap-2 flex-1">
                           <p
-                            data-blur-key={`paymentMethod-${index}-details-line-${i}`}
                             className="text-gray-800 text-sm print:text-xs"
                             style={getStyleObject(data.paymentMethodItemDetailStyle)}
                           >
@@ -566,7 +564,7 @@ export function PaymentPage({
           <div className="flex items-start gap-3">
             <AlertTriangle className="w-5 h-5 print:w-4 print:h-4 text-orange-500 flex-shrink-0 mt-1" />
             <div className="space-y-2 print:space-y-1.5 flex-1">
-              <div className="flex items-center gap-2">
+              <div data-blur-key="paymentNoticesTitle" className="flex items-center gap-2">
                 {isEditMode && editingField === 'paymentNoticesTitle' ? (
                   <input
                     type="text"
@@ -588,7 +586,6 @@ export function PaymentPage({
                   />
                 ) : (
                   <h4
-                    data-blur-key="paymentNoticesTitle"
                     className={`text-gray-900 text-sm print:text-xs font-bold text-[20px] ${
                       isEditMode ? 'cursor-pointer hover:bg-gray-50 px-2 py-1 rounded transition-colors' : ''
                     }`}
@@ -631,13 +628,10 @@ export function PaymentPage({
                   onClick={() => startEdit('paymentNotices', data.paymentNotices)}
                 >
                   {data.paymentNotices.split('\n').filter(item => item.trim()).map((notice, i) => (
-                    <li key={i} className="flex items-start gap-2">
+                    <li key={i} data-blur-key={`paymentNotice-${i}`} className="flex items-start gap-2">
                       <span className="text-cyan-500 mt-0.5">•</span>
                       <div className="flex items-center gap-2 flex-1">
-                        <span
-                          data-blur-key={`paymentNotice-${i}`}
-                          style={getStyleObject(data.paymentNoticesItemStyle)}
-                        >
+                        <span style={getStyleObject(data.paymentNoticesItemStyle)}>
                           {notice}
                         </span>
                         {i === 0 && isEditMode && editingField !== 'paymentNotices' && (
@@ -706,122 +700,125 @@ export function PaymentPage({
             </div>
           )}
           <div className="space-y-1.5 print:space-y-1 text-sm print:text-xs">
-            {isEditMode && editingField === 'contactPerson' ? (
-              <div>
-                <input
-                  type="text"
-                  value={tempValue}
-                  onChange={(e) => setTempValue(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      saveEdit();
-                    } else if (e.key === 'Escape') {
-                      e.preventDefault();
-                      cancelEdit();
-                    }
-                  }}
-                  onBlur={saveEdit}
-                  autoFocus
-                  className="bg-white/20 border-2 border-white/30 rounded-lg px-3 py-1 text-center text-sm print:text-xs text-white placeholder-white/60 focus:outline-none focus:border-white/50 w-auto min-w-[200px]"
-                  placeholder="담당자: "
-                />
-                <p className="text-white/70 text-[10px] mt-1">Enter로 저장, Esc로 취소</p>
-              </div>
-            ) : (
-              <div className="flex items-center justify-center gap-2">
+            <div data-blur-key="contactPerson">
+              {isEditMode && editingField === 'contactPerson' ? (
+                <div>
+                  <input
+                    type="text"
+                    value={tempValue}
+                    onChange={(e) => setTempValue(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        saveEdit();
+                      } else if (e.key === 'Escape') {
+                        e.preventDefault();
+                        cancelEdit();
+                      }
+                    }}
+                    onBlur={saveEdit}
+                    autoFocus
+                    className="bg-white/20 border-2 border-white/30 rounded-lg px-3 py-1 text-center text-sm print:text-xs text-white placeholder-white/60 focus:outline-none focus:border-white/50 w-auto min-w-[200px]"
+                    placeholder="담당자: "
+                  />
+                  <p className="text-white/70 text-[10px] mt-1">Enter로 저장, Esc로 취소</p>
+                </div>
+              ) : (
+                <div className="flex items-center justify-center gap-2">
+                  <p
+                    className={`${
+                      isEditMode ? 'cursor-pointer hover:bg-white/10 px-3 py-1 rounded transition-colors' : ''
+                    }`}
+                    style={getStyleObject(data.contactInfoStyle)}
+                    onClick={() => startEdit('contactPerson', data.contactPerson)}
+                  >
+                    담당자: {data.contactPerson}
+                  </p>
+                  {isEditMode && editingField !== 'contactPerson' && (
+                    <div onClick={(e) => e.stopPropagation()}>
+                      <StylePicker
+                        currentStyle={data.contactInfoStyle}
+                        onStyleChange={(style) => onUpdate?.({ contactInfoStyle: style })}
+                        fieldKey="contactInfo"
+                        backgroundColorClass="bg-gradient-to-br from-cyan-500 to-cyan-600"
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+            
+            <div data-blur-key="contactEmail">
+              {isEditMode && editingField === 'contactEmail' ? (
+                <div>
+                  <input
+                    type="text"
+                    value={tempValue}
+                    onChange={(e) => setTempValue(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        saveEdit();
+                      } else if (e.key === 'Escape') {
+                        e.preventDefault();
+                        cancelEdit();
+                      }
+                    }}
+                    onBlur={saveEdit}
+                    autoFocus
+                    className="bg-white/20 border-2 border-white/30 rounded-lg px-3 py-1 text-center text-sm print:text-xs text-white placeholder-white/60 focus:outline-none focus:border-white/50 w-auto min-w-[250px]"
+                    placeholder="이메일: "
+                  />
+                  <p className="text-white/70 text-[10px] mt-1">Enter로 저장, Esc로 취소</p>
+                </div>
+              ) : (
                 <p
-                  data-blur-key="contactPerson"
                   className={`${
-                    isEditMode ? 'cursor-pointer hover:bg-white/10 px-3 py-1 rounded transition-colors' : ''
+                    isEditMode ? 'cursor-pointer hover:bg-white/10 inline-block px-3 py-1 rounded transition-colors' : ''
                   }`}
                   style={getStyleObject(data.contactInfoStyle)}
-                  onClick={() => startEdit('contactPerson', data.contactPerson)}
+                  onClick={() => startEdit('contactEmail', data.contactEmail)}
                 >
-                  담당자: {data.contactPerson}
+                  이메일: {data.contactEmail}
                 </p>
-                {isEditMode && editingField !== 'contactPerson' && (
-                  <div onClick={(e) => e.stopPropagation()}>
-                    <StylePicker
-                      currentStyle={data.contactInfoStyle}
-                      onStyleChange={(style) => onUpdate?.({ contactInfoStyle: style })}
-                      fieldKey="contactInfo"
-                      backgroundColorClass="bg-gradient-to-br from-cyan-500 to-cyan-600"
-                    />
-                  </div>
-                )}
-              </div>
-            )}
+              )}
+            </div>
             
-            {isEditMode && editingField === 'contactEmail' ? (
-              <div>
-                <input
-                  type="text"
-                  value={tempValue}
-                  onChange={(e) => setTempValue(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      saveEdit();
-                    } else if (e.key === 'Escape') {
-                      e.preventDefault();
-                      cancelEdit();
-                    }
-                  }}
-                  onBlur={saveEdit}
-                  autoFocus
-                  className="bg-white/20 border-2 border-white/30 rounded-lg px-3 py-1 text-center text-sm print:text-xs text-white placeholder-white/60 focus:outline-none focus:border-white/50 w-auto min-w-[250px]"
-                  placeholder="이메일: "
-                />
-                <p className="text-white/70 text-[10px] mt-1">Enter로 저장, Esc로 취소</p>
-              </div>
-            ) : (
-              <p
-                data-blur-key="contactEmail"
-                className={`${
-                  isEditMode ? 'cursor-pointer hover:bg-white/10 inline-block px-3 py-1 rounded transition-colors' : ''
-                }`}
-                style={getStyleObject(data.contactInfoStyle)}
-                onClick={() => startEdit('contactEmail', data.contactEmail)}
-              >
-                이메일: {data.contactEmail}
-              </p>
-            )}
-            
-            {isEditMode && editingField === 'contactPhone' ? (
-              <div>
-                <input
-                  type="text"
-                  value={tempValue}
-                  onChange={(e) => setTempValue(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      saveEdit();
-                    } else if (e.key === 'Escape') {
-                      e.preventDefault();
-                      cancelEdit();
-                    }
-                  }}
-                  onBlur={saveEdit}
-                  autoFocus
-                  className="bg-white/20 border-2 border-white/30 rounded-lg px-3 py-1 text-center text-sm print:text-xs text-white placeholder-white/60 focus:outline-none focus:border-white/50 w-auto min-w-[200px]"
-                  placeholder="전화: "
-                />
-                <p className="text-white/70 text-[10px] mt-1">Enter로 저장, Esc로 취소</p>
-              </div>
-            ) : (
-              <p
-                data-blur-key="contactPhone"
-                className={`${
-                  isEditMode ? 'cursor-pointer hover:bg-white/10 inline-block px-3 py-1 rounded transition-colors' : ''
-                }`}
-                style={getStyleObject(data.contactInfoStyle)}
-                onClick={() => startEdit('contactPhone', data.contactPhone)}
-              >
-                전화: {data.contactPhone}
-              </p>
-            )}
+            <div data-blur-key="contactPhone">
+              {isEditMode && editingField === 'contactPhone' ? (
+                <div>
+                  <input
+                    type="text"
+                    value={tempValue}
+                    onChange={(e) => setTempValue(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        saveEdit();
+                      } else if (e.key === 'Escape') {
+                        e.preventDefault();
+                        cancelEdit();
+                      }
+                    }}
+                    onBlur={saveEdit}
+                    autoFocus
+                    className="bg-white/20 border-2 border-white/30 rounded-lg px-3 py-1 text-center text-sm print:text-xs text-white placeholder-white/60 focus:outline-none focus:border-white/50 w-auto min-w-[200px]"
+                    placeholder="전화: "
+                  />
+                  <p className="text-white/70 text-[10px] mt-1">Enter로 저장, Esc로 취소</p>
+                </div>
+              ) : (
+                <p
+                  className={`${
+                    isEditMode ? 'cursor-pointer hover:bg-white/10 inline-block px-3 py-1 rounded transition-colors' : ''
+                  }`}
+                  style={getStyleObject(data.contactInfoStyle)}
+                  onClick={() => startEdit('contactPhone', data.contactPhone)}
+                >
+                  전화: {data.contactPhone}
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </div>

@@ -271,7 +271,7 @@ export function EditableAccommodationPage({
       <div className="max-w-5xl mx-auto space-y-4 print:space-y-3">
         {/* Header */}
         <div className="text-center">
-          <div className="flex items-center justify-center gap-2 mb-[3px]">
+          <div className="flex items-center justify-center gap-2 mb-[3px]" data-blur-key="accommodationTitle">
             {isEditMode ? (
               editingField === 'accommodationTitle' ? (
                 <input
@@ -285,7 +285,7 @@ export function EditableAccommodationPage({
                 />
               ) : (
                 <>
-                  <h1 
+                  <h1
                     className="text-3xl font-semibold text-cyan-600 cursor-pointer hover:bg-blue-50 px-4 py-2 rounded transition-colors"
                     style={getStyleObject(data?.accommodationTitleStyle)}
                     onClick={() => startEdit('accommodationTitle', data?.accommodationTitle || '숙소 안내')}
@@ -302,7 +302,6 @@ export function EditableAccommodationPage({
               )
             ) : (
               <h1
-                data-blur-key="accommodationTitle"
                 className="text-3xl font-semibold text-cyan-600"
                 style={getStyleObject(data?.accommodationTitleStyle)}
               >
