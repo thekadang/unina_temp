@@ -405,6 +405,7 @@ export function TransportationTicketPage({
           return (
             <div
               key={ticket.id}
+              data-blur-key={`transportationTicket-${ticket.id}`}
               className={`relative border-2 rounded-xl p-4 shadow-sm print:break-inside-avoid ${colorClass}`}
             >
               {/* Top Section: Info + Image - Stack on mobile, side by side on desktop */}
@@ -798,7 +799,7 @@ export function TransportationTicketPage({
 
       {/* Restrictions Section */}
       <div className="break-inside-avoid">
-        <div className="bg-gradient-to-br from-red-50 to-orange-50 border-2 border-red-200 rounded-xl p-6">
+        <div data-blur-key="transportationTicketRestrictions" className="bg-gradient-to-br from-red-50 to-orange-50 border-2 border-red-200 rounded-xl p-6">
           <div className="flex items-center gap-2 mb-4">
             <AlertTriangle className="w-5 h-5 text-red-500" />
             {isEditMode ? (

@@ -137,7 +137,7 @@ export function CoverPage({
         </div>
 
         {/* Customer Info */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl md:rounded-3xl p-6 md:p-8 lg:p-10 shadow-lg border border-cyan-100">
+        <div data-blur-key="customerInfoCard" className="bg-white/80 backdrop-blur-sm rounded-2xl md:rounded-3xl p-6 md:p-8 lg:p-10 shadow-lg border border-cyan-100">
           <div className="space-y-4 md:space-y-6">
             <div className="flex items-center justify-center gap-2">
               <div data-blur-key="coverTitle">
@@ -230,7 +230,7 @@ export function CoverPage({
         </div>
 
         {/* Planner Info */}
-        <div className="bg-gradient-to-r from-cyan-500 to-cyan-600 text-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-lg">
+        <div data-blur-key="plannerInfoCard" className="bg-gradient-to-r from-cyan-500 to-cyan-600 text-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-lg">
           <div className="flex items-center justify-center gap-2">
             <div data-blur-key="plannerName">
               {isEditMode ? (

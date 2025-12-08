@@ -349,7 +349,7 @@ export function FlightArrivalPage({
         {/* Flight Segments */}
         <div className={`grid gap-4 ${!flight.isDirect && flight.segments.length >= 2 ? 'grid-cols-2' : 'grid-cols-1'} ${hasMultipleSegments ? 'print:gap-3' : ''}`}>
           {flight.segments.map((segment, index) => (
-            <div key={index} className={`bg-white rounded-2xl p-4 shadow-lg border border-yellow-100 print:break-inside-avoid ${flight.isDirect ? 'max-w-2xl mx-auto w-full' : ''} ${hasMultipleSegments ? 'print:p-3' : 'p-6'}`}>
+            <div key={index} data-blur-key={`flightArrivalSegmentCard-${index}`} className={`bg-white rounded-2xl p-4 shadow-lg border border-yellow-100 print:break-inside-avoid ${flight.isDirect ? 'max-w-2xl mx-auto w-full' : ''} ${hasMultipleSegments ? 'print:p-3' : 'p-6'}`}>
               <div className="flex items-center gap-3 mb-4 pb-3 border-b border-gray-200">
                 <div className="p-2 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-lg text-white">
                   <Plane className="w-5 h-5 transform rotate-180" />

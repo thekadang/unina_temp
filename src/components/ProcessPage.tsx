@@ -184,7 +184,7 @@ export function ProcessPage({
         </div>
 
         {/* Process Steps */}
-        <div className="bg-white rounded-2xl p-6 print:p-5 shadow-lg border border-cyan-100 print:break-inside-avoid">
+        <div data-blur-key="processStepsCard" className="bg-white rounded-2xl p-6 print:p-5 shadow-lg border border-cyan-100 print:break-inside-avoid">
           {isEditMode ? (
             editingField === 'processTitle' ? (
               <input
@@ -489,6 +489,7 @@ export function ProcessPage({
           {data.services.map((service, index) => (
             <div
               key={index}
+              data-blur-key={`serviceOptionCard-${index}`}
               className={`bg-white rounded-2xl p-6 print:p-4 shadow-lg border-2 print:break-inside-avoid ${
                 service.color === 'cyan' ? 'border-cyan-200' : 'border-yellow-200'
               }`}

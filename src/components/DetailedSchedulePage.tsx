@@ -450,7 +450,7 @@ export function DetailedSchedulePage({
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 print:gap-4">
           {/* Timeline - Left Side */}
           <div className="lg:col-span-2">
-            <div className={`bg-white rounded-2xl p-6 print:p-4 shadow-lg border-2 ${currentTheme.border}`}>
+            <div data-blur-key="detailedScheduleTimelineCard" className={`bg-white rounded-2xl p-6 print:p-4 shadow-lg border-2 ${currentTheme.border}`}>
               <div className="flex items-center gap-2 mb-6 print:mb-4">
                 <Clock className={`w-5 h-5 print:w-4 print:h-4 ${currentTheme.icon}`} />
                 {isEditMode ? (

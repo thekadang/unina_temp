@@ -738,6 +738,65 @@ const handleAfterPrint = () => {
 
 ---
 
+## History #15 ⭐
+**날짜**: 2025-12-08
+**사용자 질문**:
+1. 모든 요소(body, div, p, span 등)에 블러 적용 가능하게 해줘
+2. 블러 모드 안내 문구가 가리는 부분 해결해줘
+3. 2페이지부터 PDF에 블러 처리가 반영이 안돼
+4. 블러모드에서 가장 바깥 테두리에 점선 영역이 생기는데 사라지지 않아
+
+### 수행한 작업
+- [x] **동적 요소 경로 생성 시스템 구현**
+  - `getElementPath()` 함수: `auto:div[0]>p[1]>span[0]` 형식으로 요소 위치 저장
+  - `findElementByPath()` 함수: 경로로 요소 찾기
+  - `data-blur-key` 없는 요소도 블러 선택 가능
+- [x] **안내 문구 위치 변경 및 클릭 통과 처리**
+  - 위치: `top-20` → `bottom-4` (화면 하단으로 이동)
+  - `pointer-events-none` 추가: 안내 문구 아래 요소도 클릭 가능
+  - `data-blur-ui="true"` 속성으로 UI 요소 클릭 제외
+- [x] **SVG className 에러 수정**
+  - 원인: SVG 요소는 `SVGAnimatedString` 타입의 className을 가짐
+  - 해결: `element.className?.split(' ')[0]` → `element.classList?.[0]`
+- [x] **PDF 블러 2페이지 이후 미적용 문제 수정**
+  - 원인: `containerRef.current`가 첫 번째 `.blur-container`만 참조
+  - 해결: `document.querySelectorAll('.blur-container')`로 모든 페이지에서 블러 요소 찾기
+- [x] **점선 테두리 잔상 문제 수정**
+  - `isBlurContainer()` 함수 추가: container 자체 hover/click 제외
+  - `handleMouseLeave()` 함수 추가: container 외부로 마우스 이동 시 hover 상태 정리
+  - `mouseout` 이벤트 리스너 추가
+
+### 변경된 파일
+- 📝 `src/components/BlurOverlay.tsx` - 대규모 업데이트
+  - `getElementPath()`, `findElementByPath()` 함수 추가
+  - `isBlurOverlayUI()`, `isEditUI()`, `isBlurContainer()` 헬퍼 함수 추가
+  - 안내 문구 위치 bottom-4로 이동, pointer-events-none 적용
+  - `handleMouseLeave()` 함수 추가
+  - PDF 인쇄 시 모든 container 대상으로 스타일 적용
+- 📝 `src/components/TransportationCardPage.tsx` - `data-blur-key` 추가
+- 📝 `src/components/TouristSpotListPage.tsx` - `data-blur-key` 추가
+- 📝 `src/components/ItineraryCalendarPage.tsx` - `data-blur-key` 추가
+
+### 기술적 해결 내용
+| 문제 | 원인 | 해결 |
+|------|------|------|
+| `data-blur-key` 없는 요소 블러 불가 | 정적 키만 지원 | 동적 경로 생성 (`auto:div[0]>p[1]`) |
+| 안내 문구가 요소 가림 | `top-20` 위치 + 클릭 이벤트 차단 | `bottom-4` + `pointer-events-none` |
+| SVG className 에러 | `SVGAnimatedString.split()` 불가 | `classList[0]` 사용 |
+| PDF 2페이지+ 블러 안됨 | 첫 번째 container만 참조 | 모든 container 순회 |
+| 점선 테두리 잔상 | container 자체에 hover 발생 | container 제외 + mouseout 정리 |
+
+### 요소 설명 표시 기능
+블러 모드에서 호버 시 요소 정보 표시:
+- `data-blur-key` 있는 요소: 키 값 표시 (예: `coverTitle`)
+- 동적 요소: 태그명.클래스: "텍스트..." 형식 (예: `p.text-gray-500: "여행 일정..."`)
+
+### 참조한 문서
+- `src/components/BlurOverlay.tsx` - 블러 오버레이 컴포넌트
+- `src/types/blur-region.ts` - 블러 영역 타입
+
+---
+
 ## 롤백 안내
 
 롤백이 필요한 경우:

@@ -306,7 +306,7 @@ export function IntroductionPage({
           ))}
           
           {/* Travel Period Card with Date Pickers */}
-          <div className="bg-white rounded-2xl p-6 shadow-md border border-cyan-100 hover:shadow-lg transition-shadow print:break-inside-avoid">
+          <div data-blur-key="travelPeriodCard" className="bg-white rounded-2xl p-6 shadow-md border border-cyan-100 hover:shadow-lg transition-shadow print:break-inside-avoid">
             <div className="flex items-start gap-4">
               <div className="p-3 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-xl text-white">
                 <Calendar className="w-6 h-6" />
@@ -450,7 +450,7 @@ export function IntroductionPage({
         </div>
 
         {/* Important Request */}
-        <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl p-6 shadow-md border border-yellow-200 print:break-inside-avoid">
+        <div data-blur-key="importantRequestCard" className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl p-6 shadow-md border border-yellow-200 print:break-inside-avoid">
           <div className="flex items-start gap-3">
             <Star className="w-6 h-6 text-yellow-500 flex-shrink-0 mt-1" />
             <div className="flex-1">
@@ -509,7 +509,7 @@ export function IntroductionPage({
         </div>
 
         {/* Trip Highlights */}
-        <div className="bg-white rounded-2xl p-8 shadow-lg border border-cyan-100 print:break-inside-avoid">
+        <div data-blur-key="tripHighlightsCard" className="bg-white rounded-2xl p-8 shadow-lg border border-cyan-100 print:break-inside-avoid">
           {/* Editable Title with Heart Icon */}
           <div className="flex items-center gap-2 mb-6">
             <Heart className="w-5 h-5 text-cyan-600" />

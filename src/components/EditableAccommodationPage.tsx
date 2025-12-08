@@ -428,7 +428,7 @@ export function EditableAccommodationPage({
         </div>
 
         {/* Hotel Info */}
-        <div className="bg-white rounded-xl md:rounded-2xl p-4 md:p-5 print:p-4 shadow-lg border border-cyan-100 space-y-3 md:space-y-4 print:space-y-3 print:break-inside-avoid">
+        <div data-blur-key="accommodationHotelCard" className="bg-white rounded-xl md:rounded-2xl p-4 md:p-5 print:p-4 shadow-lg border border-cyan-100 space-y-3 md:space-y-4 print:space-y-3 print:break-inside-avoid">
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-1.5 print:mb-1">
               <h2

@@ -256,6 +256,7 @@ export function PaymentPage({
           {paymentInfo.map((info, index) => (
             <div
               key={index}
+              data-blur-key={`paymentInfoCard-${index}`}
               className={`bg-white rounded-2xl p-6 print:p-4 shadow-lg border-2 print:break-inside-avoid ${
                 info.color === 'cyan'
                   ? 'border-cyan-200'
@@ -379,7 +380,7 @@ export function PaymentPage({
         </div>
 
         {/* Payment Methods */}
-        <div className="bg-gradient-to-br from-cyan-50 to-yellow-50 rounded-2xl p-6 print:p-5 border border-cyan-100 print:break-inside-avoid">
+        <div data-blur-key="paymentMethodsCard" className="bg-gradient-to-br from-cyan-50 to-yellow-50 rounded-2xl p-6 print:p-5 border border-cyan-100 print:break-inside-avoid">
           <div className="flex items-center gap-2 mb-4 print:mb-3">
             <CreditCard className="w-4 h-4 print:w-3.5 print:h-3.5 text-cyan-700" />
             {isEditMode && editingField === 'paymentMethodsTitle' ? (
@@ -560,7 +561,7 @@ export function PaymentPage({
         </div>
 
         {/* Important Notice */}
-        <div className="bg-white rounded-2xl p-6 print:p-5 shadow-lg border border-gray-200 print:break-inside-avoid">
+        <div data-blur-key="paymentNoticesCard" className="bg-white rounded-2xl p-6 print:p-5 shadow-lg border border-gray-200 print:break-inside-avoid">
           <div className="flex items-start gap-3">
             <AlertTriangle className="w-5 h-5 print:w-4 print:h-4 text-orange-500 flex-shrink-0 mt-1" />
             <div className="space-y-2 print:space-y-1.5 flex-1">
@@ -654,7 +655,7 @@ export function PaymentPage({
         </div>
 
         {/* Contact */}
-        <div className="bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-2xl p-6 print:p-5 shadow-xl text-white text-center print:break-inside-avoid">
+        <div data-blur-key="paymentContactCard" className="bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-2xl p-6 print:p-5 shadow-xl text-white text-center print:break-inside-avoid">
           {isEditMode && editingField === 'contactTitle' ? (
             <div className="mb-3 print:mb-2">
               <input

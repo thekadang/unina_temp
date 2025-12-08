@@ -351,7 +351,7 @@ export function QuotationPage({
         </div>
 
         {/* Price */}
-        <div className="bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-2xl p-6 print:p-5 shadow-xl text-white text-center print:break-inside-avoid">
+        <div data-blur-key="quotationPriceCard" className="bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-2xl p-6 print:p-5 shadow-xl text-white text-center print:break-inside-avoid">
           <div className="flex items-center justify-center gap-2 mb-2">
             {isEditMode ? (
               editingField === 'estimatedCostTitle' ? (
@@ -456,7 +456,7 @@ export function QuotationPage({
         </div>
 
         {/* Included */}
-        <div className="bg-white rounded-2xl p-6 print:p-5 shadow-lg border border-green-100 print:break-inside-avoid">
+        <div data-blur-key="quotationIncludedCard" className="bg-white rounded-2xl p-6 print:p-5 shadow-lg border border-green-100 print:break-inside-avoid">
           <div className="flex items-center gap-2 mb-4 print:mb-3">
             <CheckCircle2 className="w-5 h-5 print:w-4 print:h-4 text-green-500" />
             {isEditMode ? (
@@ -550,7 +550,7 @@ export function QuotationPage({
         </div>
 
         {/* Excluded */}
-        <div className="bg-white rounded-2xl p-6 print:p-5 shadow-lg border border-red-100 print:break-inside-avoid">
+        <div data-blur-key="quotationExcludedCard" className="bg-white rounded-2xl p-6 print:p-5 shadow-lg border border-red-100 print:break-inside-avoid">
           <div className="flex items-center gap-2 mb-4 print:mb-3">
             <XCircle className="w-5 h-5 print:w-4 print:h-4 text-red-500" />
             {isEditMode ? (

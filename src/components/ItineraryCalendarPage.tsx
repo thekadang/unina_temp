@@ -673,7 +673,7 @@ export function ItineraryCalendarPage({ data, isEditMode, onUpdate, onDuplicate,
         </div>
 
         {/* Desktop Calendar View - Hidden on mobile */}
-        <div className="hidden md:block print:block bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 print:p-4 shadow-xl border border-cyan-100 print:break-inside-avoid">
+        <div data-blur-key="itineraryCalendarGrid" className="hidden md:block print:block bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 print:p-4 shadow-xl border border-cyan-100 print:break-inside-avoid">
           {/* Calendar Grid */}
           <div className="grid grid-cols-7 gap-1.5 md:gap-2 print:gap-1.5">
             {/* Weekday Headers */}
@@ -893,7 +893,7 @@ export function ItineraryCalendarPage({ data, isEditMode, onUpdate, onDuplicate,
         {/* Legend - Stack on mobile, side by side on desktop */}
         <div className="hidden md:grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 print:gap-3 print:grid">
           {/* Transport Legend */}
-          <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl md:rounded-2xl p-4 md:p-5 print:p-4 border border-yellow-100 print:break-inside-avoid">
+          <div data-blur-key="itineraryTransportLegend" className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl md:rounded-2xl p-4 md:p-5 print:p-4 border border-yellow-100 print:break-inside-avoid">
             <div className="flex items-center gap-2 mb-2 md:mb-3 print:mb-2">
               {isEditMode ? (
                 editingField === 'itineraryTransportTitle' ? (
@@ -991,7 +991,7 @@ export function ItineraryCalendarPage({ data, isEditMode, onUpdate, onDuplicate,
           </div>
 
           {/* Country Legend */}
-          <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl md:rounded-2xl p-4 md:p-5 print:p-4 border border-cyan-100 print:break-inside-avoid">
+          <div data-blur-key="itineraryCountryLegend" className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl md:rounded-2xl p-4 md:p-5 print:p-4 border border-cyan-100 print:break-inside-avoid">
             <div className="flex items-center gap-2 mb-2 md:mb-3 print:mb-2">
               {isEditMode ? (
                 editingField === 'itineraryCountryTitle' ? (

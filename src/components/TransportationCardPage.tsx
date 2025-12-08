@@ -524,6 +524,7 @@ export function TransportationCardPage({
           return (
             <div
               key={card.id}
+              data-blur-key={`transportationCard-${card.id}`}
               className={`relative border-2 rounded-xl p-3 md:p-4 shadow-sm print:break-inside-avoid ${colorClass}`}
             >
               {/* Top Section: Info + Image - Stack on mobile, side by side on desktop */}
@@ -995,7 +996,7 @@ export function TransportationCardPage({
       {/* Restrictions Section */}
       {restrictions && restrictions.length > 0 && (
         <div className="break-inside-avoid">
-          <div className="bg-gradient-to-br from-yellow-50 to-orange-50 border-2 border-yellow-200 rounded-xl p-6 relative">
+          <div data-blur-key="transportationCardRestrictions" className="bg-gradient-to-br from-yellow-50 to-orange-50 border-2 border-yellow-200 rounded-xl p-6 relative">
             <div className="flex items-center gap-2 mb-4">
               <AlertTriangle className="w-5 h-5 text-yellow-600" />
               {isEditMode ? (

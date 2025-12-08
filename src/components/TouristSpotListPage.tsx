@@ -492,6 +492,7 @@ export function TouristSpotListPage({ data, dayNumber, isEditMode, onUpdate, onD
               {daySchedule.scheduleItems.map((item, index) => (
                 <div
                   key={item.id}
+                  data-blur-key={`touristSpotCard-${dayNumber}-${item.id}`}
                   className={`bg-white rounded-2xl p-5 print:p-4 shadow-lg border-2 ${currentTheme.cardBorder} ${currentTheme.borderHover} transition-all print:break-inside-avoid`}
                 >
                   {/* Header */}

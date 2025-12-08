@@ -90,7 +90,7 @@ export function FlightInfoPage({
         </div>
 
         {/* Flight 1: Inbound */}
-        <div className="bg-white rounded-2xl p-8 shadow-lg border border-cyan-100 print:break-inside-avoid">
+        <div data-blur-key="flightInfoJourney1Card" className="bg-white rounded-2xl p-8 shadow-lg border border-cyan-100 print:break-inside-avoid">
           <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-200">
             <div className="p-3 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-xl text-white">
               <Plane className="w-6 h-6" />
@@ -158,7 +158,7 @@ export function FlightInfoPage({
         </div>
 
         {/* Flight 2: Outbound */}
-        <div className="bg-white rounded-2xl p-8 shadow-lg border border-yellow-100 print:break-inside-avoid">
+        <div data-blur-key="flightInfoJourney2Card" className="bg-white rounded-2xl p-8 shadow-lg border border-yellow-100 print:break-inside-avoid">
           <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-200">
             <div className="p-3 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-xl text-white">
               <Plane className="w-6 h-6 transform rotate-180" />
