@@ -1,0 +1,1248 @@
+export interface TourData {
+  title: string;
+  subtitle: string;
+  startDate: string; // ISO string format for date picker
+  endDate: string; // ISO string format for date picker
+  totalDays: number;
+  nights: number; // Number of nights (0-99)
+  days: number; // Number of days (0-99)
+  coverTitle: string;
+  coverMainTitle: string; // Main title on cover page
+  coverDate: string;
+  coverPlanningLabel: string;
+  coverCopyright: string; // Copyright notice on cover page
+  plannerName: string;
+  
+  // Cover page text styles
+  coverMainTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  coverTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  coverPlanningLabelStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  coverDateStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  plannerNameStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  coverCopyrightStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  
+  travelParty: string;
+  travelTheme: string;
+  specialRequests: string;
+  highlights: string;
+  
+  // Introduction page editable labels
+  travelPartyLabel: string;
+  travelThemeLabel: string;
+  travelPeriodLabel: string;
+  importantRequestsLabel: string;
+  highlightsTitle: string;
+  
+  // Introduction page text
+  introductionTitle: string;
+  introductionSubtitle: string;
+
+  // Introduction page text styles
+  introductionTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  introductionSubtitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  travelPartyLabelStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  travelPartyStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  travelThemeLabelStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  travelThemeStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  travelPeriodLabelStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  periodDisplayStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  importantRequestsLabelStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  specialRequestsStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  highlightsTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  highlightsStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+
+  // Flight pages editable labels
+  flightDepartureDescription: string;
+  flightTransitDescription: string;
+  flightArrivalDescription: string;
+  flightDepartureTitle: string;
+  flightDepartureDirectLabel: string;
+  flightDepartureConnectingLabel: string;
+  flightDepartureAddSegmentLabel: string;
+  flightDepartureSegmentTitle: string;
+  flightDepartureAirlineLabel: string;
+  flightDepartureDepartureLabel: string;
+  flightDepartureDirectBadge: string;
+  flightDepartureArrivalLabel: string;
+  flightDepartureServicesTitle: string;
+  flightDepartureTransitLabel: string;
+  flightDepartureChecklistTitle: string;
+  flightTransitTitle: string;
+  flightTransitDirectLabel: string;
+  flightTransitConnectingLabel: string;
+  flightTransitAddSegmentLabel: string;
+  flightTransitSegmentTitle: string;
+  flightTransitAirlineLabel: string;
+  flightTransitDepartureLabel: string;
+  flightTransitDirectBadge: string;
+  flightTransitArrivalLabel: string;
+  flightTransitServicesTitle: string;
+  flightTransitTransitLabel: string;
+  flightTransitChecklistTitle: string;
+  flightArrivalTitle: string;
+  flightArrivalDirectLabel: string;
+  flightArrivalConnectingLabel: string;
+  flightArrivalAddSegmentLabel: string;
+  flightArrivalSegmentTitle: string;
+  flightArrivalAirlineLabel: string;
+  flightArrivalDepartureLabel: string;
+  flightArrivalDirectBadge: string;
+  flightArrivalArrivalLabel: string;
+  flightArrivalServicesTitle: string;
+  flightArrivalTransitLabel: string;
+  flightArrivalChecklistTitle: string;
+  
+  // Itinerary Calendar page editable labels
+  itineraryCalendarTitle: string;
+  itineraryTransportTitle: string;
+  itineraryCountryTitle: string;
+
+  // Flight pages text styles
+  flightDepartureDescriptionStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightDepartureTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightDepartureSegmentTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightDepartureLabelStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightDepartureDataStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightDepartureDirectBadgeStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightDepartureServicesItemStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightDepartureChecklistTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightDepartureChecklistItemStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightTransitDescriptionStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightTransitTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightTransitSegmentTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightTransitDataStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightTransitLabelStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightTransitDirectBadgeStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightTransitServicesTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightTransitServicesItemStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightTransitChecklistTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightTransitChecklistItemStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightArrivalDescriptionStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightArrivalTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightArrivalSegmentTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightArrivalChecklistTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightArrivalLabelStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightArrivalDataStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightArrivalDirectBadgeStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightArrivalServicesTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightArrivalServicesItemStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  flightArrivalChecklistItemStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+
+  // Itinerary Calendar page text styles
+  itineraryCalendarTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  itineraryCalendarDateRangeStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  itineraryCalendarHelpTextStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  itineraryTransportTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  itineraryTransportLabelStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  itineraryCountryTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  itineraryCountryLabelStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  itineraryCountryEmptyStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  itineraryCalendarWeekdayStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  itineraryCalendarDateNumberStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  itineraryCalendarDayLabelStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  itineraryCalendarCountryNameStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  itineraryCalendarCityNameStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+
+  // Detailed Schedule page text styles
+  detailedScheduleDayTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  detailedScheduleDateStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  detailedSchedulePickTitle: string;
+  detailedScheduleTimelineTitle: string;
+  detailedScheduleTimelineTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  detailedSchedulePickTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  detailedScheduleTimeStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  detailedScheduleTimelineTitleTextStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  detailedScheduleTimelineLocationStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  detailedScheduleCardNumberStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  detailedScheduleCardTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  detailedScheduleCardLocationStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  detailedScheduleCardTimeTextStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  detailedScheduleCardActivityStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  detailedScheduleCardNotesStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+
+  // Transportation pages text styles
+  transportationTicketTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  transportationCardTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+
+  // Quotation page text styles
+  quotationPageTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  quotationTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  quotationNotesStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  quotationSummaryLabelStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  quotationSummaryValueStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  quotationEstimatedTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  quotationEstimatedAmountStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  quotationEstimatedNoteStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  quotationIncludedTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  quotationIncludedItemStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  quotationExcludedTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  quotationExcludedItemStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  quotationExcludedNoteStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+
+  // Quotation summary data
+  quotationPageTitle: string;
+  productName: string;
+  productNameLabel: string;
+  period: string;
+  periodLabel: string;
+  countries: string;
+  countriesLabel: string;
+  participants: string;
+  participantsLabel: string;
+  transportation: string;
+  transportationLabel: string;
+  accommodationSummary: string;
+  accommodationLabel: string;
+  
+  // Quotation data
+  totalCost: string;
+  costWarning: string;
+  quotationLabels: {
+    label1: string;
+    label2: string;
+    label3: string;
+    label4: string;
+    label5: string;
+    label6: string;
+  };
+  estimatedCostTitle: string;
+  estimatedCostAmount: string;
+  estimatedCostNote: string;
+  includedItemsTitle: string;
+  includedItems: string;
+  excludedItemsTitle: string;
+  excludedItems: string;
+  excludedItemsNote: string;
+  
+  flights: {
+    departure: {
+      isDirect: boolean;
+      segments: Array<{
+        airline: string;
+        class: string;
+        departureTime: string;
+        departureAirport: string;
+        arrivalTime: string;
+        arrivalAirport: string;
+        services: string;
+      }>;
+      transitTime?: string;
+      checklist: string;
+    };
+    transit: {
+      isDirect: boolean;
+      segments: Array<{
+        airline: string;
+        class: string;
+        departureTime: string;
+        departureAirport: string;
+        arrivalTime: string;
+        arrivalAirport: string;
+        services: string;
+      }>;
+      transitTime?: string;
+      checklist: string;
+    };
+    arrival: {
+      isDirect: boolean;
+      segments: Array<{
+        airline: string;
+        class: string;
+        departureTime: string;
+        departureAirport: string;
+        arrivalTime: string;
+        arrivalAirport: string;
+        services: string;
+      }>;
+      transitTime?: string;
+      checklist: string;
+    };
+  };
+  
+  itinerary: {
+    date: number;
+    country: string;
+    city: string;
+    transport: 'plane' | 'train' | 'car' | 'bus' | null;
+    dayNum: number;
+  }[];
+  
+  countryColors: {
+    [country: string]: string; // country name -> tailwind color class
+  };
+  
+  accommodations: {
+    country: string;
+    city: string;
+    checkIn: string;
+    checkOut: string;
+    nights: string;
+    name: string;
+    type: string;
+    stars: number;
+    roomType: string;
+    facilities: string[];
+    breakfast: boolean;
+    cityTax: string;
+    description: string;
+    nearbyAttractions: string[];
+    images: string[];
+  }[];
+  accommodationTitle: string;
+
+  // Accommodation page text styles
+  accommodationTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  accommodationLocationStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  accommodationHotelNameStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  accommodationHotelTypeStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  accommodationDescriptionStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  accommodationCheckInLabelStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  accommodationCheckInTimeStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  accommodationCheckOutLabelStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  accommodationCheckOutTimeStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  accommodationNightsStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  accommodationRoomTypeLabelStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  accommodationRoomTypeStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  accommodationBreakfastLabelStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  accommodationBreakfastStatusStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  accommodationFacilitiesLabelStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  accommodationFacilityItemStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  accommodationAttractionsLabelStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  accommodationAttractionItemStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  accommodationCityTaxLabelStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  accommodationCityTaxStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  
+  services: {
+    title: string;
+    description: string;
+    includes: string;
+    color: 'cyan' | 'yellow';
+  }[];
+  
+  // Process page data
+  processTitle: string;
+  processLabels: string[];
+  processSubtext1: string;
+  processSubtext2: string;
+  processSubtext3: string;
+  processNote: string;
+  
+  // Process page text
+  processPageTitle: string;
+  serviceOptionsTitle: string;
+  serviceIncludesTitle: string;
+  
+  // Process page text styles
+  processPageTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  processTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  processLabelStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  processSubtextStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  processNoteStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  serviceOptionsTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  serviceTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  serviceDescriptionStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  serviceIncludesTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  serviceIncludesItemStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  
+  // Payment page text styles
+  paymentPageTitle: string;
+  paymentPageTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  paymentInfoTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  paymentInfoContentStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  paymentMethodsTitle: string;
+  paymentMethodsTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  paymentMethodItemTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  paymentMethodItemDetailStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  paymentNoticesTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  paymentNoticesItemStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  contactTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  contactInfoStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  
+  // Payment page data
+  paymentMethodsAddButtonText: string;
+  paymentMethods: {
+    title: string;
+    details: string;
+  }[];
+  paymentNotices: string;
+  paymentNoticesTitle: string;
+  contactEmail: string;
+  contactPhone: string;
+  contactTitle: string;
+  contactPerson: string;
+  paymentDeadline: string;
+  paymentDeadlineTitle: string;
+  paymentCardReceipt: string;
+  paymentCardReceiptTitle: string;
+  paymentCancellation: string;
+  paymentCancellationTitle: string;
+  
+  // Detailed schedule data
+  detailedSchedules: {
+    day: number;
+    title: string;
+    customDate?: string; // Optional custom date override (YYYY-MM-DD format)
+    colorTheme?: 'pink' | 'blue' | 'green' | 'purple' | 'orange' | 'teal';
+    scheduleItems: {
+      id: string;
+      time: string;
+      title: string;
+      location: string;
+      activity: string;
+      notes: string;
+      imageUrl?: string;
+    }[];
+  }[];
+  
+  // Tourist spots list data
+  touristSpotPickTitle: string;
+  touristSpots?: {
+    day: number;
+    title: string;
+    customDate?: string; // Optional custom date override (YYYY-MM-DD format)
+    colorTheme?: 'pink' | 'blue' | 'green' | 'purple' | 'orange' | 'teal';
+    scheduleItems: {
+      id: string;
+      time: string;
+      title: string;
+      location: string;
+      activity: string;
+      notes: string;
+      imageUrl?: string;
+    }[];
+  }[];
+  
+  // Transportation pages data
+  transportationPages?: {
+    country: string;
+    city: string;
+    options: TransportationOption[];
+  }[];
+  
+  // Transportation tickets data
+  transportationTicketTitle: string;
+  transportationTickets?: {
+    id: string;
+    icon: 'bus' | 'taxi' | 'train' | 'plane' | 'tram' | 'car';
+    title: string;
+    titleStyle?: TextStyle;
+    price: string;
+    priceStyle?: TextStyle;
+    validFor: string;
+    validForLabel: string;
+    validForLabelStyle?: TextStyle;
+    validForStyle?: TextStyle;
+    usage: string;
+    usageLabel: string;
+    usageLabelStyle?: TextStyle;
+    usageStyle?: TextStyle;
+    color: 'cyan' | 'green' | 'purple' | 'yellow' | 'blue' | 'red';
+    images?: string[];
+    imageObjectFit?: 'cover' | 'contain' | 'fill' | 'none';
+    imageObjectPosition?: string;
+    items: {
+      id: string;
+      label: string;
+      labelStyle?: TextStyle;
+      content: string;
+      contentStyle?: TextStyle;
+    }[];
+  }[];
+  
+  transportationRestrictions?: {
+    id: string;
+    content: string;
+    contentStyle?: TextStyle;
+  }[];
+  
+  transportationRestrictionsTitle?: string;
+  transportationRestrictionsTitleStyle?: TextStyle;
+  
+  // Transportation cards data
+  transportationCardPageTitle: string;
+  transportationCards?: {
+    id: string;
+    title: string;
+    titleStyle?: TextStyle;
+    price: string;
+    priceStyle?: TextStyle;
+    validFor: string;
+    validForLabel: string;
+    validForLabelStyle?: TextStyle;
+    validForStyle?: TextStyle;
+    usage: string;
+    usageLabel: string;
+    usageLabelStyle?: TextStyle;
+    usageStyle?: TextStyle;
+    color: 'cyan' | 'green' | 'purple' | 'yellow' | 'blue' | 'red';
+    images?: string[];
+    imageObjectFit?: 'cover' | 'contain' | 'fill' | 'none';
+    imageObjectPosition?: string;
+    items: {
+      id: string;
+      label: string;
+      labelStyle?: TextStyle;
+      content: string;
+      contentStyle?: TextStyle;
+    }[];
+  }[];
+  
+  transportationCardRestrictions?: {
+    id: string;
+    content: string;
+    contentStyle?: TextStyle;
+  }[];
+  
+  transportationCardRestrictionsTitle?: string;
+  transportationCardRestrictionsTitleStyle?: TextStyle;
+}
+
+export interface TransportationOption {
+  name: string;
+  price: string;
+  description: string;
+  validFor: string;
+  usage: string;
+  color: 'cyan' | 'green' | 'purple' | 'yellow';
+  icon: 'train' | 'bus' | 'card';
+  features?: string[];
+  pros?: string[];
+  cons?: string[];
+}
+
+export const defaultTourData: TourData = {
+  title: '유럽 3개국 투어',
+  subtitle: '프랑스 · 이탈리아 · 스위스',
+  startDate: '2026-08-05',
+  endDate: '2026-08-15',
+  totalDays: 11,
+  nights: 10,
+  days: 11,
+  coverTitle: 'OOO님의 윤이나는 oo 여행',
+  coverMainTitle: '여행 제안서',
+  coverDate: '날짜: 2025.05.05',
+  coverPlanningLabel: '1차 플래닝',
+  coverCopyright: '* 본 문서는 유니나투어의 자산으로 외부 공유 및 배포를 금하며,\\n유포시 법적 책임 소지가 있습니다.',
+  plannerName: '황이나',
+  
+  // Cover page text styles
+  coverMainTitleStyle: { size: '48px', weight: 'bold', color: '#0891b2' },
+  coverTitleStyle: { size: '35px', weight: 'semibold', color: '#0891b2' },
+  coverPlanningLabelStyle: { size: '20px', weight: 'normal', color: '#0891b2' },
+  coverDateStyle: { size: '20px', weight: 'normal', color: '#6b7280' },
+  plannerNameStyle: { size: '14px', weight: 'normal', color: '#6b7280' },
+  coverCopyrightStyle: { size: '12px', weight: 'normal', color: '#6b7280' },
+  
+  travelParty: 'O명 (OOO님, OOO님)',
+  travelTheme: '신혼여행 / 처음 유럽여행',
+  specialRequests: '결혼식 후 바로 떠나는 신혼여행 입니다. 여기는 꼭 보고싶어요! 호텔은 4성급이상이 좋습니다. / 항공은 비즈니스를 원합니다.',
+  highlights: '후기가 좋은 4-5성급 호텔\n대한항공 직항 비즈니스 항공\n공항 - 숙소간의 전용차량 배치\n분위기있는 레스토랑 예약\n신혼여행의 분위기 업 스냅예약',
+  
+  // Introduction page editable labels
+  travelPartyLabel: '여행 참가자',
+  travelThemeLabel: '여행 테마',
+  travelPeriodLabel: '여행 기간',
+  importantRequestsLabel: '중요 요청사항',
+  highlightsTitle: '여행 하이라이트',
+  
+  // Introduction page text
+  introductionTitle: '여행 소개',
+  introductionSubtitle: '고객 니즈 체크',
+  
+  // Introduction page text styles
+  introductionTitleStyle: { size: '35px', weight: 'semibold', color: '#0891b2' },
+  introductionSubtitleStyle: { size: '20px', weight: 'normal', color: '#374151' },
+  travelPartyLabelStyle: { size: '20px', weight: 'normal', color: '#6b7280' },
+  travelPartyStyle: { size: '18px', weight: 'normal', color: '#1f2937' },
+  travelThemeLabelStyle: { size: '20px', weight: 'normal', color: '#6b7280' },
+  travelThemeStyle: { size: '18px', weight: 'normal', color: '#1f2937' },
+  travelPeriodLabelStyle: { size: '20px', weight: 'normal', color: '#6b7280' },
+  periodDisplayStyle: { size: '18px', weight: 'normal', color: '#1f2937' },
+  importantRequestsLabelStyle: { size: '20px', weight: 'normal', color: '#6b7280' },
+  specialRequestsStyle: { size: '18px', weight: 'normal', color: '#1f2937' },
+  highlightsTitleStyle: { size: '20px', weight: 'normal', color: '#6b7280' },
+  highlightsStyle: { size: '18px', weight: 'normal', color: '#1f2937' },
+  
+  // Flight pages editable labels
+  flightDepartureDescription: '한국에서 유럽으로 출발하는 항공편 정보입니다',
+  flightTransitDescription: '유럽 내 이동하는 항공편 정보입니다',
+  flightArrivalDescription: '유럽에서 한국으로 돌아오는 항공편 정보입니다',
+  flightDepartureTitle: '항공편 (출발)',
+  flightDepartureDirectLabel: '직항',
+  flightDepartureConnectingLabel: '경유',
+  flightDepartureAddSegmentLabel: '경유 추가',
+  flightDepartureSegmentTitle: '출발 항공편',
+  flightDepartureAirlineLabel: '항공사',
+  flightDepartureDepartureLabel: '출발',
+  flightDepartureDirectBadge: '직항',
+  flightDepartureArrivalLabel: '도착',
+  flightDepartureServicesTitle: '포함 서비스',
+  flightDepartureTransitLabel: '환승 대기 시간:',
+  flightDepartureChecklistTitle: '✓ 탑승 전 확인사항',
+  flightTransitTitle: '항공편 (경유)',
+  flightTransitDirectLabel: '직항',
+  flightTransitConnectingLabel: '경유',
+  flightTransitAddSegmentLabel: '경유 추가',
+  flightTransitSegmentTitle: '중간이동 항공편',
+  flightTransitAirlineLabel: '항공사',
+  flightTransitDepartureLabel: '출발',
+  flightTransitDirectBadge: '직항',
+  flightTransitArrivalLabel: '도착',
+  flightTransitServicesTitle: '포함 서비스',
+  flightTransitTransitLabel: '환승 대기 시간:',
+  flightTransitChecklistTitle: '✓ 탑승 전 확인사항',
+  flightArrivalTitle: '항공편 (도착)',
+  flightArrivalDirectLabel: '직항',
+  flightArrivalConnectingLabel: '경유',
+  flightArrivalAddSegmentLabel: '경유 추가',
+  flightArrivalSegmentTitle: '도착 항공편',
+  flightArrivalAirlineLabel: '항공사',
+  flightArrivalDepartureLabel: '출발',
+  flightArrivalDirectBadge: '직항',
+  flightArrivalArrivalLabel: '도착',
+  flightArrivalServicesTitle: '포함 서비스',
+  flightArrivalTransitLabel: '환승 대기 시간:',
+  flightArrivalChecklistTitle: '✓ 귀국 전 확인사항',
+  
+  // Itinerary Calendar page editable labels
+  itineraryCalendarTitle: '여행 일정',
+  itineraryTransportTitle: '이동수단',
+  itineraryCountryTitle: '방문 국가',
+  
+  // Flight pages text styles
+  flightDepartureDescriptionStyle: { size: '20px', weight: 'normal', color: '#6b7280' },
+  flightDepartureTitleStyle: { size: '35px', weight: 'semibold', color: '#0891b2' },
+  flightDepartureSegmentTitleStyle: { size: '20px', weight: 'normal', color: '#111827' },
+  flightDepartureLabelStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  flightDepartureDataStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  flightDepartureDirectBadgeStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  flightDepartureServicesItemStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  flightDepartureChecklistTitleStyle: { size: '20px', weight: 'normal', color: '#111827' },
+  flightDepartureChecklistItemStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  flightTransitDescriptionStyle: { size: '20px', weight: 'normal', color: '#6b7280' },
+  flightTransitTitleStyle: { size: '35px', weight: 'semibold', color: '#0891b2' },
+  flightTransitSegmentTitleStyle: { size: '20px', weight: 'normal', color: '#111827' },
+  flightTransitDataStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  flightTransitLabelStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  flightTransitDirectBadgeStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  flightTransitServicesTitleStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  flightTransitServicesItemStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  flightTransitChecklistTitleStyle: { size: '20px', weight: 'normal', color: '#111827' },
+  flightTransitChecklistItemStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  flightArrivalDescriptionStyle: { size: '20px', weight: 'normal', color: '#6b7280' },
+  flightArrivalTitleStyle: { size: '35px', weight: 'semibold', color: '#0891b2' },
+  flightArrivalSegmentTitleStyle: { size: '20px', weight: 'normal', color: '#111827' },
+  flightArrivalChecklistTitleStyle: { size: '20px', weight: 'normal', color: '#111827' },
+  flightArrivalLabelStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  flightArrivalDataStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  flightArrivalDirectBadgeStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  flightArrivalServicesTitleStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  flightArrivalServicesItemStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  flightArrivalChecklistItemStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  
+  // Itinerary Calendar page text styles
+  itineraryCalendarTitleStyle: { size: '35px', weight: 'semibold', color: '#0891b2' },
+  itineraryCalendarDateRangeStyle: { size: '20px', weight: 'normal', color: '#374151' },
+  itineraryCalendarHelpTextStyle: { size: '18px', weight: 'normal', color: '#6b7280' },
+  itineraryTransportTitleStyle: { size: '20px', weight: 'normal', color: '#6b7280' },
+  itineraryTransportLabelStyle: { size: '18px', weight: 'normal', color: '#1f2937' },
+  itineraryCountryTitleStyle: { size: '20px', weight: 'normal', color: '#6b7280' },
+  itineraryCountryLabelStyle: { size: '18px', weight: 'normal', color: '#1f2937' },
+  itineraryCountryEmptyStyle: { size: '14px', weight: 'normal', color: '#6b7280' },
+  itineraryCalendarWeekdayStyle: { size: '14px', weight: 'normal', color: '#9ca3af' },
+  itineraryCalendarDateNumberStyle: { size: '14px', weight: 'normal', color: '#0e7490' },
+  itineraryCalendarDayLabelStyle: { size: '9px', weight: 'normal', color: '#ffffff' },
+  itineraryCalendarCountryNameStyle: { size: '9px', weight: 'normal', color: '#4b5563' },
+  itineraryCalendarCityNameStyle: { size: '10px', weight: 'normal', color: '#1f2937' },
+  
+  // Detailed Schedule page text styles
+  detailedScheduleDayTitleStyle: { size: '35px', weight: 'semibold', color: '#0891b2' },
+  detailedScheduleDateStyle: { size: '20px', weight: 'normal', color: '#1f2937' },
+  detailedSchedulePickTitle: "TODAY'S PICK",
+  detailedScheduleTimelineTitle: "일정",
+  detailedScheduleTimelineTitleStyle: { size: '20px', weight: 'normal', color: '#111827' },
+  detailedSchedulePickTitleStyle: { size: '20px', weight: 'normal', color: '#111827' },
+  detailedScheduleTimeStyle: { size: '18px', weight: 'normal', color: '#f2f2f2' },
+  detailedScheduleTimelineTitleTextStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  detailedScheduleTimelineLocationStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  detailedScheduleCardNumberStyle: { size: '18px', weight: 'normal', color: '#f1f2f3' },
+  detailedScheduleCardTitleStyle: { size: '18px', weight: 'normal', color: '#ffffff' },
+  detailedScheduleCardLocationStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  detailedScheduleCardTimeTextStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  detailedScheduleCardActivityStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  detailedScheduleCardNotesStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  
+  // Transportation pages text styles
+  transportationTicketTitleStyle: { size: '35px', weight: 'semibold', color: '#0891b2' },
+  transportationCardTitleStyle: { size: '35px', weight: 'semibold', color: '#0891b2' },
+
+  // Quotation page text styles
+  quotationPageTitleStyle: { size: '35px', weight: 'semibold', color: '#0891b2' },
+  quotationTitleStyle: { size: '48px', weight: 'semibold', color: '#0891b2' },
+  quotationNotesStyle: { size: '14px', weight: 'normal', color: '#6b7280' },
+  quotationSummaryLabelStyle: { size: '20px', weight: 'normal', color: '#111827' },
+  quotationSummaryValueStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  quotationEstimatedTitleStyle: { size: '20px', weight: 'normal', color: '#ffffff' },
+  quotationEstimatedAmountStyle: { size: '20px', weight: 'normal', color: '#f9fafa' },
+  quotationEstimatedNoteStyle: { size: '12px', weight: 'normal', color: '#ffffff' },
+  quotationIncludedTitleStyle: { size: '20px', weight: 'normal', color: '#111827' },
+  quotationIncludedItemStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  quotationExcludedTitleStyle: { size: '20px', weight: 'normal', color: '#111827' },
+  quotationExcludedItemStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  quotationExcludedNoteStyle: { size: '18px', weight: 'normal', color: '#111827' },
+
+  // Quotation summary data
+  quotationPageTitle: '견적서',
+  productName: '유럽 3개국 투어',
+  productNameLabel: '상품명',
+  period: '2026.08.05 - 2026.08.15',
+  periodLabel: '여행 기간',
+  countries: '프랑스, 이탈리아, 스위스',
+  countriesLabel: '여행 국가',
+  participants: 'O명 (OOO님, OOO님)',
+  participantsLabel: '참가자',
+  transportation: '대한항공 비즈니스 항공',
+  transportationLabel: '교통 수단',
+  accommodationSummary: '후기가 좋은 4-5성급 호텔',
+  accommodationLabel: '숙소 요약',
+  
+  // Quotation data
+  totalCost: '₩5,000,000',
+  costWarning: '가격은 예상 가격이며, 실제 가격은 항공사 및 호텔의 정책에 따라 변동될 수 있습니다.',
+  quotationLabels: {
+    label1: '총 비용',
+    label2: '비용 경고',
+    label3: '항공편',
+    label4: '숙소',
+    label5: '식사',
+    label6: '관광지 입장료'
+  },
+  estimatedCostTitle: '1차 견적 비용',
+  estimatedCostAmount: '₩5,000,000',
+  estimatedCostNote: '1차 견적 비용은 실시간 예약 기준 금액으로 예약 시 금액 변동이 있을 수 있습니다. 또한 1차 일정 내의 비용으로 2차 세부일정으로 금액이 변동 될 수 있습니다.  ',
+  includedItemsTitle: '견적 내 포함사항',
+  includedItems: '항공권, 숙소, 도시 간 이동 교통비, 1차 일정 내 관광지 입장료, 유니나투어 대행 수수료, 케어서비스 수수료',
+  excludedItemsTitle: '견적 불포함사항',
+  excludedItems: '항공사 추가 수수료, 호텔 도시세 및 추가 수수료, 렌트비용, 개인비용 ',
+  excludedItemsNote: '* 불포함 사항 예약 대행시 추가 금액이 발생합니다',
+  
+  flights: {
+    departure: {
+      isDirect: true,
+      segments: [
+        {
+          airline: '대한항공',
+          class: '비즈니스',
+          departureTime: '2026.08.05 10:00',
+          departureAirport: '인천국제공항',
+          arrivalTime: '2026.08.05 14:00',
+          arrivalAirport: '니스국제공항',
+          services: '프리미엄 서비스'
+        }
+      ],
+      checklist: '출발 3시간 전까지 공항 도착을 권장합니다\n여권 유효기간을 확인해주세요 (입국일 기준 6개월 이상)\n비즈니스석은 라운지 이용이 가능합니다'
+    },
+    transit: {
+      isDirect: true,
+      segments: [
+        {
+          airline: '대한항공',
+          class: '비즈니스',
+          departureTime: '2026.08.15 10:00',
+          departureAirport: '바르셀로나국제공항',
+          arrivalTime: '2026.08.15 14:00',
+          arrivalAirport: '인천국제공항',
+          services: '프리미엄 서비스'
+        }
+      ],
+      checklist: '출발 2시간 전까지 공항 도착을 권장합니다\nEU 내 항공편은 액체류 제한이 있습니다 (100ml 이하)\n수하물 무게 제한을 확인해주세요'
+    },
+    arrival: {
+      isDirect: true,
+      segments: [
+        {
+          airline: '대한항공',
+          class: '비즈니스',
+          departureTime: '2026.08.15 10:00',
+          departureAirport: '바르셀로나국제공항',
+          arrivalTime: '2026.08.15 14:00',
+          arrivalAirport: '인천국제공항',
+          services: '프리미엄 서비스'
+        }
+      ],
+      checklist: '출발 3시간 전까지 공항 도착을 권장합니다\n면세품 구매 한도를 확인해주세요 (US $600)\n도착 후 입국심사 및 세관신고를 진행합니다'
+    }
+  },
+  
+  itinerary: [
+    { date: 5, country: '한국', city: '인천', transport: 'plane', dayNum: 1 },
+    { date: 6, country: '프랑스', city: '니스', transport: null, dayNum: 2 },
+    { date: 7, country: '프랑스', city: '니스', transport: null, dayNum: 3 },
+  ],
+  
+  countryColors: {
+    '프랑스': 'bg-blue-500',
+    '이탈리아': 'bg-red-500',
+    '스위스': 'bg-gray-500'
+  },
+  
+  accommodations: [
+    {
+      country: '프랑스',
+      city: '니스',
+      checkIn: '2026.08.08',
+      checkOut: '2026.08.10',
+      nights: '2박 3일',
+      name: 'Hotel Negresco Nice',
+      type: '호텔',
+      stars: 5,
+      roomType: '디럭스 더블룸',
+      facilities: ['수영장', '사우나', '피트니스', '엘리베이터', '에어컨'],
+      breakfast: true,
+      cityTax: '₩3,000 per person/night',
+      description: '니스의 프롬나드 데 장글레(Promenade des Anglais)에 위치한 5성급 럭셔리 호텔로, 지중해의 아름다운 전망과 벨 에포크 시대의 우아함을 자랑합니다.',
+      nearbyAttractions: ['영국인 산책로 (도보 1분)', '마세나 광장 (도보 10분)', '구시가지 (차량 5분)'],
+      images: [
+        'https://images.unsplash.com/photo-1731336478850-6bce7235e320?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBob3RlbCUyMHJvb20lMjBiZWR8ZW58MXx8fHwxNzYyOTg2NTMzfDA&ixlib=rb-4.1.0&q=80&w=1080',
+        'https://images.unsplash.com/photo-1631048835184-3f0ceda91b75?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3RlbCUyMGJlZHJvb20lMjBpbnRlcmlvcnxlbnwxfHx8fDE3NjI5NjQyNDF8MA&ixlib=rb-4.1.0&q=80&w=1080',
+        'https://images.unsplash.com/photo-1759223607861-f0ef3e617739?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBob3RlbCUyMGJhdGhyb29tfGVufDF8fHx8MTc2Mjk0NDQ1MXww&ixlib=rb-4.1.0&q=80&w=1080',
+        'https://images.unsplash.com/photo-1722867710896-8b5ddb94e141?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3RlbCUyMHJvb20lMjB2aWV3fGVufDF8fHx8MTc2MzAxNDk5Mnww&ixlib=rb-4.1.0&q=80&w=1080',
+        'https://images.unsplash.com/photo-1758973470049-4514352776eb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3RlbCUyMGFtZW5pdGllcyUyMHBvb2x8ZW58MXx8fHwxNzYyOTIwNTUyfDA&ixlib=rb-4.1.0&q=80&w=1080'
+      ]
+    },
+    {
+      country: '이탈리아',
+      city: '밀라노',
+      checkIn: '2026.08.11',
+      checkOut: '2026.08.13',
+      nights: '2박 3일',
+      name: 'Armani Hotel Milano',
+      type: '호텔',
+      stars: 5,
+      roomType: '스탠다드 더블룸',
+      facilities: ['수영장', '피트니스', '엘리베이터', '에어컨'],
+      breakfast: true,
+      cityTax: '₩5,000 per person/night',
+      description: '밀라노의 중심부 몬테나폴레오네 거리에 위치한 조르지오 아르마니가 디자인한 럭셔리 호텔로, 세련된 이탈리아 디자인과 최상급 서비스를 제공합니다.',
+      nearbyAttractions: ['두오모 성당 (도보 15분)', '스칼라 극장 (도보 10분)', '갤러리아 비토리오 에마누엘레 2세 (도보 12분)'],
+      images: [
+        'https://images.unsplash.com/photo-1631048835184-3f0ceda91b75?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3RlbCUyMGJlZHJvb20lMjBpbnRlcmlvcnxlbnwxfHx8fDE3NjI5NjQyNDF8MA&ixlib=rb-4.1.0&q=80&w=1080',
+        'https://images.unsplash.com/photo-1731336478850-6bce7235e320?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBob3RlbCUyMHJvb20lMjBiZWR8ZW58MXx8fHwxNzYyOTg2NTMzfDA&ixlib=rb-4.1.0&q=80&w=1080',
+        'https://images.unsplash.com/photo-1722867710896-8b5ddb94e141?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3RlbCUyMHJvb20lMjB2aWV3fGVufDF8fHx8MTc2MzAxNDk5Mnww&ixlib=rb-4.1.0&q=80&w=1080',
+        'https://images.unsplash.com/photo-1759223607861-f0ef3e617739?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBob3RlbCUyMGJhdGhyb29tfGVufDF8fHx8MTc2Mjk0NDQ1MXww&ixlib=rb-4.1.0&q=80&w=1080',
+        'https://images.unsplash.com/photo-1758973470049-4514352776eb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3RlbCUyMGFtZW5pdGllcyUyMHBvb2x8ZW58MXx8fHwxNzYyOTIwNTUyfDA&ixlib=rb-4.1.0&q=80&w=1080'
+      ]
+    }
+  ],
+  accommodationTitle: '숙소 안내',
+  
+  // Accommodation page text styles
+  accommodationTitleStyle: { size: '35px', weight: 'semibold', color: '#0891b2' },
+  accommodationLocationStyle: { size: '20px', weight: 'normal', color: '#374151' },
+  accommodationHotelNameStyle: { size: '25px', weight: 'normal', color: '#111827' },
+  accommodationHotelTypeStyle: { size: '20px', weight: 'normal', color: '#0e7490' },
+  accommodationDescriptionStyle: { size: '16px', weight: 'normal', color: '#4b5563' },
+  accommodationCheckInLabelStyle: { size: '18px', weight: 'normal', color: '#0891b2' },
+  accommodationCheckInTimeStyle: { size: '18px', weight: 'normal', color: '#1f2937' },
+  accommodationCheckOutLabelStyle: { size: '18px', weight: 'normal', color: '#ca8a04' },
+  accommodationCheckOutTimeStyle: { size: '18px', weight: 'normal', color: '#1f2937' },
+  accommodationNightsStyle: { size: '18px', weight: 'normal', color: '#ffffff' },
+  accommodationRoomTypeLabelStyle: { size: '18px', weight: 'normal', color: '#6b7280' },
+  accommodationRoomTypeStyle: { size: '18px', weight: 'normal', color: '#1f2937' },
+  accommodationBreakfastLabelStyle: { size: '18px', weight: 'normal', color: '#6b7280' },
+  accommodationBreakfastStatusStyle: { size: '18px', weight: 'normal', color: '#16a34a' },
+  accommodationFacilitiesLabelStyle: { size: '18px', weight: 'normal', color: '#6b7280' },
+  accommodationFacilityItemStyle: { size: '16px', weight: 'normal', color: '#0e7490' },
+  accommodationAttractionsLabelStyle: { size: '18px', weight: 'normal', color: '#6b7280' },
+  accommodationAttractionItemStyle: { size: '16px', weight: 'normal', color: '#374151' },
+  accommodationCityTaxLabelStyle: { size: '18px', weight: 'normal', color: '#6b7280' },
+  accommodationCityTaxStyle: { size: '18px', weight: 'normal', color: '#1f2937' },
+  
+  services: [
+    {
+      title: '코어플랜 (CORE PLAN) - 예약대행과 케어서비스가 빠진 부분 플랜입니다.',
+      description: '구매 후 1개월 안 수정 2회 가능, 일정 수령 후 환불 불가',
+      includes: '일차별 일정\n세부 이동 수단\n맛집 리스트\n대중교통 패스권 요약집\n관광지 리스트 전달',
+      color: 'cyan' as const
+    },
+    {
+      title: '맥스플랜 (MAX PLAN) - 예약대행과 케어서비스가 포함된 올케어 플랜 입니다.',
+      description: '예약 전까지 얼마든지 수정가능하나 예약 후 수정시 변경 수수료 발생 될 수 있습니다.',
+      includes: '일차별 일정 제공\n세부 이동수단 안내\n항공, 호텔, 일일투어 예약\n일정 예약대행 및 케어서비스\n여행굿즈 서비스\n맛집 리스트 전달',
+      color: 'yellow' as const
+    }
+  ],
+  
+  // Process page data
+  processTitle: '유니나는 유럽 여행 디자인 프로세스',
+  processLabels: [
+    '문의',
+    '1차 일정 및 견적서 전달',
+    '진행확정 및 서비스 선택',
+    '계약서 작성, 결제',
+    '1차 내 협의된 사항 예약 대행 진행 (항공권 및 숙소 예약대행)',
+    '2차 세부일정 전달, 수정 및 세부일정 예약 대행 진행',
+    '방문 미팅 및 바우처, 유니나 굿즈 전달'
+  ],
+  processSubtext1: '문의를 주시면 전화로 자세한 상담을 진행합니다. ',
+  processSubtext2: '견적금액 완불 후 일정 진행됩니다.',
+  processSubtext3: '직접 방문해 자세한 플랜을 안내드립니다. 10만 원 상당의 유니나 자체 제작 상품 포함 굿즈 전달드립니다.',
+  processNote: '* 여행 1개월 전 완료 예정',
+  
+  // Process page text
+  processPageTitle: '여행 진행 프로세스',
+  serviceOptionsTitle: '서비스 옵션',
+  serviceIncludesTitle: '포함 내역',
+  
+  // Tourist spot list page text
+  touristSpotPickTitle: "TODAY'S PICK",
+  
+  // Process page text styles
+  processPageTitleStyle: { size: '35px', weight: 'semibold', color: '#0891b2' },
+  processTitleStyle: { size: '20px', weight: 'bold', color: '#0891b2' },
+  processLabelStyle: { size: '18px', weight: 'normal', color: '#1f2937' },
+  processSubtextStyle: { size: '16px', weight: 'normal', color: '#6b7280' },
+  processNoteStyle: { size: '16px', weight: 'normal', color: '#4b5563' },
+  serviceOptionsTitleStyle: { size: '20px', weight: 'normal', color: '#374151' },
+  serviceTitleStyle: { size: '18px', weight: 'normal', color: '#0e7490' },
+  serviceDescriptionStyle: { size: '16px', weight: 'normal', color: '#4b5563' },
+  serviceIncludesTitleStyle: { size: '18px', weight: 'normal', color: '#6b7280' },
+  serviceIncludesItemStyle: { size: '16px', weight: 'normal', color: '#374151' },
+  
+  // Payment page data
+  paymentMethodsAddButtonText: '결제 방법 추가',
+  paymentMethods: [
+    {
+      title: '카드 결제',
+      details: '안전한 카드 결제를 통해 편리하게 결제할 수 있습니다.\n카드 결제 시 해외 공급사 결제처리로 인하여 카드사 해외 결제 수수료(2%)가 부과됩니다.'
+    },
+    {
+      title: '계좌 입금',
+      details: '100-038-034779 신한은행 (예금주: 주식회사 유니나투어)\n현금영수증 발행 시 여행사 수수료에 한해 발행이 가능하며, 입금 후 현금영수증 번호 전달해주시면 신속한 처리 도와드리겠습니다.  '
+    }
+  ],
+  paymentNotices: '카드 결제 시 해외 공급사 결제처리로 인하여 카드사 해외 결제 수수료(2%)가 부과됩니다.\n\n유니나투어에서는 여행상품 특성상 항공·호텔 등 외부 공급사 비용을 제외한 \'여행사 수수료(대행료)\' 금액에 한해 현금영수증 발행이 가능합니다. 이는 관련 세법 기준에 따른 것으로, 여행 일정 및 공급 구조에 따라 발행 금액이 달라질 수 있습니다. 현금영수증 발행을 원하시는 경우, 예약 시점에 미리 요청해 주시면 신속히 처리 도와드리겠습니다.\n\n환불 및 변경은 출발 30일 이전까지 가능합니다. 변경·취소·환불 요청 시에는 **유니나투어 수수료(1인 200,000원)**가 적용되며, 여기에 더해 각 공급사(항공/호텔/현지사)의 규정에 따라 추가 수수료가 발생할 수 있습니다. ',
+  contactEmail: 'uninatour@naver.com',
+  contactPhone: '010-8988-5545',
+  contactTitle: '문의하기',
+  contactPerson: '황이나',
+  paymentDeadlineTitle: '총 비용',
+  paymentDeadline: '유니나투어 여행상품은 항공·호텔·현지 서비스 등 해외 공급사와의 즉시 확정 결제(예약 대행비 선지급)가 필요한 구조입니다.\n\n따라서 견적 확정 후에는 전체 금액 100% 결제 확인 후 예약 진행이 가능합니다.\n결제 순으로 확정되며, 미결제 시 예약이 보장되지 않는 점 양해 부탁드립니다.',
+  paymentCardReceipt: '여행상품 특성상 항공·호텔 등 외부 공급사 비용을 제외한 \'여행사 수수료(대행료)\' 금액에 한해 현금영수증 발행이 가능합니다. 이는 관련 세법 기준에 따른 것으로, 여행 일정 및 공급 구조에 따라 발행 금액이 달라질 수 있습니다. 현금영수증 발행을 원하시는 경우, 예약 시점에 미리 요청해 주시면 신속히 처리 도와드리겠습니다.\n\n카드 결제 영수증은 이메일 또는 카카오톡으로 전송됩니다.',
+  paymentCancellation: '여행 취소 시 환불은 출발 30일 이전까지 가능하며, 유니나투어 수수료 (1인 200,000원)가 적용되며, 각 공급사 (항공/호텔/현지사)의 규정에 따라 추가 수수료가 발생되니 신중한 결정 부탁드립니다.',
+  
+  // Detailed schedule data
+  detailedSchedules: [
+    {
+      day: 1,
+      title: '인천 출발',
+      scheduleItems: [
+        {
+          id: '1',
+          time: '08:00',
+          title: '호텔에서 출발',
+          location: '인천 호텔',
+          activity: '체크아웃 및 준비',
+          notes: '항공편 시간 확인'
+        },
+        {
+          id: '2',
+          time: '09:00',
+          title: '인천국제공항 도착',
+          location: '인천국제공항',
+          activity: '보안 검색 및 탑승',
+          notes: '항공편 시간 확인'
+        }
+      ]
+    },
+    {
+      day: 2,
+      title: '니스 도착',
+      scheduleItems: [
+        {
+          id: '1',
+          time: '14:00',
+          title: '니스국제공항 도착',
+          location: '니스국제공항',
+          activity: '보안 검색 및 탑승',
+          notes: '항공편 시간 확인'
+        },
+        {
+          id: '2',
+          time: '15:00',
+          title: '호텔 도착',
+          location: 'Hotel Negresco Nice',
+          activity: '체크인 및 준비',
+          notes: '호텔 위치 확인'
+        }
+      ]
+    }
+  ],
+  
+  // Transportation pages data
+  transportationPages: [
+    {
+      country: '프랑스',
+      city: '파리',
+      options: [
+        {
+          name: '메트로-기차-RER 티켓',
+          price: '2.50€',
+          description: '파리의 모든 대중교통(메트로, RER, 기차)을 이용할 수 있는 기본 티켓입니다. 90분 내에 무제한 환승이 가능합니다.',
+          validFor: '메트로, RER, 기차 (공항제외)',
+          usage: '90분 내 메트로/RER 간 가능',
+          color: 'cyan' as const,
+          icon: 'train' as const,
+          features: [
+            '나비고 이지 카드, 스마트폰 앱 구매 가능',
+            '역 자동 판매기',
+            '티켓 오피스'
+          ],
+          pros: [
+            '메트로/RER 이용 시 가장 티켓 대 3개 구매 필요 (총 4.50€)',
+            '공항역(CDG/ORY) 이용 불가',
+            '카기 까다로움. 반드시 티켓 소지할 것'
+          ],
+          cons: []
+        },
+        {
+          name: '버스-트램 티켓',
+          price: '2.00€',
+          description: '파리 시내를 운행하는 버스와 트램을 이용할 수 있는 티켓입니다.',
+          validFor: '버스, 트램 (일부 노선/공항 버스 제외)',
+          usage: '90분 내 버스/트램 간 가능',
+          color: 'green' as const,
+          icon: 'bus' as const,
+          features: [],
+          pros: [],
+          cons: []
+        },
+        {
+          name: '나비고 이지 (Navigo Easy) (€2 + 충전): 유연한 선구',
+          price: '€2 (카드) + 충전금',
+          description: '충전식 비접촉 카드로 여행, 사전 충전이 가능합니다. 카드 한장 비용 2€.',
+          validFor: '신규 단일 티켓 (메트로 2.50€ / 버스 2.00€)',
+          usage: '나비고 주요 (일일권, 12.00€, 공항 제외)\n공항 티켓 (13.00€)\nOrlyBus / RoissyBus 티켓\n파리 버지트 패스',
+          color: 'green' as const,
+          icon: 'card' as const,
+          features: [
+            '단기 여행에이, 배달 이용량이 불규칙한 경우',
+            '카드 한장 비용 2€, 충전 금액 기능'
+          ],
+          pros: [
+            '유연함, 재사용, 순서변 공유 기능, 중이 불편한',
+            '티켓 버지오에, 메달 이용량이 불규칙 때'
+          ],
+          cons: [
+            '초기 비용 5€+카드, 개인 전용, 고정 유효 기간, 볼가문방 5일 시간 제한 없',
+            '본안한 경제성(주간/경리)'
+          ]
+        },
+        {
+          name: '나비고 데쿠베트 (Navigo Découverte) (€5 + 패스): 적극적인 탐험가',
+          price: '€5 (카드) + 패스 금액',
+          description: '개인 맞춤형 카드 (여권 사진 부착 및 이름 기입 필요). 카드 한장 비용 5€.',
+          validFor: '나비고 스레 (주간권): 31.60€. 월-일 유효, 공항 이용 포함\n나비고 무아 (월간권): 88.80€. 매월 1일-말일 유효. 공항 이용 포함\n나비고 주요 (일일권): 12.00€. 공항 이용 제외',
+          usage: '',
+          color: 'purple' as const,
+          icon: 'card' as const,
+          features: [],
+          pros: [
+            '모든 이용 시 매력 경제적, 무제한 탐당, 공항/외곽 포함(주간/월간권)'
+          ],
+          cons: [
+            '초기 비용 5€+카드, 개인 전용, 고정 전표몬, 볼프랩 5일 이상 체류하며, 대중 전형, 교통 유효 기, 불편한(주간/경리)'
+          ]
+        }
+      ]
+    }
+  ],
+  
+  // Transportation tickets data
+  transportationTickets: [
+    {
+      id: '1',
+      icon: 'bus',
+      title: '버스 티켓',
+      titleStyle: { size: '20px', weight: 'normal', color: '#111827' },
+      price: '2.00€',
+      priceStyle: { size: '18px', weight: 'normal', color: '#111827' },
+      validFor: '버스, 트램 (일부 노선/공항 버스 제외)',
+      validForLabel: '사용 가능 대중교통',
+      validForLabelStyle: { size: '18px', weight: 'normal', color: '#111827' },
+      validForStyle: { size: '18px', weight: 'normal', color: '#111827' },
+      usage: '90분 내 버스/트램 간 가능',
+      usageLabel: '사용 방법',
+      usageLabelStyle: { size: '18px', weight: 'normal', color: '#111827' },
+      usageStyle: { size: '18px', weight: 'normal', color: '#111827' },
+      color: 'green' as const,
+      items: [
+        {
+          id: '1',
+          label: '사용 방법',
+          labelStyle: { size: '20px', weight: 'normal', color: '#111827' },
+          content: '버스 또는 트램에 탑승할 때 티켓을 드라이버에게 제시합니다.',
+          contentStyle: { size: '18px', weight: 'normal', color: '#111827' }
+        },
+        {
+          id: '2',
+          label: '환승',
+          labelStyle: { size: '20px', weight: 'normal', color: '#111827' },
+          content: '90분 내에 다른 버스 또는 트램으로 환승할 수 있습니다.',
+          contentStyle: { size: '18px', weight: 'normal', color: '#111827' }
+        }
+      ]
+    },
+    {
+      id: '2',
+      icon: 'train',
+      title: '메트로-기차-RER 티켓',
+      titleStyle: { size: '20px', weight: 'normal', color: '#111827' },
+      price: '2.50€',
+      priceStyle: { size: '18px', weight: 'normal', color: '#111827' },
+      validFor: '메트로, RER, 기차 (공항제외)',
+      validForLabel: '사용 가능 대중교통',
+      validForLabelStyle: { size: '18px', weight: 'normal', color: '#111827' },
+      validForStyle: { size: '18px', weight: 'normal', color: '#111827' },
+      usage: '90분 내 메트로/RER 간 가능',
+      usageLabel: '사용 방법',
+      usageLabelStyle: { size: '18px', weight: 'normal', color: '#111827' },
+      usageStyle: { size: '18px', weight: 'normal', color: '#111827' },
+      color: 'cyan' as const,
+      items: [
+        {
+          id: '1',
+          label: '사용 방법',
+          labelStyle: { size: '20px', weight: 'normal', color: '#111827' },
+          content: '메트로 또는 RER에 탑승할 때 티켓을 드라이버에게 제시합니다.',
+          contentStyle: { size: '18px', weight: 'normal', color: '#111827' }
+        },
+        {
+          id: '2',
+          label: '환승',
+          labelStyle: { size: '20px', weight: 'normal', color: '#111827' },
+          content: '90분 내에 다른 메트로 또는 RER로 환승할 수 있습니다.',
+          contentStyle: { size: '18px', weight: 'normal', color: '#111827' }
+        }
+      ]
+    }
+  ],
+  
+  transportationRestrictions: [
+    {
+      id: '1',
+      content: '공항역(CDG/ORY) 이용 불가',
+      contentStyle: { size: '18px', weight: 'normal', color: '#111827' }
+    },
+    {
+      id: '2',
+      content: '카기 까다로움. 반드시 티켓 소지할 것',
+      contentStyle: { size: '18px', weight: 'normal', color: '#111827' }
+    }
+  ],
+  
+  transportationTicketTitle: '교통편 안내',
+  transportationRestrictionsTitle: '주의사항',
+  transportationRestrictionsTitleStyle: { size: '16px', weight: 'bold', color: '#b91c1c' },
+  
+  // Transportation cards data
+  transportationCardPageTitle: '교통카드 안내',
+  transportationCards: [
+    {
+      id: '1',
+      title: '버스 티켓',
+      titleStyle: { size: '20px', weight: 'bold', color: '#0891b2' },
+      price: '2.00€',
+      priceStyle: { size: '14px', weight: 'normal', color: '#1f2937' },
+      validFor: '버스, 트램 (일부 노선/공항 버스 제외)',
+      validForLabel: '사용 가능 대중교통',
+      validForLabelStyle: { size: '12px', weight: 'normal', color: '#6b7280' },
+      validForStyle: { size: '12px', weight: 'normal', color: '#1f2937' },
+      usage: '90분 내 버스/트램 간 가능',
+      usageLabel: '사용 방법',
+      usageLabelStyle: { size: '12px', weight: 'normal', color: '#6b7280' },
+      usageStyle: { size: '12px', weight: 'normal', color: '#1f2937' },
+      color: 'green' as const,
+      items: [
+        {
+          id: '1',
+          label: '사용 방법',
+          labelStyle: { size: '20px', weight: 'normal', color: '#6b7280' },
+          content: '버스 또는 트램에 탑승할 때 티켓을 드라이버에게 제시합니다.',
+          contentStyle: { size: '18px', weight: 'normal', color: '#1f2937' }
+        },
+        {
+          id: '2',
+          label: '환승',
+          labelStyle: { size: '20px', weight: 'normal', color: '#6b7280' },
+          content: '90분 내에 다른 버스 또는 트램으로 환승할 수 있습니다.',
+          contentStyle: { size: '18px', weight: 'normal', color: '#1f2937' }
+        }
+      ]
+    },
+    {
+      id: '2',
+      title: '메트로-기차-RER 티켓',
+      titleStyle: { size: '20px', weight: 'bold', color: '#0891b2' },
+      price: '2.50€',
+      priceStyle: { size: '14px', weight: 'normal', color: '#1f2937' },
+      validFor: '메트로, RER, 기차 (공항제외)',
+      validForLabel: '사용 가능 대중교통',
+      validForLabelStyle: { size: '12px', weight: 'normal', color: '#6b7280' },
+      validForStyle: { size: '12px', weight: 'normal', color: '#1f2937' },
+      usage: '90분 내 메트로/RER 간 가능',
+      usageLabel: '사용 방법',
+      usageLabelStyle: { size: '12px', weight: 'normal', color: '#6b7280' },
+      usageStyle: { size: '12px', weight: 'normal', color: '#1f2937' },
+      color: 'cyan' as const,
+      items: [
+        {
+          id: '1',
+          label: '사용 방법',
+          labelStyle: { size: '20px', weight: 'normal', color: '#6b7280' },
+          content: '메트로 또는 RER에 탑승할 때 티켓을 드라이버에게 제시합니다.',
+          contentStyle: { size: '18px', weight: 'normal', color: '#1f2937' }
+        },
+        {
+          id: '2',
+          label: '환승',
+          labelStyle: { size: '20px', weight: 'normal', color: '#6b7280' },
+          content: '90분 내에 다른 메트로 또는 RER로 환승할 수 있습니다.',
+          contentStyle: { size: '18px', weight: 'normal', color: '#1f2937' }
+        }
+      ]
+    }
+  ],
+  
+  transportationCardRestrictions: [
+    {
+      id: '1',
+      content: '공항역(CDG/ORY) 이용 불가',
+      contentStyle: { size: '18px', weight: 'normal', color: '#111827' }
+    },
+    {
+      id: '2',
+      content: '카기 까다로움. 반드시 티켓 소지할 것',
+      contentStyle: { size: '18px', weight: 'normal', color: '#111827' }
+    }
+  ],
+  
+  transportationCardRestrictionsTitle: '주의사항',
+  transportationCardRestrictionsTitleStyle: { size: '16px', weight: 'bold', color: '#b91c1c' },
+  
+  // Payment page text styles
+  paymentPageTitle: '결제 안내',
+  paymentPageTitleStyle: { size: '35px', weight: 'semibold', color: '#0891b2' },
+  paymentInfoTitleStyle: { size: '20px', weight: 'normal', color: '#111827' },
+  paymentInfoContentStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  paymentMethodsTitle: '결제 방법',
+  paymentMethodsTitleStyle: { size: '20px', weight: 'normal', color: '#111827' },
+  paymentMethodItemTitleStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  paymentMethodItemDetailStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  paymentNoticesTitleStyle: { size: '20px', weight: 'normal', color: '#111827' },
+  paymentNoticesItemStyle: { size: '18px', weight: 'normal', color: '#111827' },
+  
+  // Contact page text styles
+  contactTitleStyle: { size: '20px', weight: 'normal', color: '#fafcff' },
+  contactInfoStyle: { size: '20px', weight: 'normal', color: '#f4f6fa' }
+};
