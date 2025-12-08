@@ -73,29 +73,74 @@ export function BlurOverlay({
   // 블러 스타일 (인라인 - Tailwind purge 우회)
   const blurStyle = {
     filter: 'blur(8px)',
-    userSelect: 'none' as const,
-    pointerEvents: 'none' as const
+    userSelect: 'none' as const
   };
 
   // 블러 스타일 적용
   useEffect(() => {
-    // 모든 data-blur-key 요소에서 블러 스타일 제거
+    // 모든 data-blur-key 요소에서 블러 스타일 및 속성 제거
     document.querySelectorAll('[data-blur-key]').forEach(el => {
       const htmlEl = el as HTMLElement;
       htmlEl.style.filter = '';
       htmlEl.style.userSelect = '';
       htmlEl.style.pointerEvents = '';
+      htmlEl.removeAttribute('data-blur-active');
     });
 
-    // 블러된 요소에 인라인 스타일 추가
+    // 블러된 요소에 인라인 스타일 및 속성 추가
     blurredKeys.forEach(key => {
       const el = document.querySelector(`[data-blur-key="${key}"]`) as HTMLElement;
       if (el) {
         el.style.filter = blurStyle.filter;
         el.style.userSelect = blurStyle.userSelect;
-        el.style.pointerEvents = blurStyle.pointerEvents;
+        // 블러 모드일 때는 클릭 가능하게 유지 (해제용), 아닐 때는 차단
+        el.style.pointerEvents = isBlurMode ? 'auto' : 'none';
+        // PDF 출력용 data 속성 추가
+        el.setAttribute('data-blur-active', 'true');
       }
     });
+  }, [blurredKeys, isBlurMode]);
+
+  // PDF 출력 시 블러 스타일 변경 (인라인 스타일 → 인쇄용 스타일)
+  useEffect(() => {
+    const handleBeforePrint = () => {
+      // 블러된 요소에 인쇄용 스타일 적용
+      blurredKeys.forEach(key => {
+        const el = document.querySelector(`[data-blur-key="${key}"]`) as HTMLElement;
+        if (el) {
+          // 인라인 blur 제거하고 완전 가림 스타일 적용
+          el.style.filter = 'none';
+          el.style.color = 'transparent';
+          el.style.textShadow = 'none';
+          el.style.backgroundColor = '#e5e5e5';
+          el.style.borderRadius = '4px';
+          el.style.position = 'relative';
+        }
+      });
+    };
+
+    const handleAfterPrint = () => {
+      // 화면용 스타일로 복원
+      blurredKeys.forEach(key => {
+        const el = document.querySelector(`[data-blur-key="${key}"]`) as HTMLElement;
+        if (el) {
+          el.style.filter = blurStyle.filter;
+          el.style.color = '';
+          el.style.textShadow = '';
+          el.style.backgroundColor = '';
+          el.style.borderRadius = '';
+          el.style.position = '';
+        }
+      });
+    };
+
+    window.addEventListener('beforeprint', handleBeforePrint);
+    window.addEventListener('afterprint', handleAfterPrint);
+
+    return () => {
+      window.removeEventListener('beforeprint', handleBeforePrint);
+      window.removeEventListener('afterprint', handleAfterPrint);
+    };
   }, [blurredKeys]);
 
   // 호버 하이라이트 스타일

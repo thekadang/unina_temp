@@ -680,6 +680,64 @@ const blurStyle = {
 
 ---
 
+## History #14 ⭐
+**날짜**: 2025-12-08
+**사용자 질문**: 두 가지 문제가 있다. 1. 블러 취소 기능이 없어졌어. 2. pdf출력에서 블러 처리가 안돼.
+
+### 수행한 작업
+- [x] **문제 1: 블러 취소 기능 복구**
+  - 원인: `pointerEvents: 'none'`이 블러된 요소에 항상 적용되어 클릭 불가
+  - 해결: `isBlurMode ? 'auto' : 'none'` 조건부 적용
+- [x] **문제 2: PDF 출력 블러 처리**
+  - 원인: 인라인 스타일이 `@media print`의 `!important`보다 우선
+  - 해결: `beforeprint`/`afterprint` 이벤트로 인쇄 시 스타일 직접 변경
+- [x] Playwright 브라우저 테스트로 두 기능 모두 검증 ✅
+
+### 변경된 파일
+- 📝 `src/components/BlurOverlay.tsx` - 블러 취소 및 PDF 출력 처리 수정
+  - `pointerEvents`를 `isBlurMode` 조건부로 변경
+  - `data-blur-active` 속성 추가
+  - `beforeprint`/`afterprint` 이벤트 리스너 추가
+- 📝 `src/styles/globals.css` - `[data-blur-active="true"]` 선택자 추가
+
+### 기술적 해결 내용
+| 문제 | 원인 | 해결 |
+|------|------|------|
+| 블러 취소 불가 | `pointerEvents: 'none'`으로 클릭 차단 | 블러 모드일 때만 `'auto'` 적용 |
+| PDF 블러 미적용 | 인라인 스타일 > CSS `!important` | JavaScript 이벤트로 인쇄 시 스타일 변경 |
+
+### 주요 코드 변경
+```typescript
+// 블러 모드일 때는 클릭 가능하게 유지 (해제용)
+el.style.pointerEvents = isBlurMode ? 'auto' : 'none';
+
+// PDF 출력 시 블러 스타일 변경
+const handleBeforePrint = () => {
+  el.style.filter = 'none';
+  el.style.color = 'transparent';
+  el.style.backgroundColor = '#e5e5e5';
+};
+
+const handleAfterPrint = () => {
+  el.style.filter = blurStyle.filter; // blur(8px) 복원
+  el.style.color = '';
+  el.style.backgroundColor = '';
+};
+```
+
+### 검증 결과 (Playwright)
+| 테스트 | 결과 |
+|--------|------|
+| 블러 적용 → 재클릭 해제 | ✅ 작동 확인 |
+| `beforeprint` 시 스타일 | `color: transparent`, `backgroundColor: #e5e5e5`, `filter: none` ✅ |
+| `afterprint` 시 스타일 | `filter: blur(8px)`, 원래 색상 복원 ✅ |
+
+### 참조한 문서
+- `src/components/BlurOverlay.tsx` - 블러 오버레이 컴포넌트
+- `src/styles/globals.css` - 전역 CSS 스타일
+
+---
+
 ## 롤백 안내
 
 롤백이 필요한 경우:

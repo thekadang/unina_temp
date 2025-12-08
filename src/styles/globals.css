@@ -342,22 +342,26 @@ html {
   }
 
   /* 요소 기반 블러 - PDF 출력 시 완전 가림 */
-  .blur-active {
+  .blur-active,
+  [data-blur-active="true"] {
     position: relative;
     color: transparent !important;
     text-shadow: none !important;
     background-color: #e5e5e5 !important;
     border-radius: 4px;
     user-select: none;
+    filter: none !important; /* 인라인 blur 제거하고 배경으로 가림 */
   }
 
-  .blur-active::after {
+  .blur-active::after,
+  [data-blur-active="true"]::after {
     content: '';
     position: absolute;
     inset: 0;
     background: linear-gradient(135deg, #f0f0f0 25%, #e5e5e5 25%, #e5e5e5 50%, #f0f0f0 50%, #f0f0f0 75%, #e5e5e5 75%, #e5e5e5) !important;
     background-size: 8px 8px !important;
     border-radius: 4px;
+    z-index: 10;
   }
 }
 
