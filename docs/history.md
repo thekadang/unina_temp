@@ -521,6 +521,54 @@ case 'process':
 
 ---
 
+## History #11 ⭐
+**날짜**: 2025-12-08
+**사용자 질문**: 아직 해결돼지 않았다... (블러 위치 문제 지속)
+
+### 수행한 작업
+- [x] Playwright 브라우저 테스트로 실제 동작 확인
+- [x] **근본 원인 재발견**:
+  - `data-has-blur="true"`는 블러 영역이 **추가된 후**에만 적용됨
+  - 블러 모드 활성화 시점에는 컨테이너가 여전히 화면 크기(953px)
+  - 사용자가 블러 드래그할 때 이미 잘못된 % 위치가 계산됨
+- [x] **해결책: 블러 모드 진입 즉시 A4 높이 적용**
+  - `data-blur-mode="true"` 속성 추가
+  - 블러 모드 활성화 시 인라인 스타일로 `height: 297mm` 적용
+  - Tailwind `h-[297mm]` 클래스가 JIT 컴파일 안됨 → 인라인 스타일 사용
+- [x] CoverPage, PageWrapper 컴포넌트에 조건부 스타일 적용
+- [x] Playwright 테스트로 컨테이너 높이 1122.52px(A4) 확인 ✅
+- [x] 빌드 성공 ✅
+
+### 변경된 파일
+- 📝 `src/styles/globals.css` - `data-blur-mode` 선택자 추가 (CSS 폴백용)
+- 📝 `src/components/CoverPage.tsx` - 블러 모드 시 인라인 스타일로 A4 높이 적용
+- 📝 `src/components/PageWrapper.tsx` - 블러 모드 시 인라인 스타일로 A4 높이 적용
+
+### 기술적 해결 내용
+| 문제 | 원인 | 해결 |
+|------|------|------|
+| 블러 위치 여전히 불일치 | 블러 모드 활성화 시 컨테이너가 화면 크기 유지 | 블러 모드 진입 즉시 A4 높이(297mm) 적용 |
+| Tailwind `h-[297mm]` 미작동 | Tailwind 4.0 JIT에서 mm 단위 미컴파일 | 인라인 스타일 사용 |
+
+### 검증 결과 (Playwright)
+```javascript
+// 블러 모드 활성화 후 측정
+{
+  "dataBlurMode": "true",
+  "inlineStyle": "height: 297mm; min-height: 297mm;",
+  "offsetHeight": 1123,              // A4 높이!
+  "computedHeight": "1122.52px",     // 정확히 297mm
+  "heightMatch": true                // ✅
+}
+```
+
+### 참조한 문서
+- `src/components/CoverPage.tsx`
+- `src/components/PageWrapper.tsx`
+- `src/styles/globals.css`
+
+---
+
 ## 롤백 안내
 
 롤백이 필요한 경우:

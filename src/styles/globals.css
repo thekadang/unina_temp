@@ -218,7 +218,14 @@ html {
   position: relative;
 }
 
-/* 블러가 있는 페이지: 화면에서도 A4 높이 강제 적용 */
+/*
+ * 블러 모드 활성화 또는 블러 영역이 있는 페이지:
+ * 화면에서도 A4 높이를 강제 적용하여 PDF와 동일한 레이아웃 보장
+ *
+ * 핵심: 블러 모드 진입 즉시 A4 높이를 적용하여
+ *       사용자가 블러 영역을 그릴 때 이미 PDF와 동일한 컨테이너 크기를 사용
+ */
+.blur-container[data-blur-mode="true"],
 .blur-container[data-has-blur="true"] {
   /* 화면에서도 A4 높이 사용하여 PDF와 동일한 컨테이너 크기 */
   min-height: 297mm !important;

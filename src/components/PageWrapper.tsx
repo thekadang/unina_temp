@@ -34,9 +34,16 @@ export function PageWrapper({
 }: Props) {
   const [isHovered, setIsHovered] = useState(false);
 
+  // 블러 모드 또는 블러 영역이 있을 때 A4 높이 강제 적용
+  const isBlurActive = isBlurMode || blurRegions.length > 0;
+  const blurModeClasses = isBlurActive ? 'justify-start overflow-auto' : '';
+  const blurModeStyle = isBlurActive ? { height: '297mm', minHeight: '297mm' } : undefined;
+
   return (
     <div
-      className={`relative blur-container ${className}`}
+      className={`relative blur-container ${blurModeClasses} ${className}`}
+      style={blurModeStyle}
+      data-blur-mode={isBlurMode ? "true" : undefined}
       data-has-blur={blurRegions.length > 0 ? "true" : undefined}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
