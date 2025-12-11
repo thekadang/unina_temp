@@ -797,6 +797,504 @@ const handleAfterPrint = () => {
 
 ---
 
+## History #16 ⭐
+**날짜**: 2025-12-11
+**사용자 질문**: 교통편 안내, 교통카드 안내, 견적서 페이지의 제목부분이 블러 선택이 안된다.
+
+### 수행한 작업
+- [x] 문제 분석: 3개 페이지의 제목 h1 요소에 `data-blur-key` 속성 누락 확인
+- [x] QuotationPage.tsx 확인 → 이미 `quotationPageTitle` 존재 ✅
+- [x] TransportationTicketPage.tsx:389 → `transportationTicketTitle` 추가 ✅
+- [x] TransportationCardPage.tsx:509 → `transportationCardTitle` 추가 ✅
+- [x] 브라우저 테스트: 3개 페이지 모두 제목 블러 선택 성공 확인
+
+### 변경된 파일
+- 📝 `src/components/TransportationTicketPage.tsx` - 업데이트 (line 389)
+  - view mode h1에 `data-blur-key="transportationTicketTitle"` 추가
+- 📝 `src/components/TransportationCardPage.tsx` - 업데이트 (line 509)
+  - view mode h1에 `data-blur-key="transportationCardTitle"` 추가
+
+### 테스트 결과
+| 페이지 | 번호 | blur-key | 결과 |
+|--------|------|----------|------|
+| 견적서 | 13 | `quotationPageTitle` | ✅ 성공 |
+| 교통편 안내 | 11 | `transportationTicketTitle` | ✅ 성공 |
+| 교통카드 안내 | 12 | `transportationCardTitle` | ✅ 성공 |
+
+### 스크린샷
+- `.playwright-mcp/quotation-title-blur.png` - 견적서 제목 블러 선택
+- `.playwright-mcp/transportation-card-title-blur.png` - 교통카드 안내 제목 블러 선택
+
+### 참조한 문서
+- `src/components/QuotationPage.tsx`
+- `src/components/TransportationTicketPage.tsx`
+- `src/components/TransportationCardPage.tsx`
+
+---
+
+## History #17
+**날짜**: 2025-12-11
+**사용자 질문**: 표지페이지 가운데 부분이 블러를 해도 내용이 다 보인다. 그리고 블러모드 안내문구가 하단에 있는데 다른요소들에 가려져있어.
+
+### 수행한 작업
+- [x] 문제 분석: 흰색 배경에서 `rgba(255,255,255,0.3)` 블러 배경이 안 보임
+- [x] 블러 배경색 변경: 파란색-보라색 그라데이션으로 개선
+- [x] 안내문구 z-index 수정: `z-[100]` → `z-[9999]`
+- [x] 브라우저 테스트 및 스크린샷 확인
+
+### 변경된 파일
+- 📝 `src/components/BlurOverlay.tsx` - 업데이트
+  - line 321: 블러 배경색 `rgba(255,255,255,0.3)` → `linear-gradient(135deg, rgba(147, 197, 253, 0.5) 0%, rgba(196, 181, 253, 0.5) 100%)`
+  - line 642: 안내문구 z-index `z-[100]` → `z-[9999]`
+  - line 663: 블러 개수 표시 z-index `z-[100]` → `z-[9999]`
+
+### 스크린샷
+- `.playwright-mcp/cover-blur-improved.png` - 개선된 블러 효과
+
+### 참조한 문서
+- `src/components/BlurOverlay.tsx`
+
+---
+
+## History #18 ⭐
+**날짜**: 2025-12-11
+**사용자 질문**: 표지페이지 가운데 부분이 블러를 해도 내용이 다 보인다 (재보고). 그리고 블러모드 안내문구가 다른 요소에 가려져 안보인다.
+
+### 문제 원인 분석
+1. **블러 효과 약함**: customerInfoCard가 `bg-white/80` (80% 흰색 배경)을 가지고 있어서 블러 오버레이(50% 투명도)와 블렌딩되어 내용이 보임
+2. **안내 문구 가려짐**: `bottom-4`(16px) 위치가 페이지네이션에 가려짐
+
+### 수행한 작업
+- [x] 블러 오버레이 강화:
+  - blur: 12px → 20px (강도 증가)
+  - opacity: 0.5 → 0.97 (거의 불투명)
+- [x] 안내 문구 위치 변경: bottom-4 → bottom-28 (페이지네이션 위로)
+- [x] 브라우저 테스트: 텍스트 완전히 가려짐 확인 ✅
+
+### 변경된 파일
+- 📝 `src/components/BlurOverlay.tsx` - 업데이트
+  - line 319: `backdrop-filter: blur(20px)`
+  - line 321: `background opacity 0.97`
+  - line 642: 안내 문구 `bottom-28`
+  - line 663: 블러 개수 `bottom-28`
+
+### 최종 블러 설정
+```css
+backdrop-filter: blur(20px);
+background: linear-gradient(135deg, rgba(147, 197, 253, 0.97) 0%, rgba(196, 181, 253, 0.97) 100%);
+```
+
+### 스크린샷
+- `.playwright-mcp/cover-blur-final.png` - 최종 블러 효과 (텍스트 완전히 가려짐)
+
+### 참조한 문서
+- `src/components/BlurOverlay.tsx`
+- `src/components/CoverPage.tsx` - customerInfoCard 구조 분석
+
+---
+
+## History #19 ⭐
+**날짜**: 2025-12-11
+**사용자 질문**: 블러 그룹화 개선 요청 - 제목을 블러하면 아래 라인도 함께 블러되게, 위치 텍스트를 블러하면 아이콘도 함께 블러되게
+
+### 수행한 작업
+- [x] **AccommodationPage 제목+라인 그룹화**
+  - `data-blur-key="accommodationTitle-{hotelName}"`로 제목과 gradient line을 하나의 div로 감싸기
+- [x] **AccommodationPage 위치정보 그룹화**
+  - `data-blur-key="accommodationLocation-{hotelName}"`로 MapPin 아이콘과 위치 텍스트를 하나의 div로 감싸기
+- [x] **다른 7개 페이지에 동일 패턴 적용**
+  - IntroductionPage: `introductionTitle`
+  - QuotationPage: `quotationPageTitle`
+  - ItineraryCalendarPage: `itineraryCalendarTitle`
+  - FlightArrivalPage: `flightArrivalTitle`
+  - FlightDeparturePage: `flightDepartureTitle`
+  - FlightTransitPage: `flightTransitTitle`
+  - DetailedSchedulePage: `detailedScheduleDayTitle`
+- [x] **브라우저 테스트 완료**
+  - IntroductionPage: `introductionTitle` 클릭 → 제목+라인 함께 블러 ✅
+  - AccommodationPage: `accommodationTitle` 클릭 → 제목+라인 함께 블러 ✅
+  - AccommodationPage: `accommodationLocation` 클릭 → 아이콘+텍스트 함께 블러 ✅
+
+### 변경된 파일
+- 📝 `src/components/AccommodationPage.tsx` - 제목+라인 그룹화, 위치정보 그룹화
+- 📝 `src/components/IntroductionPage.tsx` - 제목+라인 그룹화
+- 📝 `src/components/QuotationPage.tsx` - 제목+라인 그룹화
+- 📝 `src/components/ItineraryCalendarPage.tsx` - 제목+라인 그룹화
+- 📝 `src/components/FlightArrivalPage.tsx` - 제목+라인 그룹화
+- 📝 `src/components/FlightDeparturePage.tsx` - 제목+라인 그룹화
+- 📝 `src/components/FlightTransitPage.tsx` - 제목+라인 그룹화
+- 📝 `src/components/DetailedSchedulePage.tsx` - 제목+라인 그룹화
+
+### 기술적 해결 내용
+| 문제 | 원인 | 해결 |
+|------|------|------|
+| 제목만 블러되고 라인은 안됨 | `data-blur-key`가 제목 요소에만 있음 | 제목+라인을 감싸는 부모 div에 `data-blur-key` 이동 |
+| 위치 텍스트만 블러되고 아이콘은 안됨 | 아이콘과 텍스트가 별도 요소 | 아이콘+텍스트를 감싸는 부모 div에 `data-blur-key` 추가 |
+
+### 코드 패턴
+```tsx
+// Before: 제목만 블러 가능
+<div className="..." data-blur-key="title">
+  <h1>제목</h1>
+</div>
+<div className="gradient-line" />
+
+// After: 제목+라인 함께 블러
+<div data-blur-key="title">
+  <div className="...">
+    <h1>제목</h1>
+  </div>
+  <div className="gradient-line" />
+</div>
+```
+
+### 참조한 문서
+- `src/components/AccommodationPage.tsx`
+- `src/components/IntroductionPage.tsx`
+- 기타 7개 페이지 컴포넌트
+
+---
+
+## History #20 ⭐
+**날짜**: 2025-12-11
+**사용자 질문**: 블러 그룹화가 여전히 작동하지 않음 - 아이콘이 여전히 텍스트와 분리됨
+
+### 문제 분석
+- **원인 발견**: App.tsx에서 실제로 렌더링되는 컴포넌트가 `AccommodationPage`가 아니라 `EditableAccommodationPage`였음
+- App.tsx line 537: `<EditableAccommodationPage ... />`
+- History #19에서 `AccommodationPage.tsx`를 수정했지만, 실제 사용되는 파일은 `EditableAccommodationPage.tsx`
+
+### 수행한 작업
+- [x] App.tsx 분석 → `EditableAccommodationPage` 사용 확인
+- [x] `EditableAccommodationPage.tsx` 수정:
+  - **제목+라인 그룹화**: `data-blur-key="accommodationTitle"`을 제목+gradient line을 감싸는 부모 div로 이동
+  - **위치정보 그룹화**: `data-blur-key="accommodationLocation"`을 MapPin 아이콘+텍스트를 감싸는 부모 div로 이동
+- [x] **브라우저 테스트 완료**
+  - 숙소 페이지(8/14) 이동
+  - 블러 모드 활성화
+  - 제목 클릭 → `accommodationTitle` 키 인식 ✅
+  - 위치 클릭 → `accommodationLocation` 키 인식 ✅
+
+### 변경된 파일
+- 📝 `src/components/EditableAccommodationPage.tsx` - **실제 수정 필요한 파일**
+  - line 274-314: 제목+gradient line을 `data-blur-key="accommodationTitle"` div로 감싸기
+  - line 315: `data-blur-key="accommodationLocation"`을 MapPin+텍스트 포함하는 div로 이동
+
+### 코드 변경 상세
+```tsx
+// Before (lines 274-314)
+<div className="flex ..." data-blur-key="accommodationTitle">
+  <h1>숙소 안내</h1>
+</div>
+<div className="gradient-line" />
+<div className="flex ...">
+  <MapPin />
+  <span data-blur-key="accommodationLocation">프랑스 · 니스</span>
+</div>
+
+// After
+<div data-blur-key="accommodationTitle">
+  <div className="flex ...">
+    <h1>숙소 안내</h1>
+  </div>
+  <div className="gradient-line" />
+</div>
+<div data-blur-key="accommodationLocation" className="flex ...">
+  <MapPin />
+  <span>프랑스 · 니스</span>
+</div>
+```
+
+### 교훈
+- **항상 App.tsx에서 실제 렌더링되는 컴포넌트 확인 필요**
+- 비슷한 이름의 컴포넌트가 여러 개 있을 수 있음 (AccommodationPage vs EditableAccommodationPage)
+
+### 참조한 문서
+- `src/App.tsx` - line 537 `EditableAccommodationPage` 사용 확인
+- `src/components/EditableAccommodationPage.tsx` - 실제 수정 대상
+
+---
+
+## History #21 ⭐
+**날짜**: 2025-12-11
+**사용자 질문**: 전체 페이지 제목+라인 블러 그룹화 및 블러 영역 width 일관성 (가로 전체) 적용
+
+### 문제 분석
+1. **제목+라인 분리 문제**: 일부 페이지에서 제목을 블러해도 아래 gradient line이 블러되지 않음
+2. **블러 영역 width 불일치**: 어떤 페이지는 가로 전체 블러, 어떤 페이지는 제목 주변만 블러됨
+   - 원인: `data-blur-key` div에 `w-full` 클래스가 없어서 블러 영역이 내용 크기에만 맞춰짐
+
+### 수행한 작업
+- [x] 전체 페이지 제목 구조 분석 (grep으로 data-blur-key 패턴 검색)
+- [x] **제목+라인 그룹화 수정 (6개 파일)**:
+  - FlightInfoPage.tsx: `flightInfoTitle` → 제목+라인 감싸기
+  - PaymentPage.tsx: `paymentPageTitle` → 제목+라인 감싸기
+  - ProcessPage.tsx: `processPageTitle` → 제목+라인 감싸기
+  - TransportationCardPage.tsx: `transportationCardTitle` → 제목+라인 감싸기
+  - TransportationTicketPage.tsx: `transportationTicketTitle` → 제목+라인 감싸기
+  - TouristSpotListPage.tsx: `touristSpotListTitle` → 제목+라인 감싸기 (blur-key 이름 변경)
+- [x] **블러 영역 w-full 추가 (14개 파일)**:
+  - 모든 페이지의 `data-blur-key` wrapper div에 `className="w-full"` 추가
+- [x] **브라우저 테스트 완료**
+  - 숙소 페이지: `accommodationTitle` → 제목+라인 가로 전체 블러 ✅
+  - DetailedSchedulePage: `detailedScheduleDayTitle` → 가로 전체 블러 ✅
+  - TouristSpotListPage: `touristSpotListTitle` → 가로 전체 블러 ✅
+  - TransportationTicketPage: `transportationTicketTitle` → 가로 전체 블러 ✅
+
+### 변경된 파일 (14개)
+**제목+라인 그룹화 수정:**
+- 📝 `src/components/FlightInfoPage.tsx` - 제목+라인 그룹화 + w-full
+- 📝 `src/components/PaymentPage.tsx` - 제목+라인 그룹화 + w-full
+- 📝 `src/components/ProcessPage.tsx` - 제목+라인 그룹화 + w-full
+- 📝 `src/components/TransportationCardPage.tsx` - 제목+라인 그룹화 + w-full
+- 📝 `src/components/TransportationTicketPage.tsx` - 제목+라인 그룹화 + w-full
+- 📝 `src/components/TouristSpotListPage.tsx` - 제목+라인 그룹화 + w-full (blur-key: `touristSpotListTitle`)
+
+**w-full만 추가:**
+- 📝 `src/components/IntroductionPage.tsx` - w-full 추가
+- 📝 `src/components/QuotationPage.tsx` - w-full 추가
+- 📝 `src/components/ItineraryCalendarPage.tsx` - w-full 추가
+- 📝 `src/components/FlightArrivalPage.tsx` - w-full 추가
+- 📝 `src/components/FlightDeparturePage.tsx` - w-full 추가
+- 📝 `src/components/FlightTransitPage.tsx` - w-full 추가
+- 📝 `src/components/DetailedSchedulePage.tsx` - w-full 추가
+- 📝 `src/components/EditableAccommodationPage.tsx` - w-full 추가
+
+### 코드 패턴
+```tsx
+// Before: 블러 영역이 내용 크기만큼만
+<div data-blur-key="pageTitle">
+  <div className="flex ..."><h1>제목</h1></div>
+  <div className="gradient-line" />
+</div>
+
+// After: 블러 영역이 가로 전체
+<div data-blur-key="pageTitle" className="w-full">
+  <div className="flex ..."><h1>제목</h1></div>
+  <div className="gradient-line" />
+</div>
+```
+
+### 테스트 결과
+| 페이지 | blur-key | 제목+라인 | 가로전체 |
+|--------|----------|-----------|----------|
+| 숙소 안내 | `accommodationTitle` | ✅ | ✅ |
+| 인천 출발 | `detailedScheduleDayTitle` | ✅ | ✅ |
+| 관광지 픽 | `touristSpotListTitle` | ✅ | ✅ |
+| 교통편 안내 | `transportationTicketTitle` | ✅ | ✅ |
+
+### 참조한 문서
+- 전체 페이지 컴포넌트 (14개 파일)
+
+---
+
+## History #22
+**날짜**: 2025-12-11
+**사용자 질문**: 편집모드에서 글자편집창이 좁은곳이 몇 군데 있다. 전 페이지 검토해보고 편집창 크기를 적절하게 조절해.
+
+### 문제 분석
+스크린샷에서 확인된 문제:
+1. **CoverPage.tsx**: 일부 입력창에 `max-w-xs` (약 320px) 적용되어 너무 좁음
+2. **PaymentPage.tsx**: 일부 입력창에 `w-full` 누락되어 내용 크기만큼만 표시됨
+
+### 수행한 작업
+- [x] 전체 페이지 입력창 스타일 분석
+- [x] CoverPage.tsx `max-w-xs` → `max-w-md` 수정 (4곳)
+- [x] PaymentPage.tsx `w-full` 추가 (2곳)
+- [x] 브라우저에서 테스트 완료
+
+### 변경된 파일 (2개)
+**CoverPage.tsx (4곳 수정):**
+- 📝 line 150: `coverTitle` 입력창 `max-w-xs` → `max-w-md`
+- 📝 line 181: `coverPlanningLabel` 입력창 `max-w-xs` → `max-w-md`
+- 📝 line 211: `coverDate` 입력창 `max-w-xs` → `max-w-md`
+- 📝 line 242: `plannerName` 입력창 `max-w-xs` → `max-w-md`
+
+**PaymentPage.tsx (2곳 수정):**
+- 📝 line 402: `paymentMethodsTitle` 입력창 `w-full` 추가
+- 📝 line 585: `paymentNoticesTitle` 입력창 `w-full` 추가
+
+### 코드 변경 예시
+```tsx
+// CoverPage.tsx Before:
+className="... w-full max-w-xs"
+
+// CoverPage.tsx After:
+className="... w-full max-w-md"
+
+// PaymentPage.tsx Before:
+className="text-cyan-700 ... px-2 py-1 focus:outline-none"
+
+// PaymentPage.tsx After:
+className="w-full text-cyan-700 ... px-2 py-1 focus:outline-none"
+```
+
+### 테스트 결과
+- CoverPage 편집 모드: 입력창이 더 넓어져서 텍스트 편집 용이 ✅
+- PaymentPage 편집 모드: 제목 입력창이 전체 너비로 확장됨 ✅
+
+### 참조한 문서
+- `src/components/CoverPage.tsx`
+- `src/components/PaymentPage.tsx`
+
+---
+
+## History #23
+**날짜**: 2025-12-11
+**사용자 질문**: 두 개의 이미지에 파란색으로 표시된 편집창 너비가 너무 좁다. 해당 부분을 수정해달라.
+
+### 문제 분석
+스크린샷에서 파란색으로 표시된 좁은 편집창:
+
+**이미지 1 (CoverPage - 1페이지):**
+1. 담당자 입력창 (cyan 배경 박스 내) - 부모 div에 `w-full` 없음
+2. 저작권 textarea (하단) - 부모 div에 `w-full` 없음, min-width 부족
+
+**이미지 2 (IntroductionPage - 2페이지):**
+1. "중요 요청사항" 라벨 입력창 - 부모 div에 `w-full` 없음
+2. "중요 요청사항" 내용 textarea - 부모 div에 `w-full` 없음
+
+### 수행한 작업
+- [x] CoverPage.tsx 분석 및 수정 (2곳)
+- [x] IntroductionPage.tsx 분석 및 수정 (2곳)
+- [x] 브라우저 테스트 완료
+
+### 변경된 파일 (2개)
+
+**CoverPage.tsx (2곳 수정):**
+- 📝 line 235: `data-blur-key="plannerName"` div에 `className="w-full max-w-sm"` 추가, input에서 `max-w-md` 제거
+- 📝 line 274: `data-blur-key="coverCopyright"` div에 `className="w-full"` 추가, textarea에 `min-w-[300px]` 추가
+
+**IntroductionPage.tsx (2곳 수정):**
+- 📝 line 460: `data-blur-key="importantRequestsLabel"` div에 `className="w-full"` 추가, input에 `min-w-[250px]` 추가
+- 📝 line 484-485: 부모 flex div에 `w-full` 추가, `data-blur-key="specialRequests"` div에 `className="w-full flex-1"` 추가, textarea에 `min-w-[280px]` 추가
+
+### 코드 변경 예시
+```tsx
+// CoverPage.tsx - plannerName
+// Before:
+<div data-blur-key="plannerName">
+  <input className="... w-full max-w-md" />
+
+// After:
+<div data-blur-key="plannerName" className="w-full max-w-sm">
+  <input className="... w-full" />
+
+// IntroductionPage.tsx - specialRequests
+// Before:
+<div className="flex items-start gap-2">
+  <div data-blur-key="specialRequests">
+    <textarea className="w-full ..." />
+
+// After:
+<div className="flex items-start gap-2 w-full">
+  <div data-blur-key="specialRequests" className="w-full flex-1">
+    <textarea className="w-full min-w-[280px] ..." />
+```
+
+### 테스트 결과
+| 페이지 | 요소 | 수정 전 | 수정 후 |
+|--------|------|---------|---------|
+| CoverPage | 담당자 입력창 | 좁음 | 적절한 너비 ✅ |
+| CoverPage | 저작권 textarea | 좁음 | 전체 너비 ✅ |
+| IntroductionPage | 중요요청사항 라벨 | 좁음 | 전체 너비 ✅ |
+| IntroductionPage | 중요요청사항 내용 | 좁음 | 전체 너비 ✅ |
+
+### 참조한 문서
+- `src/components/CoverPage.tsx`
+- `src/components/IntroductionPage.tsx`
+
+---
+
+## History #24
+**날짜**: 2025-12-11
+**사용자 질문**: 세부일정 페이지랑 관광지 리스트 페이지의 편집모드에서 색상테마 선택창이 편집모드 버튼이랑 겹친다. 위치를 적당하게 조절해줘.
+
+### 문제 분석
+스크린샷에서 색상 테마 선택창(4개의 컬러 버튼: 보라색, 청록색, 초록색, 주황색)이 "편집 모드" 버튼과 겹쳐서 표시되는 문제.
+
+**원인:**
+- DetailedSchedulePage.tsx L327: `absolute -top-6 left-0` - 왼쪽 상단에 위치
+- TouristSpotListPage.tsx L329: `absolute -top-6 left-0` - 왼쪽 상단에 위치
+
+### 수행한 작업
+- [x] DetailedSchedulePage.tsx 색상테마 선택창 위치 수정
+- [x] TouristSpotListPage.tsx 색상테마 선택창 위치 수정
+- [x] 브라우저 테스트 완료
+
+### 변경된 파일 (2개)
+
+**DetailedSchedulePage.tsx:**
+- 📝 line 327: `left-0` → `right-0` (색상 테마 선택창을 오른쪽으로 이동)
+
+**TouristSpotListPage.tsx:**
+- 📝 line 329: `left-0` → `right-0` (색상 테마 선택창을 오른쪽으로 이동)
+
+### 코드 변경
+```tsx
+// Before:
+<div className="absolute -top-6 left-0 flex gap-2 print:hidden">
+  {/* Color Theme Selector */}
+
+// After (인라인 스타일 사용 - Tailwind 클래스 우선순위 문제 해결):
+<div className="absolute flex gap-2 print:hidden" style={{ top: '-24px', right: '0', left: 'auto' }}>
+  {/* Color Theme Selector */}
+```
+
+**참고**: Tailwind의 `right-0`, `left-auto` 클래스가 제대로 적용되지 않아 인라인 스타일로 해결
+
+### 테스트 결과
+| 페이지 | 수정 전 | 수정 후 |
+|--------|---------|---------|
+| DetailedSchedulePage | 색상 선택창이 편집 모드 버튼과 겹침 | 오른쪽으로 이동, 겹침 해결 ✅ |
+| TouristSpotListPage | 색상 선택창이 편집 모드 버튼과 겹침 | 오른쪽으로 이동, 겹침 해결 ✅ |
+
+### 참조한 문서
+- `src/components/DetailedSchedulePage.tsx`
+- `src/components/TouristSpotListPage.tsx`
+
+---
+
+## History #25
+**날짜**: 2025-12-11
+**사용자 질문**: 색상테마 선택 버튼이 페이지 복제/삭제 버튼과 겹친다. 복제/삭제 버튼 아래 10px 여백을 두고 위치시켜달라.
+
+### 문제 분석
+History #24에서 색상 테마 선택창을 오른쪽으로 이동했으나, 페이지 복제/삭제 버튼과 겹치는 새로운 문제 발생.
+
+### 수행한 작업
+- [x] 색상테마 선택창 top 값 조정 (`-24px` → `45px`)
+- [x] 브라우저 테스트 완료
+
+### 변경된 파일 (2개)
+
+**DetailedSchedulePage.tsx:**
+- 📝 line 327: `top: '-24px'` → `top: '45px'`
+
+**TouristSpotListPage.tsx:**
+- 📝 line 329: `top: '-24px'` → `top: '45px'`
+
+### 코드 변경
+```tsx
+// Before (History #24):
+<div className="absolute flex gap-2 print:hidden" style={{ top: '-24px', right: '0', left: 'auto' }}>
+
+// After:
+<div className="absolute flex gap-2 print:hidden" style={{ top: '45px', right: '0', left: 'auto' }}>
+```
+
+### 테스트 결과
+| 페이지 | 수정 전 | 수정 후 |
+|--------|---------|---------|
+| DetailedSchedulePage | 색상 선택창이 복제/삭제 버튼과 겹침 | 버튼 아래로 이동, 겹침 해결 ✅ |
+| TouristSpotListPage | 색상 선택창이 복제/삭제 버튼과 겹침 | 버튼 아래로 이동, 겹침 해결 ✅ |
+
+### 참조한 문서
+- `src/components/DetailedSchedulePage.tsx`
+- `src/components/TouristSpotListPage.tsx`
+
+---
+
 ## 롤백 안내
 
 롤백이 필요한 경우:

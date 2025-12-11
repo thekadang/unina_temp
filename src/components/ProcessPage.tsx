@@ -150,8 +150,8 @@ export function ProcessPage({
       <div className="max-w-5xl mx-auto space-y-10 print:space-y-6">
         {/* Header */}
         <div className="text-center">
-          <div className="flex items-center justify-center gap-2 mb-[3px]">
-            <div data-blur-key="processPageTitle">
+          <div data-blur-key="processPageTitle" className="w-full">
+            <div className="flex items-center justify-center gap-2 mb-[3px]">
               {isEditMode ? (
                 <>
                   <h1
@@ -179,8 +179,8 @@ export function ProcessPage({
                 </h1>
               )}
             </div>
+            <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
           </div>
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
         </div>
 
         {/* Process Steps */}

@@ -475,45 +475,47 @@ export function TransportationCardPage({
 
       {/* Header */}
       <div className="text-center mb-4 md:mb-6 break-inside-avoid">
-        <div className="flex items-center justify-center gap-2 mb-[3px]">
-          {isEditMode ? (
-            editingField === 'cardPageTitle' ? (
-              <input
-                type="text"
-                value={tempValue}
-                onChange={(e) => setTempValue(e.target.value)}
-                onKeyDown={handleKeyDown}
-                onBlur={saveEdit}
-                autoFocus
-                className="text-2xl md:text-3xl font-semibold text-cyan-600 bg-blue-50 px-3 py-1 rounded border border-blue-300 focus:outline-none focus:border-blue-500"
-              />
-            ) : (
-              <>
-                <h1 
-                  className="text-2xl md:text-3xl font-semibold text-cyan-600 cursor-pointer hover:bg-blue-50 px-3 py-1 rounded transition-colors"
-                  style={getStyleObject(data.transportationCardTitleStyle)}
-                  onClick={() => startEdit('cardPageTitle', data.transportationCardPageTitle || '교통카드 안내')}
-                >
-                  {data.transportationCardPageTitle || '교통카드 안내'}
-                </h1>
-                <StylePicker
-                  currentStyle={data.transportationCardTitleStyle}
-                  onStyleChange={(style) => onUpdate({ transportationCardTitleStyle: style })}
-                  fieldKey="transportationCardTitle"
-                  backgroundColorClass="bg-white"
+        <div data-blur-key="transportationCardTitle" className="w-full">
+          <div className="flex items-center justify-center gap-2 mb-[3px]">
+            {isEditMode ? (
+              editingField === 'cardPageTitle' ? (
+                <input
+                  type="text"
+                  value={tempValue}
+                  onChange={(e) => setTempValue(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  onBlur={saveEdit}
+                  autoFocus
+                  className="text-2xl md:text-3xl font-semibold text-cyan-600 bg-blue-50 px-3 py-1 rounded border border-blue-300 focus:outline-none focus:border-blue-500"
                 />
-              </>
-            )
-          ) : (
-            <h1 
-              className="text-2xl md:text-3xl font-semibold text-cyan-600"
-              style={getStyleObject(data.transportationCardTitleStyle)}
-            >
-              {data.transportationCardPageTitle || '교통카드 안내'}
-            </h1>
-          )}
+              ) : (
+                <>
+                  <h1
+                    className="text-2xl md:text-3xl font-semibold text-cyan-600 cursor-pointer hover:bg-blue-50 px-3 py-1 rounded transition-colors"
+                    style={getStyleObject(data.transportationCardTitleStyle)}
+                    onClick={() => startEdit('cardPageTitle', data.transportationCardPageTitle || '교통카드 안내')}
+                  >
+                    {data.transportationCardPageTitle || '교통카드 안내'}
+                  </h1>
+                  <StylePicker
+                    currentStyle={data.transportationCardTitleStyle}
+                    onStyleChange={(style) => onUpdate({ transportationCardTitleStyle: style })}
+                    fieldKey="transportationCardTitle"
+                    backgroundColorClass="bg-white"
+                  />
+                </>
+              )
+            ) : (
+              <h1
+                className="text-2xl md:text-3xl font-semibold text-cyan-600"
+                style={getStyleObject(data.transportationCardTitleStyle)}
+              >
+                {data.transportationCardPageTitle || '교통카드 안내'}
+              </h1>
+            )}
+          </div>
+          <div className="w-20 md:w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-2" />
         </div>
-        <div className="w-20 md:w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-2" />
       </div>
 
       {/* Transportation Cards */}

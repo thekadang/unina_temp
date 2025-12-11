@@ -202,8 +202,8 @@ export function PaymentPage({
       <div className="max-w-3xl mx-auto space-y-6 print:space-y-4">
         {/* Header */}
         <div className="text-center">
-          <div className="flex items-center justify-center gap-2 mb-[3px]">
-            <div data-blur-key="paymentPageTitle">
+          <div data-blur-key="paymentPageTitle" className="w-full">
+            <div className="flex items-center justify-center gap-2 mb-[3px]">
               {isEditMode ? (
                 editingField === 'paymentPageTitle' ? (
                   <input
@@ -247,8 +247,8 @@ export function PaymentPage({
                 </h1>
               )}
             </div>
+            <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
           </div>
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
         </div>
 
         {/* Payment Info Cards */}
@@ -399,7 +399,7 @@ export function PaymentPage({
                 }}
                 onBlur={saveEdit}
                 autoFocus
-                className="text-cyan-700 text-base print:text-sm font-bold text-[20px] bg-transparent border-2 border-cyan-300 rounded px-2 py-1 focus:outline-none"
+                className="w-full text-cyan-700 text-base print:text-sm font-bold text-[20px] bg-transparent border-2 border-cyan-300 rounded px-2 py-1 focus:outline-none"
                 style={getStyleObject(data.paymentMethodsTitleStyle)}
               />
             ) : (
@@ -582,7 +582,7 @@ export function PaymentPage({
                     }}
                     onBlur={saveEdit}
                     autoFocus
-                    className="text-gray-900 text-sm print:text-xs font-bold text-[20px] bg-transparent border-2 border-gray-300 rounded px-2 py-1 focus:outline-none"
+                    className="w-full text-gray-900 text-sm print:text-xs font-bold text-[20px] bg-transparent border-2 border-gray-300 rounded px-2 py-1 focus:outline-none"
                     style={getStyleObject(data.paymentNoticesTitleStyle)}
                   />
                 ) : (

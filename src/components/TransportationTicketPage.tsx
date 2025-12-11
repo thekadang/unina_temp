@@ -355,45 +355,47 @@ export function TransportationTicketPage({
 
       {/* Header */}
       <div className="text-center mb-4 break-inside-avoid">
-        <div className="flex items-center justify-center gap-2 mb-[3px]">
-          {isEditMode ? (
-            editingField === 'ticketTitle' ? (
-              <input
-                type="text"
-                value={tempValue}
-                onChange={(e) => setTempValue(e.target.value)}
-                onKeyDown={handleKeyDown}
-                onBlur={saveEdit}
-                autoFocus
-                className="text-3xl font-semibold text-cyan-600 bg-blue-50 px-3 py-1 rounded border border-blue-300 focus:outline-none focus:border-blue-500"
-              />
-            ) : (
-              <>
-                <h1 
-                  className="text-3xl font-semibold text-cyan-600 cursor-pointer hover:bg-blue-50 px-3 py-1 rounded transition-colors"
-                  style={getStyleObject(data.transportationTicketTitleStyle)}
-                  onClick={() => startEdit('ticketTitle', data.transportationTicketTitle || '교통편 안내')}
-                >
-                  {data.transportationTicketTitle || '교통편 안내'}
-                </h1>
-                <StylePicker
-                  currentStyle={data.transportationTicketTitleStyle}
-                  onStyleChange={(style) => onUpdate({ transportationTicketTitleStyle: style })}
-                  fieldKey="transportationTicketTitle"
-                  backgroundColorClass="bg-white"
+        <div data-blur-key="transportationTicketTitle" className="w-full">
+          <div className="flex items-center justify-center gap-2 mb-[3px]">
+            {isEditMode ? (
+              editingField === 'ticketTitle' ? (
+                <input
+                  type="text"
+                  value={tempValue}
+                  onChange={(e) => setTempValue(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  onBlur={saveEdit}
+                  autoFocus
+                  className="text-3xl font-semibold text-cyan-600 bg-blue-50 px-3 py-1 rounded border border-blue-300 focus:outline-none focus:border-blue-500"
                 />
-              </>
-            )
-          ) : (
-            <h1 
-              className="text-3xl font-semibold text-cyan-600"
-              style={getStyleObject(data.transportationTicketTitleStyle)}
-            >
-              {data.transportationTicketTitle || '교통편 안내'}
-            </h1>
-          )}
+              ) : (
+                <>
+                  <h1
+                    className="text-3xl font-semibold text-cyan-600 cursor-pointer hover:bg-blue-50 px-3 py-1 rounded transition-colors"
+                    style={getStyleObject(data.transportationTicketTitleStyle)}
+                    onClick={() => startEdit('ticketTitle', data.transportationTicketTitle || '교통편 안내')}
+                  >
+                    {data.transportationTicketTitle || '교통편 안내'}
+                  </h1>
+                  <StylePicker
+                    currentStyle={data.transportationTicketTitleStyle}
+                    onStyleChange={(style) => onUpdate({ transportationTicketTitleStyle: style })}
+                    fieldKey="transportationTicketTitle"
+                    backgroundColorClass="bg-white"
+                  />
+                </>
+              )
+            ) : (
+              <h1
+                className="text-3xl font-semibold text-cyan-600"
+                style={getStyleObject(data.transportationTicketTitleStyle)}
+              >
+                {data.transportationTicketTitle || '교통편 안내'}
+              </h1>
+            )}
+          </div>
+          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-2" />
         </div>
-        <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-2" />
       </div>
 
       {/* Transportation Tickets */}

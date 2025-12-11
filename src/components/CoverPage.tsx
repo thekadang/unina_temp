@@ -147,7 +147,7 @@ export function CoverPage({
                     value={data.coverTitle}
                     onChange={(e) => onUpdate?.({ coverTitle: e.target.value })}
                     style={getStyleObject(data.coverTitleStyle)}
-                    className="text-center text-cyan-700 bg-white border-2 border-cyan-300 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 w-full max-w-xs"
+                    className="text-center text-cyan-700 bg-white border-2 border-cyan-300 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 w-full max-w-md"
                   />
                 ) : (
                   <h2
@@ -178,7 +178,7 @@ export function CoverPage({
                       value={data.coverPlanningLabel}
                       onChange={(e) => onUpdate?.({ coverPlanningLabel: e.target.value })}
                       style={getStyleObject(data.coverPlanningLabelStyle)}
-                      className="text-center text-cyan-600 bg-white border-2 border-cyan-300 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 w-full max-w-xs"
+                      className="text-center text-cyan-600 bg-white border-2 border-cyan-300 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 w-full max-w-md"
                     />
                   ) : (
                     <p
@@ -208,7 +208,7 @@ export function CoverPage({
                       value={data.coverDate}
                       onChange={(e) => onUpdate?.({ coverDate: e.target.value })}
                       style={getStyleObject(data.coverDateStyle)}
-                      className="text-center bg-white border-2 border-cyan-300 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 w-full max-w-xs"
+                      className="text-center bg-white border-2 border-cyan-300 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 w-full max-w-md"
                     />
                   ) : (
                     <p style={getStyleObject(data.coverDateStyle)}>{data.coverDate}</p>
@@ -232,14 +232,14 @@ export function CoverPage({
         {/* Planner Info */}
         <div data-blur-key="plannerInfoCard" className="bg-gradient-to-r from-cyan-500 to-cyan-600 text-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-lg">
           <div className="flex items-center justify-center gap-2">
-            <div data-blur-key="plannerName">
+            <div data-blur-key="plannerName" className="w-full max-w-sm">
               {isEditMode ? (
                 <input
                   type="text"
                   value={data.plannerName}
                   onChange={(e) => onUpdate?.({ plannerName: e.target.value })}
                   style={getStyleObject(data.plannerNameStyle)}
-                  className="text-center bg-cyan-600 text-white border-2 border-white/50 rounded-lg px-4 py-2 focus:outline-none focus:border-white placeholder-white/70 w-full max-w-xs"
+                  className="text-center bg-cyan-600 text-white border-2 border-white/50 rounded-lg px-4 py-2 focus:outline-none focus:border-white placeholder-white/70 w-full"
                   placeholder="담당자: "
                 />
               ) : (
@@ -271,14 +271,14 @@ export function CoverPage({
               />
             </div>
           )}
-          <div data-blur-key="coverCopyright">
+          <div data-blur-key="coverCopyright" className="w-full">
             {isEditMode ? (
               <textarea
                 value={data.coverCopyright}
                 onChange={(e) => onUpdate?.({ coverCopyright: e.target.value })}
                 style={getStyleObject(data.coverCopyrightStyle)}
                 rows={3}
-                className="w-full text-center text-gray-500 text-xs leading-relaxed bg-white border-2 border-cyan-300 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 resize-none"
+                className="w-full min-w-[300px] text-center text-gray-500 text-xs leading-relaxed bg-white border-2 border-cyan-300 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 resize-none"
               />
             ) : (
               <div style={getStyleObject(data.coverCopyrightStyle)}>

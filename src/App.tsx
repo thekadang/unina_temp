@@ -1057,13 +1057,78 @@ export default function App() {
     }
   };
 
-  const handlePrint = () => {
+  const handlePrint = async () => {
+    console.log('[PDF] 인쇄 시작...');
     setIsPrintMode(true);
     setIsEditMode(false);
-    setTimeout(() => {
+
+    // React 상태 업데이트 및 DOM 재렌더링 대기
+    await new Promise(resolve => setTimeout(resolve, 100));
+    console.log('[PDF] 인쇄 모드 활성화됨');
+
+    // 모든 이미지가 로드될 때까지 기다림 (최대 3초 타임아웃)
+    const waitForImages = () => {
+      return new Promise<void>((resolve) => {
+        setTimeout(() => {
+          const images = document.querySelectorAll('img');
+          console.log(`[PDF] ${images.length}개 이미지 로드 대기...`);
+
+          let loadedCount = 0;
+          const totalImages = images.length;
+
+          const imagePromises = Array.from(images).map((img, index) => {
+            // 이미 로드 완료된 이미지
+            if (img.complete && img.naturalWidth > 0) {
+              loadedCount++;
+              console.log(`[PDF] 이미지 ${index + 1}/${totalImages} 이미 로드됨`);
+              return Promise.resolve();
+            }
+
+            // 로드 대기 (개별 타임아웃 2초)
+            return new Promise<void>((imgResolve) => {
+              const timeout = setTimeout(() => {
+                console.log(`[PDF] 이미지 ${index + 1}/${totalImages} 타임아웃`);
+                imgResolve();
+              }, 2000);
+
+              img.onload = () => {
+                clearTimeout(timeout);
+                loadedCount++;
+                console.log(`[PDF] 이미지 ${index + 1}/${totalImages} 로드 완료`);
+                imgResolve();
+              };
+              img.onerror = () => {
+                clearTimeout(timeout);
+                console.log(`[PDF] 이미지 ${index + 1}/${totalImages} 로드 실패`);
+                imgResolve(); // 에러여도 계속 진행
+              };
+            });
+          });
+
+          Promise.all(imagePromises).then(() => {
+            console.log(`[PDF] 총 ${loadedCount}/${totalImages} 이미지 로드됨`);
+            resolve();
+          });
+        }, 100); // DOM 업데이트 대기
+      });
+    };
+
+    await waitForImages();
+    console.log('[PDF] 이미지 로드 완료');
+
+    // 추가 대기 시간 (이미지 렌더링 완료)
+    await new Promise(resolve => setTimeout(resolve, 500));
+    console.log('[PDF] window.print() 호출...');
+
+    try {
       window.print();
-      setIsPrintMode(false);
-    }, 100);
+      console.log('[PDF] 인쇄 대화상자 완료');
+    } catch (e) {
+      console.error('[PDF] window.print() 에러:', e);
+    }
+
+    setIsPrintMode(false);
+    console.log('[PDF] 인쇄 모드 종료');
   };
 
   // 스크롤 위치 감지

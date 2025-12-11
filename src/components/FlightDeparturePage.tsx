@@ -231,45 +231,47 @@ export function FlightDeparturePage({
       <div className={`max-w-5xl mx-auto ${hasMultipleSegments ? 'space-y-6 print:space-y-4' : 'space-y-10 print:space-y-8'}`}>
         {/* Header */}
         <div className="text-center print:break-inside-avoid">
-          <div className="flex items-center justify-center gap-2 mb-[3px]" data-blur-key="flightDepartureTitle">
-            {isEditMode ? (
-              editingField === 'flightDepartureTitle' ? (
-                <input
-                  type="text"
-                  value={tempValue}
-                  onChange={(e) => setTempValue(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  onBlur={saveEdit}
-                  autoFocus
-                  className="text-3xl font-semibold text-cyan-600 text-center bg-blue-50 px-4 py-2 rounded border border-blue-300 focus:outline-none focus:border-blue-500"
-                />
-              ) : (
-                <>
-                  <h1
-                    className="text-3xl font-semibold text-cyan-600 cursor-pointer hover:bg-blue-50 px-4 py-2 rounded transition-colors"
-                    style={getStyleObject(data.flightDepartureTitleStyle)}
-                    onClick={() => startEdit('flightDepartureTitle', data.flightDepartureTitle)}
-                  >
-                    {data.flightDepartureTitle}
-                  </h1>
-                  <StylePicker
-                    currentStyle={data.flightDepartureTitleStyle}
-                    onStyleChange={(style) => onUpdate({ flightDepartureTitleStyle: style })}
-                    fieldKey="flightDepartureTitle"
-                    backgroundColorClass="bg-white"
+          <div data-blur-key="flightDepartureTitle" className="w-full">
+            <div className="flex items-center justify-center gap-2 mb-[3px]">
+              {isEditMode ? (
+                editingField === 'flightDepartureTitle' ? (
+                  <input
+                    type="text"
+                    value={tempValue}
+                    onChange={(e) => setTempValue(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    onBlur={saveEdit}
+                    autoFocus
+                    className="text-3xl font-semibold text-cyan-600 text-center bg-blue-50 px-4 py-2 rounded border border-blue-300 focus:outline-none focus:border-blue-500"
                   />
-                </>
-              )
-            ) : (
-              <h1
-                className="text-3xl font-semibold text-cyan-600"
-                style={getStyleObject(data.flightDepartureTitleStyle)}
-              >
-                {data.flightDepartureTitle}
-              </h1>
-            )}
+                ) : (
+                  <>
+                    <h1
+                      className="text-3xl font-semibold text-cyan-600 cursor-pointer hover:bg-blue-50 px-4 py-2 rounded transition-colors"
+                      style={getStyleObject(data.flightDepartureTitleStyle)}
+                      onClick={() => startEdit('flightDepartureTitle', data.flightDepartureTitle)}
+                    >
+                      {data.flightDepartureTitle}
+                    </h1>
+                    <StylePicker
+                      currentStyle={data.flightDepartureTitleStyle}
+                      onStyleChange={(style) => onUpdate({ flightDepartureTitleStyle: style })}
+                      fieldKey="flightDepartureTitle"
+                      backgroundColorClass="bg-white"
+                    />
+                  </>
+                )
+              ) : (
+                <h1
+                  className="text-3xl font-semibold text-cyan-600"
+                  style={getStyleObject(data.flightDepartureTitleStyle)}
+                >
+                  {data.flightDepartureTitle}
+                </h1>
+              )}
+            </div>
+            <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
           </div>
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
           {/* Editable Description */}
           <div className="flex items-center justify-center gap-2" data-blur-key="flightDepartureDescription">
             {isEditMode ? (
@@ -887,7 +889,7 @@ export function FlightDeparturePage({
         )}
 
         {/* Important Notice */}
-        <div className={`bg-yellow-50 border border-yellow-200 rounded-xl print:break-inside-avoid ${hasMultipleSegments ? 'p-4' : 'p-6'}`}>
+        <div data-blur-key="flightDepartureChecklistCard" className={`bg-yellow-50 border border-yellow-200 rounded-xl print:break-inside-avoid ${hasMultipleSegments ? 'p-4' : 'p-6'}`}>
           <div className="flex items-center gap-2 mb-3">
             {isEditMode ? (
               editingField === 'flightDepartureChecklistTitle' ? (

@@ -290,8 +290,8 @@ export function ItineraryCalendarPage({ data, isEditMode, onUpdate, onDuplicate,
       <div className="max-w-5xl mx-auto space-y-4 md:space-y-6 print:space-y-5">
         {/* Header */}
         <div className="text-center">
-          <div className="flex items-center justify-center gap-2 mb-[3px]">
-            <div data-blur-key="itineraryCalendarTitle">
+          <div data-blur-key="itineraryCalendarTitle" className="w-full">
+            <div className="flex items-center justify-center gap-2 mb-[3px]">
               {isEditMode ? (
                 editingField === 'itineraryCalendarTitle' ? (
                   <input
@@ -320,17 +320,17 @@ export function ItineraryCalendarPage({ data, isEditMode, onUpdate, onDuplicate,
                   {data.itineraryCalendarTitle}
                 </h1>
               )}
+              {isEditMode && editingField !== 'itineraryCalendarTitle' && (
+                <StylePicker
+                  currentStyle={data.itineraryCalendarTitleStyle}
+                  onStyleChange={(style) => onUpdate?.({ itineraryCalendarTitleStyle: style })}
+                  fieldKey="itineraryCalendarTitle"
+                  backgroundColorClass="bg-white"
+                />
+              )}
             </div>
-            {isEditMode && editingField !== 'itineraryCalendarTitle' && (
-              <StylePicker
-                currentStyle={data.itineraryCalendarTitleStyle}
-                onStyleChange={(style) => onUpdate?.({ itineraryCalendarTitleStyle: style })}
-                fieldKey="itineraryCalendarTitle"
-                backgroundColorClass="bg-white"
-              />
-            )}
+            <div className="w-20 md:w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-3 md:mb-4" />
           </div>
-          <div className="w-20 md:w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-3 md:mb-4" />
           <div className="flex items-center justify-center gap-2">
             <div data-blur-key="itineraryCalendarDateRange">
               {isEditMode ? (
@@ -392,7 +392,7 @@ export function ItineraryCalendarPage({ data, isEditMode, onUpdate, onDuplicate,
         {/* Legend - Mobile only (shown above the list) */}
         <div className="grid grid-cols-1 gap-3 md:hidden print:hidden">
           {/* Transport Legend */}
-          <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl p-4 border border-yellow-100 print:break-inside-avoid">
+          <div data-blur-key="itineraryTransportLegendMobile" className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl p-4 border border-yellow-100 print:break-inside-avoid">
             <div className="flex items-center gap-2 mb-2">
               <div data-blur-key="itineraryTransportTitle">
                 {isEditMode ? (
@@ -492,7 +492,7 @@ export function ItineraryCalendarPage({ data, isEditMode, onUpdate, onDuplicate,
           </div>
 
           {/* Country Legend */}
-          <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl p-4 border border-cyan-100">
+          <div data-blur-key="itineraryCountryLegendMobile" className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl p-4 border border-cyan-100">
             <div className="flex items-center gap-2 mb-2">
               <div data-blur-key="itineraryCountryTitle">
                 {isEditMode ? (

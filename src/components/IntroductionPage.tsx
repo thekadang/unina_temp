@@ -172,8 +172,8 @@ export function IntroductionPage({
       <div className="max-w-3xl mx-auto space-y-10 print:space-y-6">
         {/* Header */}
         <div className="text-center">
-          <div className="flex items-center justify-center gap-2 mb-[3px]">
-            <div data-blur-key="introductionTitle">
+          <div data-blur-key="introductionTitle" className="w-full">
+            <div className="flex items-center justify-center gap-2 mb-[3px]">
               {isEditMode ? (
                 <h1
                   className="text-3xl font-semibold text-cyan-600"
@@ -192,17 +192,17 @@ export function IntroductionPage({
                   {data.introductionTitle}
                 </h1>
               )}
+              {isEditMode && (
+                <StylePicker
+                  currentStyle={data.introductionTitleStyle}
+                  onStyleChange={(style) => onUpdate?.({ introductionTitleStyle: style })}
+                  fieldKey="introductionTitle"
+                  backgroundColorClass="bg-white"
+                />
+              )}
             </div>
-            {isEditMode && (
-              <StylePicker
-                currentStyle={data.introductionTitleStyle}
-                onStyleChange={(style) => onUpdate?.({ introductionTitleStyle: style })}
-                fieldKey="introductionTitle"
-                backgroundColorClass="bg-white"
-              />
-            )}
+            <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
           </div>
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
           <div className="flex items-center justify-center gap-2">
             <div data-blur-key="introductionSubtitle">
               {isEditMode ? (
@@ -240,6 +240,7 @@ export function IntroductionPage({
           {travelInfo.map((item, index) => (
             <div
               key={index}
+              data-blur-key={`${item.field}Card`}
               className="bg-white rounded-2xl p-6 shadow-md border border-cyan-100 hover:shadow-lg transition-shadow print:break-inside-avoid"
             >
               <div className="flex items-start gap-4">
@@ -456,14 +457,14 @@ export function IntroductionPage({
             <div className="flex-1">
               {/* Editable Label */}
               <div className="flex items-center gap-2 mb-2">
-                <div data-blur-key="importantRequestsLabel">
+                <div data-blur-key="importantRequestsLabel" className="w-full">
                   {isEditMode ? (
                     <input
                       type="text"
                       value={data.importantRequestsLabel}
                       onChange={(e) => onUpdate?.({ importantRequestsLabel: e.target.value })}
                       style={getStyleObject(data.importantRequestsLabelStyle)}
-                      className="text-gray-700 w-full bg-yellow-100 px-2 py-1 rounded border border-yellow-300 focus:outline-none focus:border-yellow-500"
+                      className="text-gray-700 w-full min-w-[250px] bg-yellow-100 px-2 py-1 rounded border border-yellow-300 focus:outline-none focus:border-yellow-500"
                     />
                   ) : (
                     <p style={getStyleObject(data.importantRequestsLabelStyle)} className="text-gray-700 font-bold text-[20px]">
@@ -480,14 +481,14 @@ export function IntroductionPage({
                   />
                 )}
               </div>
-              <div className="flex items-start gap-2">
-                <div data-blur-key="specialRequests">
+              <div className="flex items-start gap-2 w-full">
+                <div data-blur-key="specialRequests" className="w-full flex-1">
                   {isEditMode ? (
                     <textarea
                       value={data.specialRequests}
                       onChange={(e) => onUpdate?.({ specialRequests: e.target.value })}
                       style={getStyleObject(data.specialRequestsStyle)}
-                      className="w-full text-gray-800 bg-white border-2 border-yellow-300 rounded-lg px-3 py-2 focus:outline-none focus:border-yellow-500 min-h-[80px] resize-y"
+                      className="w-full min-w-[280px] text-gray-800 bg-white border-2 border-yellow-300 rounded-lg px-3 py-2 focus:outline-none focus:border-yellow-500 min-h-[80px] resize-y"
                     />
                   ) : (
                     <p style={getStyleObject(data.specialRequestsStyle)} className="text-gray-800 text-[15px]">

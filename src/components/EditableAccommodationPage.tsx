@@ -271,50 +271,51 @@ export function EditableAccommodationPage({
       <div className="max-w-5xl mx-auto space-y-4 print:space-y-3">
         {/* Header */}
         <div className="text-center">
-          <div className="flex items-center justify-center gap-2 mb-[3px]" data-blur-key="accommodationTitle">
-            {isEditMode ? (
-              editingField === 'accommodationTitle' ? (
-                <input
-                  type="text"
-                  value={tempValue}
-                  onChange={(e) => setTempValue(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  onBlur={saveEdit}
-                  autoFocus
-                  className="text-3xl font-semibold text-cyan-600 text-center bg-blue-50 px-4 py-2 rounded border border-blue-300 focus:outline-none focus:border-blue-500"
-                />
-              ) : (
-                <>
-                  <h1
-                    className="text-3xl font-semibold text-cyan-600 cursor-pointer hover:bg-blue-50 px-4 py-2 rounded transition-colors"
-                    style={getStyleObject(data?.accommodationTitleStyle)}
-                    onClick={() => startEdit('accommodationTitle', data?.accommodationTitle || '숙소 안내')}
-                  >
-                    {data?.accommodationTitle || '숙소 안내'}
-                  </h1>
-                  <StylePicker
-                    currentStyle={data?.accommodationTitleStyle}
-                    onStyleChange={(style) => onStyleChange?.({ accommodationTitleStyle: style })}
-                    fieldKey="accommodationTitle"
-                    backgroundColorClass="bg-white"
+          <div data-blur-key="accommodationTitle" className="w-full">
+            <div className="flex items-center justify-center gap-2 mb-[3px]">
+              {isEditMode ? (
+                editingField === 'accommodationTitle' ? (
+                  <input
+                    type="text"
+                    value={tempValue}
+                    onChange={(e) => setTempValue(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    onBlur={saveEdit}
+                    autoFocus
+                    className="text-3xl font-semibold text-cyan-600 text-center bg-blue-50 px-4 py-2 rounded border border-blue-300 focus:outline-none focus:border-blue-500"
                   />
-                </>
-              )
-            ) : (
-              <h1
-                className="text-3xl font-semibold text-cyan-600"
-                style={getStyleObject(data?.accommodationTitleStyle)}
-              >
-                {data?.accommodationTitle || '숙소 안내'}
-              </h1>
-            )}
+                ) : (
+                  <>
+                    <h1
+                      className="text-3xl font-semibold text-cyan-600 cursor-pointer hover:bg-blue-50 px-4 py-2 rounded transition-colors"
+                      style={getStyleObject(data?.accommodationTitleStyle)}
+                      onClick={() => startEdit('accommodationTitle', data?.accommodationTitle || '숙소 안내')}
+                    >
+                      {data?.accommodationTitle || '숙소 안내'}
+                    </h1>
+                    <StylePicker
+                      currentStyle={data?.accommodationTitleStyle}
+                      onStyleChange={(style) => onStyleChange?.({ accommodationTitleStyle: style })}
+                      fieldKey="accommodationTitle"
+                      backgroundColorClass="bg-white"
+                    />
+                  </>
+                )
+              ) : (
+                <h1
+                  className="text-3xl font-semibold text-cyan-600"
+                  style={getStyleObject(data?.accommodationTitleStyle)}
+                >
+                  {data?.accommodationTitle || '숙소 안내'}
+                </h1>
+              )}
+            </div>
+            <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
           </div>
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
-          <div className="flex items-center justify-center gap-2 pt-1">
+          <div data-blur-key="accommodationLocation" className="flex items-center justify-center gap-2 pt-1">
             <MapPin className="w-4 h-4 print:w-3.5 print:h-3.5 text-cyan-600" />
             <div className="flex items-center gap-2">
               <span
-                data-blur-key="accommodationLocation"
                 className={`text-gray-700 text-sm print:text-xs ${
                   isEditMode ? 'cursor-pointer hover:text-cyan-600 hover:underline transition-colors' : ''
                 }`}
@@ -336,6 +337,7 @@ export function EditableAccommodationPage({
         </div>
 
         {/* Images Grid */}
+        <div data-blur-key={`accommodationImagesCard-${hotel.name}`} className="space-y-2 print:space-y-1.5">
         <div className="grid grid-cols-3 gap-2.5 print:gap-2 h-[280px] print:h-[240px]">
           <div 
             className={`col-span-2 row-span-2 rounded-2xl overflow-hidden shadow-lg relative group ${isEditMode ? 'cursor-pointer' : ''}`}
@@ -425,6 +427,7 @@ export function EditableAccommodationPage({
               </div>
             )}
           </div>
+        </div>
         </div>
 
         {/* Hotel Info */}

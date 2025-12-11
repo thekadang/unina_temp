@@ -326,7 +326,7 @@ export function TouristSpotListPage({ data, dayNumber, isEditMode, onUpdate, onD
         <div className="text-center relative">
           {/* Edit Mode Actions */}
           {isEditMode && (
-            <div className="absolute -top-6 left-0 flex gap-2 print:hidden">
+            <div className="absolute flex gap-2 print:hidden" style={{ top: '45px', right: '0', left: 'auto' }}>
               {/* Color Theme Selector */}
               <div className="flex gap-1 bg-white rounded-lg shadow-sm border border-gray-200 p-1">
                 {(Object.keys(colorThemes) as Array<keyof typeof colorThemes>).map((theme) => (
@@ -358,39 +358,40 @@ export function TouristSpotListPage({ data, dayNumber, isEditMode, onUpdate, onD
             </div>
           )}
           
-          <div className="flex items-center justify-center gap-2 mb-[3px]">
-            {isEditMode && editingField === 'dayTitle' ? (
-              <input
-                type="text"
-                value={tempValue}
-                onChange={(e) => setTempValue(e.target.value)}
-                onKeyDown={handleKeyDown}
-                onBlur={saveEdit}
-                autoFocus
-                className="text-2xl print:text-xl bg-transparent border-b-2 border-cyan-400 focus:outline-none text-center px-4"
-              />
-            ) : (
-              <h1
-                data-blur-key="detailedScheduleDayTitle"
-                className={`text-3xl font-semibold text-cyan-600 ${
-                  isEditMode ? 'cursor-pointer hover:bg-gray-100 px-4 py-1 rounded transition-colors' : ''
-                }`}
-                style={getStyleObject(data.detailedScheduleDayTitleStyle)}
-                onClick={() => startEdit('dayTitle', daySchedule.title)}
-              >
-                관광지 픽 DAY{dayNumber}
-              </h1>
-            )}
-            {isEditMode && (
-              <StylePicker
-                currentStyle={data.detailedScheduleDayTitleStyle}
-                onStyleChange={(style) => onUpdate?.({ detailedScheduleDayTitleStyle: style })}
-                fieldKey="detailedScheduleDayTitle"
-                backgroundColorClass="bg-white"
-              />
-            )}
+          <div data-blur-key="touristSpotListTitle" className="w-full">
+            <div className="flex items-center justify-center gap-2 mb-[3px]">
+              {isEditMode && editingField === 'dayTitle' ? (
+                <input
+                  type="text"
+                  value={tempValue}
+                  onChange={(e) => setTempValue(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  onBlur={saveEdit}
+                  autoFocus
+                  className="text-2xl print:text-xl bg-transparent border-b-2 border-cyan-400 focus:outline-none text-center px-4"
+                />
+              ) : (
+                <h1
+                  className={`text-3xl font-semibold text-cyan-600 ${
+                    isEditMode ? 'cursor-pointer hover:bg-gray-100 px-4 py-1 rounded transition-colors' : ''
+                  }`}
+                  style={getStyleObject(data.detailedScheduleDayTitleStyle)}
+                  onClick={() => startEdit('dayTitle', daySchedule.title)}
+                >
+                  관광지 픽 DAY{dayNumber}
+                </h1>
+              )}
+              {isEditMode && (
+                <StylePicker
+                  currentStyle={data.detailedScheduleDayTitleStyle}
+                  onStyleChange={(style) => onUpdate?.({ detailedScheduleDayTitleStyle: style })}
+                  fieldKey="detailedScheduleDayTitle"
+                  backgroundColorClass="bg-white"
+                />
+              )}
+            </div>
+            <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
           </div>
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
           <div className="flex items-center justify-center gap-2 mb-8 print:mb-6">
             <p
               data-blur-key="detailedScheduleDate"

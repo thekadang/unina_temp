@@ -26,15 +26,18 @@ function SingleAccommodation({ hotel }: { hotel: AccommodationData }) {
       <div className="max-w-5xl mx-auto space-y-5 print:space-y-3">
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-3xl font-semibold text-cyan-600 mb-[3px]">숙소 안내</h1>
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
-          <div className="flex items-center justify-center gap-2 pt-1">
+          <div data-blur-key={`accommodationTitle-${hotel.name}`}>
+            <h1 className="text-3xl font-semibold text-cyan-600 mb-[3px]">숙소 안내</h1>
+            <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
+          </div>
+          <div data-blur-key={`accommodationLocation-${hotel.name}`} className="flex items-center justify-center gap-2 pt-1">
             <MapPin className="w-4 h-4 print:w-3.5 print:h-3.5 text-cyan-600" />
             <span className="text-gray-700 text-sm print:text-xs">{hotel.country} · {hotel.city}</span>
           </div>
         </div>
 
         {/* Images Grid */}
+        <div data-blur-key={`accommodationImagesCard-${hotel.name}`} className="space-y-2 print:space-y-1.5">
         <div className="grid grid-cols-3 gap-2.5 print:gap-2 h-[220px] print:h-[180px]">
           {/* Main large image - left side */}
           <div 
@@ -93,9 +96,10 @@ function SingleAccommodation({ hotel }: { hotel: AccommodationData }) {
             />
           </div>
         </div>
+        </div>
 
         {/* Hotel Info */}
-        <div className="bg-white rounded-2xl p-5 print:p-4 shadow-lg border border-cyan-100 space-y-4 print:space-y-3">
+        <div data-blur-key="accommodationHotelInfoCard" className="bg-white rounded-2xl p-5 print:p-4 shadow-lg border border-cyan-100 space-y-4 print:space-y-3">
           {/* Hotel Name & Stars */}
           <div>
             <div className="flex items-center gap-2 mb-1.5 print:mb-1">

@@ -195,46 +195,47 @@ export function QuotationPage({
       <div className="max-w-3xl mx-auto space-y-6 print:space-y-4">
         {/* Header */}
         <div className="text-center">
-          <div className="flex items-center justify-center gap-2 mb-[3px]">
-            {isEditMode ? (
-              editingField === 'quotationPageTitle' ? (
-                <input
-                  type="text"
-                  value={tempValue}
-                  onChange={(e) => setTempValue(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  onBlur={saveEdit}
-                  autoFocus
-                  className="text-2xl md:text-3xl font-semibold text-cyan-600 bg-blue-50 px-3 py-1 rounded border border-blue-300 focus:outline-none focus:border-blue-500"
-                  style={getStyleObject(data.quotationPageTitleStyle)}
-                />
-              ) : (
-                <>
-                  <h1 
+          <div data-blur-key="quotationPageTitle" className="w-full">
+            <div className="flex items-center justify-center gap-2 mb-[3px]">
+              {isEditMode ? (
+                editingField === 'quotationPageTitle' ? (
+                  <input
+                    type="text"
+                    value={tempValue}
+                    onChange={(e) => setTempValue(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    onBlur={saveEdit}
+                    autoFocus
+                    className="text-2xl md:text-3xl font-semibold text-cyan-600 bg-blue-50 px-3 py-1 rounded border border-blue-300 focus:outline-none focus:border-blue-500"
                     style={getStyleObject(data.quotationPageTitleStyle)}
-                    className="cursor-pointer hover:bg-blue-50 px-3 py-1 rounded transition-colors"
-                    onClick={() => startEdit('quotationPageTitle', data.quotationPageTitle || '견적서')}
-                  >
-                    {data.quotationPageTitle || '견적서'}
-                  </h1>
-                  <StylePicker
-                    currentStyle={data.quotationPageTitleStyle}
-                    onStyleChange={(style) => onUpdate({ quotationPageTitleStyle: style })}
-                    fieldKey="quotationPageTitle"
-                    backgroundColorClass="bg-white"
                   />
-                </>
-              )
-            ) : (
-              <h1
-                data-blur-key="quotationPageTitle"
-                style={getStyleObject(data.quotationPageTitleStyle)}
-              >
-                {data.quotationPageTitle || '견적서'}
-              </h1>
-            )}
+                ) : (
+                  <>
+                    <h1
+                      style={getStyleObject(data.quotationPageTitleStyle)}
+                      className="cursor-pointer hover:bg-blue-50 px-3 py-1 rounded transition-colors"
+                      onClick={() => startEdit('quotationPageTitle', data.quotationPageTitle || '견적서')}
+                    >
+                      {data.quotationPageTitle || '견적서'}
+                    </h1>
+                    <StylePicker
+                      currentStyle={data.quotationPageTitleStyle}
+                      onStyleChange={(style) => onUpdate({ quotationPageTitleStyle: style })}
+                      fieldKey="quotationPageTitle"
+                      backgroundColorClass="bg-white"
+                    />
+                  </>
+                )
+              ) : (
+                <h1
+                  style={getStyleObject(data.quotationPageTitleStyle)}
+                >
+                  {data.quotationPageTitle || '견적서'}
+                </h1>
+              )}
+            </div>
+            <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
           </div>
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
         </div>
 
         {/* Summary Cards */}
@@ -242,6 +243,7 @@ export function QuotationPage({
           {summary.map((item, index) => (
             <div
               key={index}
+              data-blur-key={`quotationSummaryCard-${item.labelField}`}
               className="bg-white rounded-xl p-4 print:p-3 shadow-md border border-cyan-100 flex items-center gap-3 print:break-inside-avoid"
             >
               <div className="p-2.5 print:p-2 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-xl text-white">

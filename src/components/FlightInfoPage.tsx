@@ -75,10 +75,10 @@ export function FlightInfoPage({
       <div className="max-w-3xl mx-auto space-y-10 print:space-y-6">
         {/* Header */}
         <div className="text-center">
-          <div data-blur-key="flightInfoTitle">
+          <div data-blur-key="flightInfoTitle" className="w-full">
             <h1 className="text-3xl font-semibold text-cyan-600 mb-[3px]">항공편</h1>
+            <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
           </div>
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
           <div className="flex items-center justify-center gap-4 text-gray-600 pt-4">
             <div data-blur-key="flightInfoInbound">
               <span className="px-4 py-2 bg-cyan-50 rounded-full">IN: 서울 → 니스</span>
