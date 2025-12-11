@@ -334,6 +334,80 @@ html {
     display: flex !important;
   }
 
+  /* Force lg: breakpoint styles for print (desktop layout) */
+  .lg\:grid-cols-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  }
+
+  .lg\:col-span-2 {
+    grid-column: span 2 / span 2 !important;
+  }
+
+  .lg\:col-span-3 {
+    grid-column: span 3 / span 3 !important;
+  }
+
+  .hidden.lg\:block {
+    display: block !important;
+  }
+
+  .hidden.lg\:grid {
+    display: grid !important;
+  }
+
+  .hidden.lg\:flex {
+    display: flex !important;
+  }
+
+  .lg\:hidden {
+    display: none !important;
+  }
+
+  /* DetailedSchedulePage - force desktop layout in print */
+  .detailed-schedule-grid {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 1rem !important;
+  }
+
+  .detailed-schedule-left {
+    grid-column: span 2 / span 2 !important;
+  }
+
+  .detailed-schedule-right {
+    grid-column: span 3 / span 3 !important;
+  }
+
+  /* Ensure images are visible in print */
+  img {
+    max-width: 100% !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Preserve object-fit for images in print */
+  .object-cover {
+    object-fit: cover !important;
+  }
+
+  .object-contain {
+    object-fit: contain !important;
+  }
+
+  /* Ensure image containers maintain size in print */
+  .w-24.h-24 {
+    width: 6rem !important;
+    height: 6rem !important;
+  }
+
+  .print\:w-20.print\:h-20 {
+    width: 5rem !important;
+    height: 5rem !important;
+  }
+
   /* Ensure all content is visible */
   * {
     -webkit-print-color-adjust: exact !important;

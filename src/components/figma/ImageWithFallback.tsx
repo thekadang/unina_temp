@@ -15,7 +15,7 @@ export const ImageWithFallback = memo(function ImageWithFallback(
   const [didError, setDidError] = useState(false)
   const [isPrintMode, setIsPrintMode] = useState(false)
 
-  // Print 모드 감지
+  // Print 모드 감지 (body class + 브라우저 print 이벤트)
   useEffect(() => {
     const checkPrintMode = () => {
       setIsPrintMode(document.body.classList.contains('print-mode'))
@@ -27,7 +27,18 @@ export const ImageWithFallback = memo(function ImageWithFallback(
     const observer = new MutationObserver(checkPrintMode)
     observer.observe(document.body, { attributes: true, attributeFilter: ['class'] })
 
-    return () => observer.disconnect()
+    // 브라우저 print 이벤트 감지
+    const handleBeforePrint = () => setIsPrintMode(true)
+    const handleAfterPrint = () => checkPrintMode() // 원래 상태로 복구
+
+    window.addEventListener('beforeprint', handleBeforePrint)
+    window.addEventListener('afterprint', handleAfterPrint)
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('beforeprint', handleBeforePrint)
+      window.removeEventListener('afterprint', handleAfterPrint)
+    }
   }, [])
 
   const handleError = useCallback(() => {

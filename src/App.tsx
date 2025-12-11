@@ -1066,7 +1066,7 @@ export default function App() {
     await new Promise(resolve => setTimeout(resolve, 100));
     console.log('[PDF] 인쇄 모드 활성화됨');
 
-    // 모든 이미지가 로드될 때까지 기다림 (최대 3초 타임아웃)
+    // 모든 이미지가 로드될 때까지 기다림
     const waitForImages = () => {
       return new Promise<void>((resolve) => {
         setTimeout(() => {
@@ -1077,6 +1077,16 @@ export default function App() {
           const totalImages = images.length;
 
           const imagePromises = Array.from(images).map((img, index) => {
+            // lazy loading 비활성화하고 강제 로드
+            if (img.loading === 'lazy') {
+              img.loading = 'eager';
+              // src를 다시 설정하여 강제 로드 트리거
+              const currentSrc = img.src;
+              img.src = '';
+              img.src = currentSrc;
+              console.log(`[PDF] 이미지 ${index + 1}/${totalImages} lazy→eager 전환`);
+            }
+
             // 이미 로드 완료된 이미지
             if (img.complete && img.naturalWidth > 0) {
               loadedCount++;
@@ -1084,12 +1094,12 @@ export default function App() {
               return Promise.resolve();
             }
 
-            // 로드 대기 (개별 타임아웃 2초)
+            // 로드 대기 (개별 타임아웃 3초)
             return new Promise<void>((imgResolve) => {
               const timeout = setTimeout(() => {
                 console.log(`[PDF] 이미지 ${index + 1}/${totalImages} 타임아웃`);
                 imgResolve();
-              }, 2000);
+              }, 3000);
 
               img.onload = () => {
                 clearTimeout(timeout);
@@ -1116,8 +1126,8 @@ export default function App() {
     await waitForImages();
     console.log('[PDF] 이미지 로드 완료');
 
-    // 추가 대기 시간 (이미지 렌더링 완료)
-    await new Promise(resolve => setTimeout(resolve, 500));
+    // 추가 대기 시간 (이미지 렌더링 완료) - 2초로 증가
+    await new Promise(resolve => setTimeout(resolve, 2000));
     console.log('[PDF] window.print() 호출...');
 
     try {

@@ -1,6 +1,6 @@
 import { Clock, MapPin, Activity, Info, Plus, Trash2, Edit2, Image as ImageIcon, Copy, X, ChevronLeft, ChevronRight, Calendar, Eye, EyeOff } from 'lucide-react';
 import { TourData } from '../types/tour-data';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { Button } from './ui/button';
 import { StylePicker } from './StylePicker';
@@ -48,6 +48,49 @@ export function DetailedSchedulePage({
   const [viewingImage, setViewingImage] = useState<string | null>(null);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+
+  // Print 시 데스크톱 레이아웃 강제 적용
+  const gridRef = useRef<HTMLDivElement>(null);
+  const leftColRef = useRef<HTMLDivElement>(null);
+  const rightColRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleBeforePrint = () => {
+      if (gridRef.current) {
+        gridRef.current.style.display = 'grid';
+        gridRef.current.style.gridTemplateColumns = 'repeat(5, minmax(0, 1fr))';
+        gridRef.current.style.gap = '1rem';
+      }
+      if (leftColRef.current) {
+        leftColRef.current.style.gridColumn = 'span 2 / span 2';
+      }
+      if (rightColRef.current) {
+        rightColRef.current.style.gridColumn = 'span 3 / span 3';
+      }
+    };
+
+    const handleAfterPrint = () => {
+      if (gridRef.current) {
+        gridRef.current.style.display = '';
+        gridRef.current.style.gridTemplateColumns = '';
+        gridRef.current.style.gap = '';
+      }
+      if (leftColRef.current) {
+        leftColRef.current.style.gridColumn = '';
+      }
+      if (rightColRef.current) {
+        rightColRef.current.style.gridColumn = '';
+      }
+    };
+
+    window.addEventListener('beforeprint', handleBeforePrint);
+    window.addEventListener('afterprint', handleAfterPrint);
+
+    return () => {
+      window.removeEventListener('beforeprint', handleBeforePrint);
+      window.removeEventListener('afterprint', handleAfterPrint);
+    };
+  }, []);
 
   // Find the schedule for the current day
   const daySchedule = data.detailedSchedules.find(s => s.day === dayNumber) || {
@@ -449,9 +492,9 @@ export function DetailedSchedulePage({
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 print:gap-4">
+        <div ref={gridRef} className="detailed-schedule-grid grid grid-cols-1 lg:grid-cols-5 gap-6 print:gap-4">
           {/* Timeline - Left Side */}
-          <div className="lg:col-span-2">
+          <div ref={leftColRef} className="detailed-schedule-left lg:col-span-2">
             <div data-blur-key="detailedScheduleTimelineCard" className={`bg-white rounded-2xl p-6 print:p-4 shadow-lg border-2 ${currentTheme.border}`}>
               <div className="flex items-center gap-2 mb-6 print:mb-4">
                 <Clock className={`w-5 h-5 print:w-4 print:h-4 ${currentTheme.icon}`} />
@@ -566,7 +609,7 @@ export function DetailedSchedulePage({
           </div>
 
           {/* Detailed Cards - Right Side */}
-          <div className="lg:col-span-3">
+          <div ref={rightColRef} className="detailed-schedule-right lg:col-span-3">
             <div className="space-y-4 print:space-y-3">
               <div className="flex items-center gap-2 mb-4 print:mb-3">
                 <div data-blur-key="detailedSchedulePickTitle">

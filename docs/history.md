@@ -1355,6 +1355,114 @@ History #24에서 색상 테마 선택창을 오른쪽으로 이동했으나, �
 
 ---
 
+## History #27 - PDF 출력 시 세부일정 레이아웃 수정
+- **날짜**: 2025-12-11
+- **사용자 요청**: "세부일정 페이지가 pdf출력할때 모바일 버전화면이 출력됨. PC버전 화면이 출력되게 해줘. 이미지도 PDF에 제대로 출력되지 않음."
+
+### 문제점
+1. **레이아웃**: PDF 출력 시 `lg:` 브레이크포인트가 적용되지 않아 세로 배치(모바일)로 표시
+2. **이미지**: PDF 출력 시 이미지가 제대로 렌더링되지 않음
+
+### 해결 방법
+
+#### 1. DetailedSchedulePage.tsx - print 클래스 추가
+```tsx
+// Line 452: 그리드 레이아웃
+grid-cols-1 lg:grid-cols-5 → grid-cols-1 lg:grid-cols-5 print:grid-cols-5
+
+// Line 454: 왼쪽 일정 요약
+lg:col-span-2 → lg:col-span-2 print:col-span-2
+
+// Line 569: 오른쪽 세부 사항
+lg:col-span-3 → lg:col-span-3 print:col-span-3
+```
+
+#### 2. globals.css - @media print 스타일 추가
+```css
+/* Force lg: breakpoint styles for print (desktop layout) */
+.lg\:grid-cols-5 {
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+}
+.lg\:col-span-2 {
+  grid-column: span 2 / span 2 !important;
+}
+.lg\:col-span-3 {
+  grid-column: span 3 / span 3 !important;
+}
+
+/* Ensure images are visible in print */
+img {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  -webkit-print-color-adjust: exact !important;
+}
+
+/* Preserve object-fit for images in print */
+.object-cover {
+  object-fit: cover !important;
+}
+```
+
+### 변경된 파일
+| 파일 | 수정 내용 |
+|------|-----------|
+| 📝 `src/components/DetailedSchedulePage.tsx` | print:grid-cols-5, print:col-span-2/3 추가 |
+| 📝 `src/styles/globals.css` | lg: 브레이크포인트 print 강제 스타일, 이미지 print 스타일 |
+
+### 참조한 문서
+- `src/components/DetailedSchedulePage.tsx`
+- `src/styles/globals.css`
+
+---
+
+## History #28 - PDF 출력 레이아웃 및 이미지 로드 최종 수정
+**날짜**: 2025-12-11
+**요청**: "세부일정 페이지 PDF 출력 시 PC 버전 레이아웃 + 이미지 로드 문제 해결"
+
+### 수행한 작업
+- [x] DetailedSchedulePage에 beforeprint/afterprint 이벤트 리스너 추가
+- [x] JavaScript로 직접 그리드 스타일 강제 적용 (CSS 우회)
+- [x] App.tsx handlePrint에서 lazy 이미지 eager 전환 및 강제 로드
+- [x] 이미지 로드 대기 시간 증가 (3초 개별, 2초 최종)
+
+### 변경된 파일
+
+| 파일 | 변경 내용 |
+|------|-----------|
+| 📝 `src/components/DetailedSchedulePage.tsx` | useEffect/useRef 추가, beforeprint 이벤트로 그리드 스타일 강제 적용 |
+| 📝 `src/components/figma/ImageWithFallback.tsx` | beforeprint/afterprint 이벤트 감지 추가 |
+| 📝 `src/App.tsx` | handlePrint에서 lazy→eager 전환, src 재설정으로 강제 로드 |
+| 📝 `src/styles/globals.css` | detailed-schedule-grid/left/right 클래스 print 스타일 |
+
+### 기술적 해결 방법
+
+**1. 세부일정 레이아웃 문제**
+- 원인: Tailwind의 `lg:` 프리픽스가 @media print에서 작동 안함
+- 해결: `beforeprint` 이벤트에서 JavaScript로 직접 스타일 적용
+```tsx
+gridRef.current.style.gridTemplateColumns = 'repeat(5, minmax(0, 1fr))';
+leftColRef.current.style.gridColumn = 'span 2 / span 2';
+rightColRef.current.style.gridColumn = 'span 3 / span 3';
+```
+
+**2. 이미지 로드 문제**
+- 원인: `loading="lazy"` 이미지가 뷰포트 밖이면 로드 안됨
+- 해결: handlePrint에서 모든 이미지를 eager로 전환 + src 재설정
+```tsx
+img.loading = 'eager';
+const currentSrc = img.src;
+img.src = '';
+img.src = currentSrc;
+```
+
+### 참조한 문서
+- `src/components/DetailedSchedulePage.tsx`
+- `src/App.tsx`
+- `src/components/figma/ImageWithFallback.tsx`
+
+---
+
 ## 롤백 안내
 
 롤백이 필요한 경우:
