@@ -635,34 +635,14 @@ export function BlurOverlay({
       {/* 부모 컨테이너 탐색용 마커 (보이지 않음) */}
       <span ref={markerRef} style={{ display: 'none' }} aria-hidden="true" />
 
-      {/* 블러 모드 안내 - 하단으로 이동, pointer-events: none */}
-      {isBlurMode && (
-        <div
-          data-blur-ui="true"
-          className="fixed bottom-28 left-1/2 -translate-x-1/2 bg-purple-600 text-white px-4 py-2 rounded-lg shadow-lg z-[9999] print:hidden pointer-events-none select-none"
-        >
-          <div className="text-center">
-            <div className="text-sm font-medium">클릭하여 블러 영역을 선택하세요</div>
-            <div className="text-xs opacity-80 mt-1">
-              {hoveredKey && hoveredElement ? (
-                <span className="bg-purple-700 px-2 py-0.5 rounded">
-                  {getElementDescription(hoveredElement, hoveredKey)}
-                </span>
-              ) : (
-                '요소 위에 마우스를 올려보세요'
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* 블러된 요소 개수 표시 */}
+      {/* 블러된 요소 개수 표시 - 하단 페이지네이션 바로 위 */}
       {isBlurMode && blurredKeys.length > 0 && (
         <div
           data-blur-ui="true"
-          className="fixed bottom-28 right-4 bg-purple-600 text-white px-3 py-1.5 rounded-lg shadow-lg z-[9999] print:hidden pointer-events-none"
+          className="fixed bg-purple-600 text-white px-4 py-1.5 rounded-full shadow-lg z-[9999] print:hidden pointer-events-none"
+          style={{ bottom: '100px', left: '50%', transform: 'translateX(-50%)' }}
         >
-          <span className="text-sm">{blurredKeys.length}개 블러됨</span>
+          <span className="text-sm font-medium">{blurredKeys.length}개 블러됨</span>
         </div>
       )}
     </>

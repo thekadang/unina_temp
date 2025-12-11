@@ -1295,6 +1295,66 @@ History #24에서 색상 테마 선택창을 오른쪽으로 이동했으나, �
 
 ---
 
+## History #26 - 블러 모드 UI 개선
+- **날짜**: 2025-12-11
+- **사용자 요청**: "블러모드에서 설명 문구가 영역에 겹쳐서 보여. 문구를 그냥 없애는게 나을것 같아. 아니면 하단의 페이지 선택 창 바로 위에 위치하던가. 몇개 선택되었는지 알려주는 창도 위치를 적당하게 잡아봐 겹치잖아."
+
+### 문제점
+1. **설명 문구** ("클릭하여 블러 영역을 선택하세요"): 중앙에 고정되어 콘텐츠와 겹침
+2. **선택 개수 표시** ("N개 블러됨"): 오른쪽 상단에 위치해서 메뉴/버튼과 겹침
+
+### 해결 방법
+1. **설명 문구 완전 제거**: 콘텐츠 가시성 확보
+2. **선택 개수 표시 하단 중앙 이동**: 페이지네이션 바로 위로 재배치
+
+### 변경된 파일
+| 파일 | 수정 내용 |
+|------|-----------|
+| 📝 `src/components/BlurOverlay.tsx` | 설명 문구 제거, 선택 개수 표시 위치 변경 |
+
+### 코드 변경
+```tsx
+// Before (L638-667): 설명 문구 + 오른쪽 상단 개수 표시
+{isBlurMode && (
+  <div className="fixed bottom-28 left-1/2 -translate-x-1/2 bg-purple-600...">
+    <div className="text-sm font-medium">클릭하여 블러 영역을 선택하세요</div>
+    <div className="text-xs opacity-80 mt-1">
+      {hoveredKey && hoveredElement ? (...) : '요소 위에 마우스를 올려보세요'}
+    </div>
+  </div>
+)}
+{isBlurMode && blurredKeys.length > 0 && (
+  <div className="fixed bottom-28 right-4 bg-purple-600...">
+    <span className="text-sm">{blurredKeys.length}개 블러됨</span>
+  </div>
+)}
+
+// After (L638-646): 설명 문구 제거, 개수 표시만 하단 중앙에 (인라인 스타일 사용)
+{isBlurMode && blurredKeys.length > 0 && (
+  <div
+    className="fixed bg-purple-600 text-white px-4 py-1.5 rounded-full shadow-lg z-[9999] print:hidden pointer-events-none"
+    style={{ bottom: '80px', left: '50%', transform: 'translateX(-50%)' }}
+  >
+    <span className="text-sm font-medium">{blurredKeys.length}개 블러됨</span>
+  </div>
+)}
+```
+
+### 변경 사항 요약
+| 요소 | 수정 전 | 수정 후 |
+|------|---------|---------|
+| 설명 문구 | 중앙 (bottom-28) + hoveredKey 표시 | **제거됨** |
+| 선택 개수 | 오른쪽 상단 (bottom-28 right-4) | 하단 중앙 (bottom: 80px, 인라인 스타일) |
+| 스타일 | rounded-lg | rounded-full (알약 모양) |
+
+### 기술적 참고
+⚠️ **Tailwind CSS 위치 클래스 미적용 문제**: `bottom-20`, `left-1/2`, `-translate-x-1/2` 클래스가 computed style에 반영되지 않아 인라인 스타일 `style={{ bottom: '80px', left: '50%', transform: 'translateX(-50%)' }}`로 해결
+
+### 참조한 문서
+- `src/components/BlurOverlay.tsx`
+
+---
+
 ## 롤백 안내
 
 롤백이 필요한 경우:
