@@ -1590,6 +1590,56 @@ window.location.reload();
 
 ---
 
+## History #33
+**날짜**: 2025-12-12
+**사용자 질문**: 프로세스 페이지에서 내용은 삭제가 되었는데 서비스 옵션 페이지가 생성되지 않았는데?
+
+### 문제 분석
+- **현상**: 코드상 서비스 옵션 페이지가 추가되었지만 화면에 표시되지 않음
+- **원인**: 브라우저의 localStorage에 이전 pageConfigs가 캐시되어 있어서 새 페이지 타입이 인식되지 않음
+- **핵심**: 새 페이지 타입을 추가해도 기존 사용자의 localStorage에는 반영되지 않음
+
+### 수행한 작업
+- [x] 문제 원인 분석 (localStorage 캐시 문제)
+- [x] App.tsx에 pageConfigs 마이그레이션 로직 추가
+  - service-options 페이지가 없으면 process 다음에 자동 추가
+  - localStorage 자동 업데이트
+- [x] 빌드 테스트 통과
+
+### 변경된 파일
+
+| 파일 | 변경 내용 |
+|------|-----------|
+| 📝 `src/App.tsx` | migratePageConfigs 함수 추가 - localStorage 호환성 보장 |
+
+### 기술적 해결책
+```typescript
+const migratePageConfigs = (configs: PageConfig[]): PageConfig[] => {
+  let migrated = [...configs];
+
+  // service-options 페이지가 없으면 process 다음에 추가
+  const hasServiceOptions = migrated.some(c => c.type === 'service-options');
+  if (!hasServiceOptions) {
+    const processIndex = migrated.findIndex(c => c.type === 'process');
+    if (processIndex !== -1) {
+      migrated.splice(processIndex + 1, 0, {
+        id: '10-1',
+        type: 'service-options',
+        title: '서비스 옵션'
+      });
+    }
+  }
+
+  return migrated;
+};
+```
+
+### 참조한 문서
+- `src/App.tsx`
+- CLAUDE.md (JSON 호환성 원칙)
+
+---
+
 ## History #31
 **날짜**: 2025-12-12
 **사용자 질문**: 초기화해도 글자크기(12px 등 스타일)가 적용 안 돼. 파일 불러오기할 때는 적용되는데.

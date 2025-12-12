@@ -72,10 +72,36 @@ export default function App() {
   }, [blurData]);
   
   const [pageConfigs, setPageConfigs] = useState<PageConfig[]>(() => {
+    // 마이그레이션 함수: 새로운 페이지 타입이 누락된 경우 자동 추가
+    const migratePageConfigs = (configs: PageConfig[]): PageConfig[] => {
+      let migrated = [...configs];
+
+      // service-options 페이지가 없으면 process 다음에 추가
+      const hasServiceOptions = migrated.some(c => c.type === 'service-options');
+      if (!hasServiceOptions) {
+        const processIndex = migrated.findIndex(c => c.type === 'process');
+        if (processIndex !== -1) {
+          migrated.splice(processIndex + 1, 0, {
+            id: '10-1',
+            type: 'service-options',
+            title: '서비스 옵션'
+          });
+        }
+      }
+
+      return migrated;
+    };
+
     try {
       const saved = localStorage.getItem('pageConfigs');
       if (saved) {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        const migrated = migratePageConfigs(parsed);
+        // 마이그레이션이 수행되었으면 localStorage 업데이트
+        if (JSON.stringify(parsed) !== JSON.stringify(migrated)) {
+          localStorage.setItem('pageConfigs', JSON.stringify(migrated));
+        }
+        return migrated;
       }
     } catch (error) {
       console.error('Failed to load saved page configs:', error);
