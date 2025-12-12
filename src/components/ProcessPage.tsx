@@ -1,4 +1,4 @@
-import { CheckCircle2, Clock, Copy, Trash2, Eye, EyeOff } from 'lucide-react';
+import { CheckCircle2, Clock, Copy, Trash2 } from 'lucide-react';
 import { TourData } from '../types/tour-data';
 import { useState } from 'react';
 import { StylePicker } from './StylePicker';
@@ -49,18 +49,7 @@ export function ProcessPage({
 
   const saveEdit = () => {
     if (!editingField || !onUpdate) return;
-    
-    // Parse field like "service-0-title", "service-1-includes"
-    const serviceMatch = editingField.match(/service-(\d+)-(\w+)/);
-    if (serviceMatch) {
-      const index = parseInt(serviceMatch[1]);
-      const field = serviceMatch[2];
-      
-      const newServices = [...data.services];
-      newServices[index] = { ...newServices[index], [field]: tempValue };
-      onUpdate({ services: newServices });
-    }
-    
+
     // Parse field like "processLabel-0", "processLabel-1", etc.
     const processLabelMatch = editingField.match(/processLabel-(\d+)/);
     if (processLabelMatch) {
@@ -68,13 +57,11 @@ export function ProcessPage({
       const newLabels = [...data.processLabels];
       newLabels[index] = tempValue;
       onUpdate({ processLabels: newLabels });
-    }
-    
-    // Handle simple fields
-    if (!serviceMatch && !processLabelMatch) {
+    } else {
+      // Handle simple fields
       onUpdate({ [editingField]: tempValue });
     }
-    
+
     setEditingField(null);
     setTempValue('');
   };
@@ -85,24 +72,11 @@ export function ProcessPage({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    // For includes field (textarea with multiple lines), only save on Ctrl+Enter or Cmd+Enter
-    if (editingField?.includes('-includes')) {
-      if ((e.key === 'Enter' && (e.ctrlKey || e.metaKey)) || e.key === 'Escape') {
-        e.preventDefault();
-        if (e.key === 'Escape') {
-          cancelEdit();
-        } else {
-          saveEdit();
-        }
-      }
-    } else {
-      // For other fields, save on Enter
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        saveEdit();
-      } else if (e.key === 'Escape') {
-        cancelEdit();
-      }
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      saveEdit();
+    } else if (e.key === 'Escape') {
+      cancelEdit();
     }
   };
 
@@ -443,244 +417,6 @@ export function ProcessPage({
               )}
             </div>
           </div>
-        </div>
-
-        {/* Service Options */}
-        <div className="space-y-4 print:space-y-3">
-          <div className="flex items-center justify-center gap-2">
-            {isEditMode ? (
-              editingField === 'serviceOptionsTitle' ? (
-                <input
-                  type="text"
-                  value={tempValue}
-                  onChange={(e) => setTempValue(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  onBlur={saveEdit}
-                  autoFocus
-                  className="text-center text-gray-700 text-base print:text-sm flex-1 bg-gray-50 px-2 py-1 rounded border border-gray-300 focus:outline-none focus:border-gray-500"
-                />
-              ) : (
-                <>
-                  <h3 
-                    className="text-center text-gray-700 text-base print:text-sm cursor-pointer hover:bg-gray-50 px-2 py-1 rounded transition-colors"
-                    style={getStyleObject(data.serviceOptionsTitleStyle)}
-                    onClick={() => startEdit('serviceOptionsTitle', data.serviceOptionsTitle)}
-                  >
-                    {data.serviceOptionsTitle}
-                  </h3>
-                  <StylePicker
-                    currentStyle={data.serviceOptionsTitleStyle}
-                    onStyleChange={(style) => onUpdate?.({ serviceOptionsTitleStyle: style })}
-                    fieldKey="serviceOptionsTitle"
-                    backgroundColorClass="bg-white"
-                  />
-                </>
-              )
-            ) : (
-              <h3
-                data-blur-key="serviceOptionsTitle"
-                className="text-center text-gray-700 text-base print:text-sm"
-                style={getStyleObject(data.serviceOptionsTitleStyle)}
-              >
-                {data.serviceOptionsTitle}
-              </h3>
-            )}
-          </div>
-          {data.services.map((service, index) => (
-            <div
-              key={index}
-              data-blur-key={`serviceOptionCard-${index}`}
-              className={`bg-white rounded-2xl p-6 print:p-4 shadow-lg border-2 print:break-inside-avoid ${
-                service.color === 'cyan' ? 'border-cyan-200' : 'border-yellow-200'
-              }`}
-            >
-              <div className="flex items-start gap-2 mb-3 print:mb-2">
-                <div
-                  className={`w-7 h-7 print:w-6 print:h-6 rounded-full ${
-                    service.color === 'cyan'
-                      ? 'bg-gradient-to-br from-cyan-500 to-cyan-600'
-                      : 'bg-gradient-to-br from-yellow-500 to-yellow-600'
-                  } text-white flex items-center justify-center flex-shrink-0 text-sm print:text-xs`}
-                >
-                  {index + 1}
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-2">
-                    {isEditMode && editingField === `service-${index}-title` ? (
-                      <input
-                        type="text"
-                        value={tempValue}
-                        onChange={(e) => setTempValue(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                        onBlur={saveEdit}
-                        autoFocus
-                        className={`flex-1 bg-transparent border-b-2 ${
-                          service.color === 'cyan' ? 'border-cyan-300' : 'border-yellow-300'
-                        } focus:outline-none text-sm print:text-xs ${
-                          service.color === 'cyan' ? 'text-cyan-700' : 'text-yellow-700'
-                        } mb-1`}
-                      />
-                    ) : (
-                      <h4
-                        data-blur-key={`service-${index}-title`}
-                        className={`text-sm print:text-xs ${
-                          service.color === 'cyan' ? 'text-cyan-700' : 'text-yellow-700'
-                        } ${isEditMode ? 'cursor-pointer hover:bg-gray-50 p-1 rounded transition-colors' : ''}`}
-                        style={getStyleObject(data.serviceTitleStyle)}
-                        onClick={() => startEdit(`service-${index}-title`, service.title)}
-                      >
-                        {service.title}
-                      </h4>
-                    )}
-                    {index === 0 && isEditMode && editingField !== `service-${index}-title` && (
-                      <div onClick={(e) => e.stopPropagation()}>
-                        <StylePicker
-                          currentStyle={data.serviceTitleStyle}
-                          onStyleChange={(style) => onUpdate?.({ serviceTitleStyle: style })}
-                          fieldKey="serviceTitle"
-                          backgroundColorClass="bg-white"
-                        />
-                      </div>
-                    )}
-                  </div>
-                  
-                  <div className="flex items-center gap-2 mt-1">
-                    {isEditMode && editingField === `service-${index}-description` ? (
-                      <textarea
-                        value={tempValue}
-                        onChange={(e) => setTempValue(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                        onBlur={saveEdit}
-                        autoFocus
-                        className="flex-1 bg-transparent border-b border-gray-300 focus:outline-none text-gray-600 text-xs print:text-[10px] resize-none"
-                        rows={2}
-                      />
-                    ) : (
-                      <p
-                        data-blur-key={`service-${index}-description`}
-                        className={`text-gray-600 text-xs print:text-[10px] ${isEditMode ? 'cursor-pointer hover:bg-gray-50 p-1 rounded transition-colors' : ''}`}
-                        style={getStyleObject(data.serviceDescriptionStyle)}
-                        onClick={() => startEdit(`service-${index}-description`, service.description)}
-                      >
-                        {service.description}
-                      </p>
-                    )}
-                    {index === 0 && isEditMode && editingField !== `service-${index}-description` && (
-                      <div onClick={(e) => e.stopPropagation()}>
-                        <StylePicker
-                          currentStyle={data.serviceDescriptionStyle}
-                          onStyleChange={(style) => onUpdate?.({ serviceDescriptionStyle: style })}
-                          fieldKey="serviceDescription"
-                          backgroundColorClass="bg-white"
-                        />
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              <div
-                className={`mt-3 print:mt-2 pt-3 print:pt-2 border-t ${
-                  service.color === 'cyan' ? 'border-cyan-100' : 'border-yellow-100'
-                }`}
-              >
-                <div className="flex items-center gap-2 mb-2 print:mb-1.5">
-                  {isEditMode ? (
-                    editingField === `serviceIncludesTitle-${index}` ? (
-                      <input
-                        type="text"
-                        value={tempValue}
-                        onChange={(e) => setTempValue(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                        onBlur={saveEdit}
-                        autoFocus
-                        className="text-gray-500 text-xs print:text-[10px] flex-1 bg-gray-50 px-2 py-1 rounded border border-gray-300 focus:outline-none focus:border-gray-500"
-                      />
-                    ) : (
-                      <>
-                        <p 
-                          className="text-gray-500 text-xs print:text-[10px] cursor-pointer hover:bg-gray-50 px-2 py-1 rounded transition-colors"
-                          style={getStyleObject(data.serviceIncludesTitleStyle)}
-                          onClick={() => startEdit(`serviceIncludesTitle-${index}`, data.serviceIncludesTitle)}
-                        >
-                          {data.serviceIncludesTitle}
-                        </p>
-                        {index === 0 && (
-                          <div onClick={(e) => e.stopPropagation()}>
-                            <StylePicker
-                              currentStyle={data.serviceIncludesTitleStyle}
-                              onStyleChange={(style) => onUpdate?.({ serviceIncludesTitleStyle: style })}
-                              fieldKey="serviceIncludesTitle"
-                              backgroundColorClass="bg-white"
-                            />
-                          </div>
-                        )}
-                      </>
-                    )
-                  ) : (
-                    <p
-                      data-blur-key="serviceIncludesTitle"
-                      className="text-gray-500 text-xs print:text-[10px]"
-                      style={getStyleObject(data.serviceIncludesTitleStyle)}
-                    >
-                      {data.serviceIncludesTitle}
-                    </p>
-                  )}
-                </div>
-                {isEditMode && editingField === `service-${index}-includes` ? (
-                  <div>
-                    <textarea
-                      value={tempValue}
-                      onChange={(e) => setTempValue(e.target.value)}
-                      onKeyDown={handleKeyDown}
-                      onBlur={saveEdit}
-                      autoFocus
-                      className={`w-full bg-transparent border-2 rounded-lg p-2 ${
-                        service.color === 'cyan' ? 'border-cyan-200' : 'border-yellow-200'
-                      } focus:outline-none text-gray-700 text-xs print:text-[10px] resize-none`}
-                      rows={6}
-                      placeholder="각 항목을 엔터로 구분해주세요"
-                    />
-                    <p className="text-gray-400 text-[10px] mt-1">Ctrl+Enter로 저장, Esc로 취소</p>
-                  </div>
-                ) : (
-                  <div 
-                    className={`space-y-1.5 print:space-y-1 ${isEditMode ? 'cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors' : ''}`}
-                    onClick={() => startEdit(`service-${index}-includes`, service.includes)}
-                  >
-                    {service.includes.split('\n').filter(item => item.trim()).map((item, i) => (
-                      <div key={i} className="flex items-start gap-2">
-                        <CheckCircle2
-                          className={`w-3.5 h-3.5 print:w-3 print:h-3 flex-shrink-0 mt-0.5 ${
-                            service.color === 'cyan' ? 'text-cyan-500' : 'text-yellow-500'
-                          }`}
-                        />
-                        <div className="flex items-center gap-2 flex-1">
-                          <p
-                            data-blur-key={`service-${index}-includesItem-${i}`}
-                            className="text-gray-700 text-xs print:text-[10px]"
-                            style={getStyleObject(data.serviceIncludesItemStyle)}
-                          >
-                            {item}
-                          </p>
-                          {i === 0 && index === 0 && isEditMode && editingField !== `service-${index}-includes` && (
-                            <div onClick={(e) => e.stopPropagation()}>
-                              <StylePicker
-                                currentStyle={data.serviceIncludesItemStyle}
-                                onStyleChange={(style) => onUpdate?.({ serviceIncludesItemStyle: style })}
-                                fieldKey="serviceIncludesItem"
-                                backgroundColorClass="bg-white"
-                              />
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
         </div>
       </div>
       {/* Blur Overlay */}

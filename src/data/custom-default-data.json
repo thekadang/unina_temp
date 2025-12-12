@@ -5658,6 +5658,11 @@
       }
     },
     {
+      "id": "10-1",
+      "type": "service-options",
+      "title": "서비스 옵션"
+    },
+    {
       "id": "3",
       "type": "flight-departure",
       "title": "항공편 (출발)",

@@ -1539,6 +1539,57 @@ window.location.reload();
 
 ---
 
+## History #32 ⭐
+**날짜**: 2025-12-12
+**사용자 질문**: 프로세스 페이지를 둘로 나눌 계획이야. class값이 space-y-4 print:space-y-3 인 부분을 서비스 옵션 페이지로 분리해줘.
+
+### 수행한 작업
+- [x] ProcessPage.tsx 구조 분석
+- [x] ServiceOptionsPage.tsx 새 컴포넌트 생성
+- [x] App.tsx에 'service-options' 페이지 타입 추가
+- [x] App.tsx의 기본 페이지 목록에 서비스 옵션 페이지 추가
+- [x] renderPage 함수에 ServiceOptionsPage 렌더링 케이스 추가
+- [x] ProcessPage.tsx에서 서비스 옵션 섹션 제거
+- [x] custom-default-data.json에 서비스 옵션 페이지 추가
+- [x] 빌드 테스트 통과
+
+### 변경된 파일
+
+| 파일 | 변경 내용 |
+|------|-----------|
+| 📄 `src/components/ServiceOptionsPage.tsx` | 새로 생성 - 서비스 옵션 전용 페이지 |
+| 📝 `src/components/ProcessPage.tsx` | 서비스 옵션 섹션 제거, 불필요한 import 정리 |
+| 📝 `src/App.tsx` | ServiceOptionsPage import, PageConfig 타입에 'service-options' 추가, 기본 페이지 목록 및 renderPage 수정 |
+| 📝 `src/data/custom-default-data.json` | pageConfigs에 서비스 옵션 페이지 추가 |
+
+### 페이지 구조 변경
+
+**변경 전:**
+```
+프로세스 페이지 (ProcessPage)
+├── 페이지 제목
+├── 프로세스 단계 카드
+└── 서비스 옵션 섹션 (space-y-4)
+```
+
+**변경 후:**
+```
+프로세스 페이지 (ProcessPage)
+├── 페이지 제목
+└── 프로세스 단계 카드
+
+서비스 옵션 페이지 (ServiceOptionsPage) ← 새 페이지
+├── 페이지 제목 ("서비스 옵션")
+└── 서비스 카드들
+```
+
+### 참조한 문서
+- `src/components/ProcessPage.tsx`
+- `src/App.tsx`
+- `src/types/tour-data.ts`
+
+---
+
 ## History #31
 **날짜**: 2025-12-12
 **사용자 질문**: 초기화해도 글자크기(12px 등 스타일)가 적용 안 돼. 파일 불러오기할 때는 적용되는데.

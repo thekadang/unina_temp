@@ -11,6 +11,7 @@ import { FlightArrivalPage } from './components/FlightArrivalPage';
 import { ItineraryCalendarPage } from './components/ItineraryCalendarPage';
 import { QuotationPage } from './components/QuotationPage';
 import { ProcessPage } from './components/ProcessPage';
+import { ServiceOptionsPage } from './components/ServiceOptionsPage';
 import { PaymentPage } from './components/PaymentPage';
 import { EditableAccommodationPage } from './components/EditableAccommodationPage';
 import { DetailedSchedulePage } from './components/DetailedSchedulePage';
@@ -26,7 +27,7 @@ import { ImageIcon } from 'lucide-react';
 
 interface PageConfig {
   id: string;
-  type: 'cover' | 'intro' | 'flight' | 'flight-departure' | 'flight-transit' | 'flight-arrival' | 'itinerary' | 'accommodation' | 'quotation' | 'process' | 'payment' | 'detailed-schedule' | 'tourist-spot' | 'transportation-ticket' | 'transportation-card';
+  type: 'cover' | 'intro' | 'flight' | 'flight-departure' | 'flight-transit' | 'flight-arrival' | 'itinerary' | 'accommodation' | 'quotation' | 'process' | 'service-options' | 'payment' | 'detailed-schedule' | 'tourist-spot' | 'transportation-ticket' | 'transportation-card';
   title: string;
   data?: any;
 }
@@ -83,6 +84,7 @@ export default function App() {
       { id: '1', type: 'cover', title: '표지' },
       { id: '2', type: 'intro', title: '여행 소개' },
       { id: '10', type: 'process', title: '프로세스' },
+      { id: '10-1', type: 'service-options', title: '서비스 옵션' },
       { id: '3', type: 'flight-departure', title: '항공편 (출발)' },
       { id: '4', type: 'flight-transit', title: '항공편 (중간이동)' },
       { id: '5', type: 'flight-arrival', title: '항공편 (도착)' },
@@ -619,6 +621,35 @@ export default function App() {
                 data: {
                   ...newPages[currentPage].data,
                   pageData: { ...processPageData, ...updated }
+                }
+              };
+              setPageConfigs(newPages);
+            }}
+            onDuplicate={() => duplicatePage(currentPage)}
+            onDelete={() => deletePage(currentPage)}
+            canDelete={pageConfigs.length > 1}
+            pageId={config.id}
+            isBlurMode={blurModePages.has(config.id)}
+            blurRegions={blurData[config.id] || []}
+            onToggleBlurMode={() => handleToggleBlurMode(config.id)}
+            onAddBlurRegion={(region) => handleAddBlurRegion(config.id, region)}
+            onRemoveBlurRegion={(regionId) => handleRemoveBlurRegion(config.id, regionId)}
+          />
+        );
+      case 'service-options':
+        const serviceOptionsPageData = config.data?.pageData || tourData;
+        return (
+          <ServiceOptionsPage
+            key={config.id}
+            data={serviceOptionsPageData}
+            isEditMode={isEditMode}
+            onUpdate={(updated) => {
+              const newPages = [...pageConfigs];
+              newPages[currentPage] = {
+                ...newPages[currentPage],
+                data: {
+                  ...newPages[currentPage].data,
+                  pageData: { ...serviceOptionsPageData, ...updated }
                 }
               };
               setPageConfigs(newPages);
