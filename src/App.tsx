@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { TourData, defaultTourData } from './types/tour-data';
+import customDefaultData from './data/custom-default-data.json';
 import { BlurData, BlurRegion } from './types/blur-region';
 import { CoverPage } from './components/CoverPage';
 import { IntroductionPage } from './components/IntroductionPage';
@@ -1270,8 +1271,9 @@ export default function App() {
           <div className="border-t border-gray-200 my-2"></div>
           <button
             onClick={() => {
-              if (confirm('정말 초기화하시겠습니까?\n\n불러온 모든 데이터가 삭제되고 기본값으로 돌아갑니다.')) {
-                localStorage.removeItem('tourData');
+              if (confirm('정말 초기화하시겠습니까?\n\n불러온 모든 데이터가 삭제되고 커스텀 기본값으로 초기화됩니다.')) {
+                // 커스텀 기본값으로 초기화 (JSON 파일에서 로드)
+                localStorage.setItem('tourData', JSON.stringify(customDefaultData.tourData));
                 localStorage.removeItem('pageConfigs');
                 localStorage.removeItem('blurData');
                 window.location.reload();

@@ -1488,6 +1488,57 @@ img.src = currentSrc;
 
 ---
 
+## History #30
+**날짜**: 2025-12-12
+**사용자 질문**: 사이트에서 초기화 메뉴를 선택했을때 JSON 파일의 내용과 스타일이 적용되게 하고 싶어. 지금까지 만든 기능들이 변경되면 안돼.
+
+### 수행한 작업
+- [x] 초기화 기능 위치 및 구현 분석
+- [x] JSON 파일(`tour-data-2025-12-12.json`) 구조 확인
+- [x] JSON 파일을 `src/data/custom-default-data.json`으로 복사
+- [x] App.tsx의 초기화 로직 수정: localStorage에 커스텀 JSON 저장
+- [x] 빌드 테스트 통과 확인
+
+### 변경된 파일
+
+| 파일 | 변경 내용 |
+|------|-----------|
+| 📄 `src/data/custom-default-data.json` | 새로 생성 - 초기화용 커스텀 기본값 |
+| 📝 `src/App.tsx` | import 추가, 초기화 로직에서 커스텀 JSON 사용 |
+
+### 기술적 구현
+
+**변경 전 (기존 초기화 로직)**
+```tsx
+// localStorage 삭제 후 새로고침 → defaultTourData 로드
+localStorage.removeItem('tourData');
+window.location.reload();
+```
+
+**변경 후 (커스텀 JSON 초기화)**
+```tsx
+import customDefaultData from './data/custom-default-data.json';
+
+// 커스텀 기본값으로 초기화 (JSON 파일에서 로드)
+localStorage.setItem('tourData', JSON.stringify(customDefaultData.tourData));
+window.location.reload();
+```
+
+### 기존 기능 유지 확인
+| 기능 | 상태 | 설명 |
+|------|------|------|
+| 새 프로젝트 시작 | ✅ 유지 | 기존 `defaultTourData` 사용 |
+| 파일 저장/불러오기 | ✅ 유지 | 변경 없음 |
+| PDF 출력 | ✅ 유지 | 변경 없음 |
+| **초기화 메뉴** | ✨ 개선 | 커스텀 JSON으로 초기화 |
+
+### 참조한 문서
+- `tour-data-2025-12-12.json` (사용자 생성 JSON)
+- `src/App.tsx`
+- `CLAUDE.md` (기존 기능 유지 원칙)
+
+---
+
 ## 롤백 안내
 
 롤백이 필요한 경우:
