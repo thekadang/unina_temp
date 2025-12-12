@@ -135,7 +135,7 @@ export function ServiceOptionsPage({
               {isEditMode ? (
                 <>
                   <h1
-                    className="text-3xl font-semibold text-cyan-600"
+                    className="text-[25px] font-semibold text-cyan-600"
                     style={getStyleObject(data.serviceOptionsTitleStyle)}
                     contentEditable
                     suppressContentEditableWarning
@@ -152,7 +152,7 @@ export function ServiceOptionsPage({
                 </>
               ) : (
                 <h1
-                  className="text-3xl font-semibold text-cyan-600"
+                  className="text-[25px] font-semibold text-cyan-600"
                   style={getStyleObject(data.serviceOptionsTitleStyle)}
                 >
                   {data.serviceOptionsTitle}

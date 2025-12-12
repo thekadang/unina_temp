@@ -903,7 +903,7 @@ export const defaultTourData: TourData = {
   processLabelStyle: { size: '18px', weight: 'normal', color: '#1f2937' },
   processSubtextStyle: { size: '16px', weight: 'normal', color: '#6b7280' },
   processNoteStyle: { size: '16px', weight: 'normal', color: '#4b5563' },
-  serviceOptionsTitleStyle: { size: '20px', weight: 'normal', color: '#374151' },
+  serviceOptionsTitleStyle: { size: '25px', weight: 'semibold', color: '#0891b2' },
   serviceTitleStyle: { size: '18px', weight: 'normal', color: '#0e7490' },
   serviceDescriptionStyle: { size: '16px', weight: 'normal', color: '#4b5563' },
   serviceIncludesTitleStyle: { size: '18px', weight: 'normal', color: '#6b7280' },
