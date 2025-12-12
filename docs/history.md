@@ -1539,6 +1539,51 @@ window.location.reload();
 
 ---
 
+## History #31
+**날짜**: 2025-12-12
+**사용자 질문**: 초기화해도 글자크기(12px 등 스타일)가 적용 안 돼. 파일 불러오기할 때는 적용되는데.
+
+### 문제 분석
+- **현상**: 초기화 후 JSON에서 설정한 12px 폰트 크기가 적용되지 않음
+- **원인**: `loadSettings`(사이트 불러오기)는 `tourData` + `pageConfigs` 모두 로드하지만, 초기화는 `tourData`만 설정하고 `pageConfigs`는 삭제하고 있었음
+- **핵심**: `pageConfigs`에 페이지별 스타일 정보(12px 폰트 등)가 저장되어 있음
+
+### 수행한 작업
+- [x] 문제 원인 분석: pageConfigs 삭제 vs 설정 차이 파악
+- [x] App.tsx 초기화 로직 수정: pageConfigs도 JSON에서 로드
+- [x] 빌드 테스트 통과 확인
+
+### 변경된 파일
+
+| 파일 | 변경 내용 |
+|------|-----------|
+| 📝 `src/App.tsx` | 초기화 시 pageConfigs도 JSON에서 로드하도록 수정 |
+
+### 기술적 수정
+
+**변경 전**
+```tsx
+localStorage.setItem('tourData', JSON.stringify(customDefaultData.tourData));
+localStorage.removeItem('pageConfigs');  // ❌ 스타일 삭제됨
+```
+
+**변경 후**
+```tsx
+localStorage.setItem('tourData', JSON.stringify(customDefaultData.tourData));
+// pageConfigs도 JSON 파일에서 로드 (스타일 정보 포함)
+if (customDefaultData.pageConfigs) {
+  localStorage.setItem('pageConfigs', JSON.stringify(customDefaultData.pageConfigs));  // ✅ 스타일 유지
+} else {
+  localStorage.removeItem('pageConfigs');
+}
+```
+
+### 참조한 문서
+- `src/App.tsx` (loadSettings 함수와 초기화 로직 비교)
+- `src/data/custom-default-data.json` (pageConfigs 존재 확인)
+
+---
+
 ## 롤백 안내
 
 롤백이 필요한 경우:

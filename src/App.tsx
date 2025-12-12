@@ -1274,7 +1274,12 @@ export default function App() {
               if (confirm('정말 초기화하시겠습니까?\n\n불러온 모든 데이터가 삭제되고 커스텀 기본값으로 초기화됩니다.')) {
                 // 커스텀 기본값으로 초기화 (JSON 파일에서 로드)
                 localStorage.setItem('tourData', JSON.stringify(customDefaultData.tourData));
-                localStorage.removeItem('pageConfigs');
+                // pageConfigs도 JSON 파일에서 로드 (스타일 정보 포함)
+                if (customDefaultData.pageConfigs) {
+                  localStorage.setItem('pageConfigs', JSON.stringify(customDefaultData.pageConfigs));
+                } else {
+                  localStorage.removeItem('pageConfigs');
+                }
                 localStorage.removeItem('blurData');
                 window.location.reload();
               }
