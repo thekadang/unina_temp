@@ -1640,6 +1640,47 @@ const migratePageConfigs = (configs: PageConfig[]): PageConfig[] => {
 
 ---
 
+## History #34
+**날짜**: 2025-12-12
+**사용자 질문**: 서비스 옵션 페이지의 제목 스타일도 25px에 중간 굵기 그리고 #0891b2 색상이 적용되서 다른 페이지들과 통일성을 유지해야겠지?
+
+### 문제 분석
+- **현상**: 서비스 옵션 페이지 제목이 프로세스 페이지와 다른 스타일 적용
+  - 서비스 옵션: 20px, font-weight 400, rgb(55,65,81) 회색
+  - 프로세스 (기준): 25px, font-weight 600, rgb(8,145,178) cyan
+- **원인**: `custom-default-data.json`에 15개의 `serviceOptionsTitleStyle` 인스턴스 중 일부만 수정됨
+- **핵심**: JSON 파일의 모든 인스턴스를 통일해야 함
+
+### 수행한 작업
+- [x] 두 페이지의 개발자 도구 스타일 비교 분석
+- [x] tour-data.ts 기본값 수정 (25px, semibold, #0891b2)
+- [x] ServiceOptionsPage.tsx className 수정
+- [x] custom-default-data.json의 15개 인스턴스 모두 수정
+- [x] 빌드 테스트 통과
+
+### 변경된 파일
+
+| 파일 | 변경 내용 |
+|------|-----------|
+| 📝 `src/types/tour-data.ts` | serviceOptionsTitleStyle 기본값 변경 |
+| 📝 `src/components/ServiceOptionsPage.tsx` | className 기본값 text-[25px]로 변경 |
+| 📝 `src/data/custom-default-data.json` | 15개 serviceOptionsTitleStyle 모두 통일 |
+
+### 스타일 변경 내역
+
+| 항목 | 변경 전 | 변경 후 |
+|------|---------|---------|
+| size | 20px/14px | 25px |
+| weight | normal (400) | semibold (600) |
+| color | #374151 (회색) | #0891b2 (cyan) |
+
+### 참조한 문서
+- 개발자 도구 스크린샷 (프로세스 vs 서비스 옵션)
+- `src/types/tour-data.ts`
+- `src/data/custom-default-data.json`
+
+---
+
 ## History #31
 **날짜**: 2025-12-12
 **사용자 질문**: 초기화해도 글자크기(12px 등 스타일)가 적용 안 돼. 파일 불러오기할 때는 적용되는데.
