@@ -1416,8 +1416,10 @@ img {
 
 ---
 
-## History #28 - PDF 출력 레이아웃 및 이미지 로드 최종 수정
+## ⭐ History #28 - PDF 출력 레이아웃 및 이미지 로드 최종 수정 [안정 버전 - 롤백 포인트]
 **날짜**: 2025-12-11
+**Git 커밋**: `5016eb1`
+**상태**: ✅ 안정 버전 - 모든 기능 정상 작동 확인됨
 **요청**: "세부일정 페이지 PDF 출력 시 PC 버전 레이아웃 + 이미지 로드 문제 해결"
 
 ### 수행한 작업
@@ -1460,6 +1462,29 @@ img.src = currentSrc;
 - `src/components/DetailedSchedulePage.tsx`
 - `src/App.tsx`
 - `src/components/figma/ImageWithFallback.tsx`
+
+---
+
+## History #29 - 롤백: History #28로 복원
+**날짜**: 2025-12-12
+**요청**: "History #28 번으로 롤백하자"
+
+### 수행한 작업
+- [x] 롤백 대상 확인 (History #28 = 커밋 `5016eb1`)
+- [x] 사용자 JSON 파일 백업 (`tour-data-2025-12-12.json`)
+- [x] `git reset --hard 5016eb1` 실행
+- [x] 사용자 JSON 파일 복원
+
+### 롤백으로 제거된 변경사항 (History #29 취소)
+- 🗑️ `src/data/default-tour-data.json` - 삭제됨
+- ⏪ `src/types/tour-data.ts` - 하드코딩된 기본값으로 복원됨
+
+### 보존된 파일
+- ✅ `tour-data-2025-12-12.json` - 사용자가 생성한 원본 JSON 파일 (untracked)
+
+### 현재 상태
+- HEAD: `5016eb1` (History #28)
+- 안정 버전으로 복원 완료
 
 ---
 
