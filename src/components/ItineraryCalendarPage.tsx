@@ -242,7 +242,7 @@ export function ItineraryCalendarPage({ data, isEditMode, onUpdate, onDuplicate,
   return (
     <div 
       className="min-h-screen p-4 md:p-6 lg:p-8 py-12 md:py-16 print:py-10 print:px-12 relative blur-container"
-      data-has-blur={blurRegions.length > 0 ? "true" : undefined}
+      data-has-blur={blurRegions?.length > 0 ? "true" : undefined}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

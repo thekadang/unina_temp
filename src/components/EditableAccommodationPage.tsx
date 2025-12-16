@@ -67,6 +67,18 @@ export function EditableAccommodationPage({
 }: Props) {
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState(hotel);
+
+  // 라벨 편집 상태
+  const [editLabels, setEditLabels] = useState({
+    accommodationHotelNameLabel: data?.accommodationHotelNameLabel || '호텔명',
+    accommodationCheckInLabel: data?.accommodationCheckInLabel || '체크인',
+    accommodationCheckOutLabel: data?.accommodationCheckOutLabel || '체크아웃',
+    accommodationRoomTypeLabel: data?.accommodationRoomTypeLabel || '룸 형태',
+    accommodationBreakfastLabel: data?.accommodationBreakfastLabel || '조식 포함 여부',
+    accommodationFacilitiesLabel: data?.accommodationFacilitiesLabel || '주요 부대시설',
+    accommodationAttractionsLabel: data?.accommodationAttractionsLabel || '주변 관광지',
+    accommodationCityTaxLabel: data?.accommodationCityTaxLabel || '예상 도시세',
+  });
   const [isHovered, setIsHovered] = useState(false);
   
   // 문구 편집 상태
@@ -113,11 +125,26 @@ export function EditableAccommodationPage({
 
   const handleSave = () => {
     onUpdate(editData);
+    // 라벨 변경 사항도 저장
+    if (onStyleChange) {
+      onStyleChange(editLabels);
+    }
     setIsEditing(false);
   };
 
   const handleCancel = () => {
     setEditData(hotel);
+    // 라벨 상태도 초기화
+    setEditLabels({
+      accommodationHotelNameLabel: data?.accommodationHotelNameLabel || '호텔명',
+      accommodationCheckInLabel: data?.accommodationCheckInLabel || '체크인',
+      accommodationCheckOutLabel: data?.accommodationCheckOutLabel || '체크아웃',
+      accommodationRoomTypeLabel: data?.accommodationRoomTypeLabel || '룸 형태',
+      accommodationBreakfastLabel: data?.accommodationBreakfastLabel || '조식 포함 여부',
+      accommodationFacilitiesLabel: data?.accommodationFacilitiesLabel || '주요 부대시설',
+      accommodationAttractionsLabel: data?.accommodationAttractionsLabel || '주변 관광지',
+      accommodationCityTaxLabel: data?.accommodationCityTaxLabel || '예상 도시세',
+    });
     setIsEditing(false);
   };
 
@@ -499,7 +526,7 @@ export function EditableAccommodationPage({
                   className="text-xs print:text-[10px]"
                   style={getStyleObject(data?.accommodationCheckInLabelStyle)}
                 >
-                  체크인
+                  {data?.accommodationCheckInLabel || '체크인'}
                 </span>
                 {isEditMode && (
                   <StylePicker
@@ -536,7 +563,7 @@ export function EditableAccommodationPage({
                   className="text-xs print:text-[10px]"
                   style={getStyleObject(data?.accommodationCheckOutLabelStyle)}
                 >
-                  체크아웃
+                  {data?.accommodationCheckOutLabel || '체크아웃'}
                 </span>
                 {isEditMode && (
                   <StylePicker
@@ -593,7 +620,7 @@ export function EditableAccommodationPage({
                   className="text-gray-500 text-xs print:text-[10px]"
                   style={getStyleObject(data?.accommodationRoomTypeLabelStyle)}
                 >
-                  룸 형태
+                  {data?.accommodationRoomTypeLabel || '룸 형태'}
                 </p>
                 {isEditMode && (
                   <StylePicker
@@ -629,7 +656,7 @@ export function EditableAccommodationPage({
                   className="text-gray-500 text-xs print:text-[10px]"
                   style={getStyleObject(data?.accommodationBreakfastLabelStyle)}
                 >
-                  조식 포함 여부
+                  {data?.accommodationBreakfastLabel || '조식 포함 여부'}
                 </p>
                 {isEditMode && (
                   <StylePicker
@@ -683,7 +710,7 @@ export function EditableAccommodationPage({
                 className="text-gray-500 text-xs print:text-[10px]"
                 style={getStyleObject(data?.accommodationFacilitiesLabelStyle)}
               >
-                주요 부대시설
+                {data?.accommodationFacilitiesLabel || '주요 부대시설'}
               </p>
               {isEditMode && (
                 <StylePicker
@@ -725,7 +752,7 @@ export function EditableAccommodationPage({
                 className="text-gray-500 text-xs print:text-[10px]"
                 style={getStyleObject(data?.accommodationAttractionsLabelStyle)}
               >
-                주변 관광지
+                {data?.accommodationAttractionsLabel || '주변 관광지'}
               </p>
               {isEditMode && (
                 <StylePicker
@@ -765,7 +792,7 @@ export function EditableAccommodationPage({
                 className="text-gray-500 text-xs print:text-[10px]"
                 style={getStyleObject(data?.accommodationCityTaxLabelStyle)}
               >
-                예상 도시세
+                {data?.accommodationCityTaxLabel || '예상 도시세'}
               </p>
               {isEditMode && (
                 <StylePicker
@@ -827,6 +854,15 @@ export function EditableAccommodationPage({
                 <Input
                   value={editData.name}
                   onChange={(e) => setEditData({ ...editData, name: e.target.value })}
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm mb-2 text-gray-700">숙소 종류</label>
+                <Input
+                  value={editData.type}
+                  onChange={(e) => setEditData({ ...editData, type: e.target.value })}
+                  placeholder="호텔, 에어비엔비, 리조트 등"
                 />
               </div>
 
@@ -942,6 +978,77 @@ export function EditableAccommodationPage({
                   <Button variant="outline" size="sm" onClick={addAttraction}>
                     + 관광지 추가
                   </Button>
+                </div>
+              </div>
+
+              {/* 라벨 편집 섹션 */}
+              <div className="border-t border-gray-200 pt-6">
+                <h3 className="text-sm font-medium text-gray-900 mb-4">항목명 편집</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs mb-1 text-gray-500">호텔명 라벨</label>
+                    <Input
+                      value={editLabels.accommodationHotelNameLabel}
+                      onChange={(e) => setEditLabels({ ...editLabels, accommodationHotelNameLabel: e.target.value })}
+                      placeholder="호텔명"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs mb-1 text-gray-500">체크인 라벨</label>
+                    <Input
+                      value={editLabels.accommodationCheckInLabel}
+                      onChange={(e) => setEditLabels({ ...editLabels, accommodationCheckInLabel: e.target.value })}
+                      placeholder="체크인"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs mb-1 text-gray-500">체크아웃 라벨</label>
+                    <Input
+                      value={editLabels.accommodationCheckOutLabel}
+                      onChange={(e) => setEditLabels({ ...editLabels, accommodationCheckOutLabel: e.target.value })}
+                      placeholder="체크아웃"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs mb-1 text-gray-500">룸 형태 라벨</label>
+                    <Input
+                      value={editLabels.accommodationRoomTypeLabel}
+                      onChange={(e) => setEditLabels({ ...editLabels, accommodationRoomTypeLabel: e.target.value })}
+                      placeholder="룸 형태"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs mb-1 text-gray-500">조식 포함 여부 라벨</label>
+                    <Input
+                      value={editLabels.accommodationBreakfastLabel}
+                      onChange={(e) => setEditLabels({ ...editLabels, accommodationBreakfastLabel: e.target.value })}
+                      placeholder="조식 포함 여부"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs mb-1 text-gray-500">부대시설 라벨</label>
+                    <Input
+                      value={editLabels.accommodationFacilitiesLabel}
+                      onChange={(e) => setEditLabels({ ...editLabels, accommodationFacilitiesLabel: e.target.value })}
+                      placeholder="주요 부대시설"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs mb-1 text-gray-500">주변 관광지 라벨</label>
+                    <Input
+                      value={editLabels.accommodationAttractionsLabel}
+                      onChange={(e) => setEditLabels({ ...editLabels, accommodationAttractionsLabel: e.target.value })}
+                      placeholder="주변 관광지"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs mb-1 text-gray-500">도시세 라벨</label>
+                    <Input
+                      value={editLabels.accommodationCityTaxLabel}
+                      onChange={(e) => setEditLabels({ ...editLabels, accommodationCityTaxLabel: e.target.value })}
+                      placeholder="예상 도시세"
+                    />
+                  </div>
                 </div>
               </div>
             </div>

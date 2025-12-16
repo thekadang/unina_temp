@@ -4,7 +4,7 @@ import { storage, STORAGE_KEYS } from '../utils/storage';
 // PageConfig 타입 정의
 export interface PageConfig {
   id: string;
-  type: 'cover' | 'intro' | 'flight' | 'flight-departure' | 'flight-transit' | 'flight-arrival' | 'itinerary' | 'accommodation' | 'quotation' | 'process' | 'payment' | 'detailed-schedule' | 'tourist-spot' | 'transportation-ticket' | 'transportation-card';
+  type: 'cover' | 'intro' | 'flight' | 'flight-departure' | 'flight-transit' | 'flight-arrival' | 'itinerary' | 'accommodation' | 'quotation' | 'process' | 'payment' | 'detailed-schedule' | 'tourist-spot' | 'transportation-ticket' | 'transportation-card' | 'service-options' | 'contact';
   title: string;
   data?: any;
 }
@@ -25,6 +25,7 @@ const defaultPageConfigs: PageConfig[] = [
   { id: '13', type: 'transportation-card', title: '교통카드 안내' },
   { id: '9', type: 'quotation', title: '견적' },
   { id: '11', type: 'payment', title: '결제 안내' },
+  { id: '14', type: 'contact', title: '문의 하기' },
 ];
 
 /**

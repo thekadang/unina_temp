@@ -18,6 +18,7 @@ import { DetailedSchedulePage } from './components/DetailedSchedulePage';
 import { TouristSpotListPage } from './components/TouristSpotListPage';
 import { TransportationTicketPage } from './components/TransportationTicketPage';
 import { TransportationCardPage } from './components/TransportationCardPage';
+import { ContactPage } from './components/ContactPage';
 import { PasswordProtection } from './components/PasswordProtection';
 import { ChevronLeft, ChevronRight, Menu, Download, Settings, Plus, FileDown, Upload, RotateCcw, Eye, EyeOff, Trash2 } from 'lucide-react';
 import { Button } from './components/ui/button';
@@ -27,7 +28,7 @@ import { ImageIcon } from 'lucide-react';
 
 interface PageConfig {
   id: string;
-  type: 'cover' | 'intro' | 'flight' | 'flight-departure' | 'flight-transit' | 'flight-arrival' | 'itinerary' | 'accommodation' | 'quotation' | 'process' | 'service-options' | 'payment' | 'detailed-schedule' | 'tourist-spot' | 'transportation-ticket' | 'transportation-card';
+  type: 'cover' | 'intro' | 'flight' | 'flight-departure' | 'flight-transit' | 'flight-arrival' | 'itinerary' | 'accommodation' | 'quotation' | 'process' | 'service-options' | 'payment' | 'detailed-schedule' | 'tourist-spot' | 'transportation-ticket' | 'transportation-card' | 'contact';
   title: string;
   data?: any;
 }
@@ -70,7 +71,12 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('blurData', JSON.stringify(blurData));
   }, [blurData]);
-  
+
+  // Save tourData to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('tourData', JSON.stringify(tourData));
+  }, [tourData]);
+
   const [pageConfigs, setPageConfigs] = useState<PageConfig[]>(() => {
     // 마이그레이션 함수: 새로운 페이지 타입이 누락된 경우 자동 추가
     const migratePageConfigs = (configs: PageConfig[]): PageConfig[] => {
@@ -122,8 +128,14 @@ export default function App() {
       { id: '13', type: 'transportation-card', title: '교통카드 안내' },
       { id: '9', type: 'quotation', title: '견적' },
       { id: '11', type: 'payment', title: '결제 안내' },
+      { id: '14', type: 'contact', title: '문의 하기' },
     ];
   });
+
+  // Save pageConfigs to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('pageConfigs', JSON.stringify(pageConfigs));
+  }, [pageConfigs]);
 
   // Save current state as default
   const saveAsDefault = async () => {
@@ -376,10 +388,15 @@ export default function App() {
         );
       case 'intro':
         // 날짜 관련 필드는 항상 tourData에서 가져옴 (날짜 동기화)
+        // 공유 필드는 항상 tourData에서 가져오고, 페이지별 스타일은 pageData에서 가져옴
         const introPageData = {
           ...(config.data?.pageData || tourData),
+          // 공유 필드: 항상 tourData에서 동기화
           startDate: tourData.startDate,
           endDate: tourData.endDate,
+          nights: tourData.nights,
+          days: tourData.days,
+          travelParty: tourData.travelParty,
           duration: tourData.duration,
         };
         return (
@@ -388,11 +405,12 @@ export default function App() {
             data={introPageData}
             isEditMode={isEditMode}
             onUpdate={(updated) => {
-              // 날짜 관련 정보가 업데이트되면 전역 tourData도 함께 업데이트
-              const dateRelatedFields = ['startDate', 'endDate', 'nights', 'days', 'totalDays'];
-              const hasDateUpdate = Object.keys(updated).some(key => dateRelatedFields.includes(key));
-              
-              if (hasDateUpdate) {
+              // 공유 필드가 업데이트되면 전역 tourData도 함께 업데이트
+              // 일정 관련 + 참가자 정보는 여러 페이지에서 공유됨
+              const sharedFields = ['startDate', 'endDate', 'nights', 'days', 'totalDays', 'travelParty'];
+              const hasSharedFieldUpdate = Object.keys(updated).some(key => sharedFields.includes(key));
+
+              if (hasSharedFieldUpdate) {
                 // 전역 tourData 업데이트
                 setTourData({ ...tourData, ...updated });
               }
@@ -587,33 +605,42 @@ export default function App() {
             hotel={accHotel}
             isEditMode={isEditMode}
             onUpdate={(updated) => {
-              // 페이지별 데이터에 숙소 정보 업데이트
-              const currentAccommodations = accPageData.accommodations ? [...accPageData.accommodations] : [...tourData.accommodations];
-              currentAccommodations[accIndex] = updated;
-              const newPages = [...pageConfigs];
-              newPages[currentPage] = {
-                ...newPages[currentPage],
-                data: {
-                  ...newPages[currentPage].data,
-                  pageData: { ...accPageData, accommodations: currentAccommodations }
-                }
-              };
-              setPageConfigs(newPages);
+              // 페이지별 데이터에 숙소 정보 업데이트 (함수형 업데이트로 최신 state 참조)
+              setPageConfigs(prevConfigs => {
+                const newPages = [...prevConfigs];
+                const currentAccPageData = newPages[currentPage].data?.pageData || tourData;
+                const currentAccommodations = currentAccPageData.accommodations
+                  ? [...currentAccPageData.accommodations]
+                  : [...tourData.accommodations];
+                currentAccommodations[accIndex] = updated;
+                newPages[currentPage] = {
+                  ...newPages[currentPage],
+                  data: {
+                    ...newPages[currentPage].data,
+                    pageData: { ...currentAccPageData, accommodations: currentAccommodations }
+                  }
+                };
+                return newPages;
+              });
             }}
             onDuplicate={() => duplicatePage(currentPage)}
             onDelete={() => deletePage(currentPage)}
             canDelete={pageConfigs.filter(p => p.type === 'accommodation').length > 1}
             data={accPageData}
             onStyleChange={(updated) => {
-              const newPages = [...pageConfigs];
-              newPages[currentPage] = {
-                ...newPages[currentPage],
-                data: {
-                  ...newPages[currentPage].data,
-                  pageData: { ...accPageData, ...updated }
-                }
-              };
-              setPageConfigs(newPages);
+              // 함수형 업데이트로 최신 state 참조 (onUpdate와의 race condition 방지)
+              setPageConfigs(prevConfigs => {
+                const newPages = [...prevConfigs];
+                const currentAccPageData = newPages[currentPage].data?.pageData || tourData;
+                newPages[currentPage] = {
+                  ...newPages[currentPage],
+                  data: {
+                    ...newPages[currentPage].data,
+                    pageData: { ...currentAccPageData, ...updated }
+                  }
+                };
+                return newPages;
+              });
             }}
             pageId={config.id}
             isBlurMode={blurModePages.has(config.id)}
@@ -624,7 +651,16 @@ export default function App() {
           />
         );
       case 'quotation':
-        const quotationPageData = config.data?.pageData || tourData;
+        // 공유 필드는 항상 tourData에서 가져오고, 페이지별 스타일은 pageData에서 가져옴
+        const quotationPageData = {
+          ...(config.data?.pageData || tourData),
+          // 공유 필드: 항상 tourData에서 동기화
+          startDate: tourData.startDate,
+          endDate: tourData.endDate,
+          nights: tourData.nights,
+          days: tourData.days,
+          travelParty: tourData.travelParty,
+        };
         return (
           <QuotationPage
             key={config.id}
@@ -862,6 +898,35 @@ export default function App() {
             onRemoveBlurRegion={(regionId) => handleRemoveBlurRegion(config.id, regionId)}
           />
         );
+      case 'contact':
+        const contactPageData = config.data?.pageData || tourData;
+        return (
+          <ContactPage
+            key={config.id}
+            data={contactPageData}
+            isEditMode={isEditMode}
+            onUpdate={(updated) => {
+              const newPages = [...pageConfigs];
+              newPages[currentPage] = {
+                ...newPages[currentPage],
+                data: {
+                  ...newPages[currentPage].data,
+                  pageData: { ...contactPageData, ...updated }
+                }
+              };
+              setPageConfigs(newPages);
+            }}
+            onDuplicate={() => duplicatePage(currentPage)}
+            onDelete={() => deletePage(currentPage)}
+            canDelete={pageConfigs.length > 1}
+            pageId={config.id}
+            isBlurMode={blurModePages.has(config.id)}
+            blurRegions={blurData[config.id] || []}
+            onToggleBlurMode={() => handleToggleBlurMode(config.id)}
+            onAddBlurRegion={(region) => handleAddBlurRegion(config.id, region)}
+            onRemoveBlurRegion={(regionId) => handleRemoveBlurRegion(config.id, regionId)}
+          />
+        );
       default:
         return null;
     }
@@ -890,54 +955,94 @@ export default function App() {
       };
     } else if (pageToDuplicate.type === 'detailed-schedule') {
       const currentDayNumber = pageToDuplicate.data?.dayNumber ?? 1;
-      const scheduleToDuplicate = tourData.detailedSchedules.find(s => s.day === currentDayNumber);
-      
-      // 다음 day number 찾기
-      const existingDayNumbers = tourData.detailedSchedules.map(s => s.day);
+
+      // pageData에서 먼저 찾고, 없으면 tourData에서 찾기 (편집 중인 데이터 반영)
+      const pageData = pageToDuplicate.data?.pageData;
+      const scheduleToDuplicate = pageData?.detailedSchedules?.find((s: any) => s.day === currentDayNumber)
+        || tourData.detailedSchedules.find(s => s.day === currentDayNumber);
+
+      // 다음 day number 찾기 - pageConfigs에 있는 모든 세부 일정 페이지의 dayNumber 확인
+      const existingDayNumbers = pageConfigs
+        .filter(p => p.type === 'detailed-schedule')
+        .map(p => p.data?.dayNumber ?? 0);
       const newDayNumber = Math.max(...existingDayNumbers, 0) + 1;
-      
+
       // 스케줄 데이터 깊은 복사
-      const duplicatedSchedule = scheduleToDuplicate 
+      const duplicatedSchedule = scheduleToDuplicate
         ? JSON.parse(JSON.stringify(scheduleToDuplicate))
-        : { day: newDayNumber, title: `DAY ${newDayNumber}`, scheduleItems: [] };
-      
+        : { day: newDayNumber, title: `DAY ${newDayNumber}`, colorTheme: 'pink', scheduleItems: [] };
+
       duplicatedSchedule.day = newDayNumber;
       duplicatedSchedule.title = `DAY ${newDayNumber}`;
-      
+
+      // tourData에 새 스케줄 추가
       const newSchedules = [...tourData.detailedSchedules, duplicatedSchedule];
       setTourData({ ...tourData, detailedSchedules: newSchedules });
-      
+
+      // pageData도 복제하여 편집 내용 유지
+      const duplicatedPageData = pageData
+        ? JSON.parse(JSON.stringify(pageData))
+        : null;
+
+      if (duplicatedPageData) {
+        // pageData의 detailedSchedules도 업데이트
+        duplicatedPageData.detailedSchedules = duplicatedPageData.detailedSchedules || [];
+        duplicatedPageData.detailedSchedules.push(duplicatedSchedule);
+      }
+
       newPage = {
         id: newId,
         type: 'detailed-schedule',
         title: `세부 일정 (DAY ${newDayNumber})`,
-        data: { dayNumber: newDayNumber }
+        data: {
+          dayNumber: newDayNumber,
+          pageData: duplicatedPageData
+        }
       };
     } else if (pageToDuplicate.type === 'tourist-spot') {
       const currentDayNumber = pageToDuplicate.data?.dayNumber ?? 1;
       const touristSpots = tourData.touristSpots || [];
-      const spotToDuplicate = touristSpots.find(s => s.day === currentDayNumber);
-      
-      // 다음 day number 찾기
-      const existingDayNumbers = touristSpots.map(s => s.day);
+
+      // pageData에서 먼저 찾고, 없으면 tourData에서 찾기 (편집 중인 데이터 반영)
+      const pageData = pageToDuplicate.data?.pageData;
+      const spotToDuplicate = pageData?.touristSpots?.find((s: any) => s.day === currentDayNumber)
+        || touristSpots.find(s => s.day === currentDayNumber);
+
+      // 다음 day number 찾기 - pageConfigs에 있는 모든 관광지 리스트 페이지의 dayNumber 확인
+      const existingDayNumbers = pageConfigs
+        .filter(p => p.type === 'tourist-spot')
+        .map(p => p.data?.dayNumber ?? 0);
       const newDayNumber = Math.max(...existingDayNumbers, 0) + 1;
-      
+
       // 스케줄 데이터 깊은 복사
-      const duplicatedSpot = spotToDuplicate 
+      const duplicatedSpot = spotToDuplicate
         ? JSON.parse(JSON.stringify(spotToDuplicate))
         : { day: newDayNumber, title: `DAY ${newDayNumber}`, colorTheme: 'pink', scheduleItems: [] };
-      
+
       duplicatedSpot.day = newDayNumber;
       duplicatedSpot.title = `DAY ${newDayNumber}`;
-      
+
       const newSpots = [...touristSpots, duplicatedSpot];
       setTourData({ ...tourData, touristSpots: newSpots });
-      
+
+      // pageData도 복제하여 편집 내용 유지
+      const duplicatedPageData = pageData
+        ? JSON.parse(JSON.stringify(pageData))
+        : null;
+
+      if (duplicatedPageData) {
+        duplicatedPageData.touristSpots = duplicatedPageData.touristSpots || [];
+        duplicatedPageData.touristSpots.push(duplicatedSpot);
+      }
+
       newPage = {
         id: newId,
         type: 'tourist-spot',
         title: `관광지 리스트 (DAY ${newDayNumber})`,
-        data: { dayNumber: newDayNumber }
+        data: {
+          dayNumber: newDayNumber,
+          pageData: duplicatedPageData
+        }
       };
     } else {
       // 다른 모든 페이지 타입: pageData를 깊은 복사

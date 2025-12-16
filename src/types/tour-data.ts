@@ -290,6 +290,16 @@ export interface TourData {
   }[];
   accommodationTitle: string;
 
+  // Accommodation page editable labels
+  accommodationHotelNameLabel: string;
+  accommodationCheckInLabel: string;
+  accommodationCheckOutLabel: string;
+  accommodationRoomTypeLabel: string;
+  accommodationBreakfastLabel: string;
+  accommodationFacilitiesLabel: string;
+  accommodationAttractionsLabel: string;
+  accommodationCityTaxLabel: string;
+
   // Accommodation page text styles
   accommodationTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
   accommodationLocationStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
@@ -357,7 +367,11 @@ export interface TourData {
   paymentNoticesItemStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
   contactTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
   contactInfoStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
-  
+
+  // Contact page
+  contactPageTitle?: string;
+  contactPageTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+
   // Payment page data
   paymentMethodsAddButtonText: string;
   paymentMethods: {
@@ -835,7 +849,17 @@ export const defaultTourData: TourData = {
     }
   ],
   accommodationTitle: '숙소 안내',
-  
+
+  // Accommodation page editable labels
+  accommodationHotelNameLabel: '호텔명',
+  accommodationCheckInLabel: '체크인',
+  accommodationCheckOutLabel: '체크아웃',
+  accommodationRoomTypeLabel: '룸 형태',
+  accommodationBreakfastLabel: '조식 포함 여부',
+  accommodationFacilitiesLabel: '주요 부대시설',
+  accommodationAttractionsLabel: '주변 관광지',
+  accommodationCityTaxLabel: '예상 도시세',
+
   // Accommodation page text styles
   accommodationTitleStyle: { size: '35px', weight: 'semibold', color: '#0891b2' },
   accommodationLocationStyle: { size: '20px', weight: 'normal', color: '#374151' },
@@ -1244,5 +1268,7 @@ export const defaultTourData: TourData = {
   
   // Contact page text styles
   contactTitleStyle: { size: '20px', weight: 'normal', color: '#fafcff' },
-  contactInfoStyle: { size: '20px', weight: 'normal', color: '#f4f6fa' }
+  contactInfoStyle: { size: '20px', weight: 'normal', color: '#f4f6fa' },
+  contactPageTitle: '문의 하기',
+  contactPageTitleStyle: { size: '35px', weight: 'semibold', color: '#0891b2' }
 };

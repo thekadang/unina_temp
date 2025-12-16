@@ -1772,6 +1772,600 @@ const pageData = {
 
 ---
 
+## History #36
+**날짜**: 2025-12-16
+**사용자 질문**: 세부 일정 페이지를 편집하다가 페이지 복제를 했는데 편집하던 그대로 복제되지 않고있어. 그리고 상단의 날짜가 다음날짜가 되고 day숫자가 순서대로 늘어나야 되는데 day1다음에 day3이 나와서 수정도 못해.
+
+### 문제 분석
+- **현상 1**: 세부 일정 페이지 편집 중 복제 시 편집 내용이 복제되지 않음
+- **현상 2**: Day 번호가 순서대로 증가하지 않음 (Day1 → Day3)
+- **근본 원인**:
+  1. `duplicatePage` 함수가 `tourData.detailedSchedules`에서 데이터를 가져옴
+  2. 편집 중인 데이터는 `pageConfigs[index].data.pageData`에 저장됨
+  3. Day 번호 계산이 `tourData.detailedSchedules`만 확인하고, `pageConfigs`의 dayNumber를 확인하지 않음
+
+### 수행한 작업
+- [x] DetailedSchedulePage.tsx 및 App.tsx 복제 로직 분석
+- [x] 버그 원인 파악
+- [x] 세부 일정 복제 로직 수정: pageData에서 먼저 데이터 가져오기
+- [x] Day 번호 계산 로직 수정: pageConfigs에서 모든 세부 일정 페이지의 dayNumber 확인
+- [x] 관광지 리스트 복제 로직도 동일하게 수정
+- [x] 빌드 테스트 통과
+
+### 해결 방법
+
+**세부 일정 복제 시 데이터 소스 변경:**
+```typescript
+// Before: tourData에서만 가져옴
+const scheduleToDuplicate = tourData.detailedSchedules.find(s => s.day === currentDayNumber);
+
+// After: pageData에서 먼저 찾고, 없으면 tourData에서 찾기
+const pageData = pageToDuplicate.data?.pageData;
+const scheduleToDuplicate = pageData?.detailedSchedules?.find((s: any) => s.day === currentDayNumber)
+  || tourData.detailedSchedules.find(s => s.day === currentDayNumber);
+```
+
+**Day 번호 계산 로직 변경:**
+```typescript
+// Before: tourData만 확인
+const existingDayNumbers = tourData.detailedSchedules.map(s => s.day);
+
+// After: pageConfigs에서 모든 세부 일정 페이지의 dayNumber 확인
+const existingDayNumbers = pageConfigs
+  .filter(p => p.type === 'detailed-schedule')
+  .map(p => p.data?.dayNumber ?? 0);
+```
+
+### 변경된 파일
+
+| 파일 | 변경 내용 |
+|------|-----------|
+| 📝 `src/App.tsx` | duplicatePage 함수의 세부 일정(detailed-schedule) 및 관광지 리스트(tourist-spot) 복제 로직 수정 |
+
+### 참조한 문서
+- `src/App.tsx` - duplicatePage 함수
+- `src/components/DetailedSchedulePage.tsx` - 컴포넌트 구조 분석
+- `CLAUDE.md` - JSON 저장/불러오기 호환성 원칙
+
+---
+
+## History #37
+**날짜**: 2025-12-16
+**사용자 질문**: 숙소 안내 페이지에서 숙소내용을 수정하려면 편집모드에서 연필 모양을 눌러서 편집을 하잖아? 이때 항목명은 고정이 되어 있고 내용을 넣게 되어 있잖아? 근데 그 항목명들도 수정을 할 수 있으면 좋겠어. 예를들어 호텔명 이라는 항목명을 호텔 이라던가 에어비엔비 이런식으로 수정을 하고 그대로 출력되면 되는거야. 출력될때 디자인은 지금의 디자인을 유지하면 돼.
+
+### 문제 분석
+- **요청**: 숙소 페이지의 라벨(항목명)을 사용자가 편집할 수 있도록 기능 추가
+- **현재 상태**: 라벨이 컴포넌트에 하드코딩되어 있음 (체크인, 체크아웃, 룸 형태 등)
+- **목표**: 디자인 유지하면서 라벨 텍스트를 편집 가능하게 변경
+
+### 수행한 작업
+- [x] 숙소 페이지 현재 구조 분석 (EditableAccommodationPage.tsx)
+- [x] TourData 타입에 라벨 텍스트 속성 추가
+- [x] defaultTourData에 기본값 추가
+- [x] 렌더링 부분의 하드코딩된 라벨을 data 속성으로 대체
+- [x] 편집 모달에 라벨 편집 섹션 추가
+- [x] 라벨 편집 상태 관리 로직 구현
+- [x] 저장/취소 시 라벨 상태 처리
+- [x] 빌드 테스트 통과
+
+### 추가된 라벨 속성
+
+| 속성명 | 기본값 | 설명 |
+|--------|--------|------|
+| `accommodationHotelNameLabel` | 호텔명 | 호텔 이름 라벨 |
+| `accommodationCheckInLabel` | 체크인 | 체크인 날짜 라벨 |
+| `accommodationCheckOutLabel` | 체크아웃 | 체크아웃 날짜 라벨 |
+| `accommodationRoomTypeLabel` | 룸 형태 | 객실 타입 라벨 |
+| `accommodationBreakfastLabel` | 조식 포함 여부 | 조식 포함 여부 라벨 |
+| `accommodationFacilitiesLabel` | 주요 부대시설 | 부대시설 라벨 |
+| `accommodationAttractionsLabel` | 주변 관광지 | 주변 관광지 라벨 |
+| `accommodationCityTaxLabel` | 예상 도시세 | 도시세 라벨 |
+
+### 변경된 파일
+
+| 파일 | 변경 내용 |
+|------|-----------|
+| 📝 `src/types/tour-data.ts` | TourData 인터페이스에 라벨 속성 8개 추가, defaultTourData에 기본값 추가 |
+| 📝 `src/components/EditableAccommodationPage.tsx` | 라벨 편집 상태 추가, 렌더링 시 data에서 라벨 읽기, 편집 모달에 라벨 편집 섹션 추가 |
+
+### 참조한 문서
+- `src/types/tour-data.ts` - 데이터 타입 정의
+- `src/components/EditableAccommodationPage.tsx` - 숙소 페이지 컴포넌트
+- `CLAUDE.md` - JSON 저장/불러오기 호환성 원칙
+
+### 하위 호환성
+- 기존 JSON 파일에 라벨 속성이 없어도 기본값 사용으로 정상 동작
+- `data?.accommodationXXXLabel || '기본값'` 패턴 적용
+
+---
+
+## History #38
+**날짜**: 2025-12-16
+**사용자 질문**: 여행일정 페이지의 기능들이 많이 망가졌는데? 기능들 복구해놔.
+
+### 문제 분석
+- **요청**: 여행일정(ItineraryCalendarPage) 페이지의 망가진 기능 복구
+- **조사 방법**: Playwright를 사용한 실제 브라우저 테스트 수행
+
+### 수행한 작업
+- [x] App.tsx에서 ItineraryCalendarPage 렌더링 코드 분석
+- [x] ItineraryCalendarPage.tsx 전체 코드 분석 (1205줄)
+- [x] 개발 서버 실행 (포트 3001)
+- [x] Playwright로 페이지 접속 및 로그인
+- [x] 데스크톱 캘린더 뷰 테스트 (정상)
+- [x] 일정 추가/수정 다이얼로그 테스트 (정상)
+- [x] 교통수단 선택 테스트 (정상)
+- [x] 국가 색상 선택 테스트 (정상)
+- [x] 모바일 리스트 뷰 테스트 (정상)
+- [x] 콘솔 에러 확인 (에러 없음)
+- [x] 방어적 코드 수정 적용
+- [x] 빌드 테스트 통과
+
+### 테스트 결과
+
+| 기능 | 상태 | 비고 |
+|------|------|------|
+| 캘린더 그리드 렌더링 | ✅ 정상 | 데스크톱 뷰 |
+| 날짜 클릭 → 편집 다이얼로그 | ✅ 정상 | D4에 "이탈리아 - 로마" 추가 테스트 완료 |
+| 국가/도시 입력 | ✅ 정상 | |
+| 교통수단 선택 | ✅ 정상 | 비행기/차량/기차/버스/도보/배 |
+| 국가 색상 선택 | ✅ 정상 | 색상 팔레트 정상 작동 |
+| 모바일 리스트 뷰 | ✅ 정상 | 375x812 뷰포트 테스트 |
+| 스타일 편집 버튼 | ✅ 정상 | |
+| 콘솔 에러 | ✅ 없음 | |
+
+### 결론
+**모든 기능이 정상 작동 중입니다.**
+
+추가로 발견된 잠재적 문제에 대한 방어적 코드 수정을 적용했습니다.
+
+### 해결 방법 (방어적 코드 수정)
+```typescript
+// Before (line 245):
+data-has-blur={blurRegions.length > 0 ? "true" : undefined}
+
+// After:
+data-has-blur={blurRegions?.length > 0 ? "true" : undefined}
+```
+
+### 변경된 파일
+
+| 파일 | 변경 내용 |
+|------|-----------|
+| 📝 `src/components/ItineraryCalendarPage.tsx` | blurRegions 옵셔널 체이닝 추가 (방어적 코드) |
+
+### 참조한 문서
+- `src/App.tsx` - ItineraryCalendarPage 렌더링 코드 (lines 544-583)
+- `src/components/ItineraryCalendarPage.tsx` - 여행일정 페이지 컴포넌트
+
+### 사용자 참고사항
+현재 테스트 결과 모든 기능이 정상 작동합니다. 만약 특정 기능이 작동하지 않는다면, 어떤 기능이 어떻게 작동하지 않는지 구체적으로 알려주시면 추가 조사하겠습니다.
+
+---
+
+## History #39 ⭐
+**날짜**: 2025-12-16
+**사용자 질문**: 여행일정 페이지에서 일정을 추가해서 내용을 적고 저장을 해도 달력에 표시가 안되고 방문국가에 국가가 추가가 안되고 있어.
+
+### 문제 분석
+- **증상**: 일정 추가 후 저장하면 화면에 즉시 표시되지만, 페이지 새로고침 후 데이터가 사라짐
+- **근본 원인**: `App.tsx`에서 `tourData`와 `pageConfigs` 상태가 변경되어도 localStorage에 자동 저장되지 않음
+  - `blurData`는 useEffect로 자동 저장 로직이 있었음 (lines 69-72)
+  - `tourData`와 `pageConfigs`는 수동 저장(saveAsDefault, loadSettings, reset)에만 의존
+  - 일정 추가 시 `onUpdate` 콜백으로 상태는 변경되지만 localStorage에 저장 안 됨
+
+### 수행한 작업
+- [x] Sequential MCP로 체계적 분석 수행
+- [x] ItineraryCalendarPage.tsx 전체 분석 (handleSave, uniqueCountries 로직)
+- [x] App.tsx onUpdate 핸들러 분석
+- [x] Playwright로 버그 재현: 일정 추가 → 저장 → 페이지 새로고침 → **데이터 사라짐 확인**
+- [x] localStorage 저장 로직 분석 → tourData/pageConfigs에 자동 저장 useEffect 누락 발견
+- [x] App.tsx에 tourData 자동 저장 useEffect 추가 (lines 74-77)
+- [x] App.tsx에 pageConfigs 자동 저장 useEffect 추가 (lines 133-136)
+- [x] 빌드 테스트 통과
+- [x] Playwright로 수정 검증: 일정 추가 → 저장 → 페이지 새로고침 → **데이터 유지 확인** ✅
+
+### 해결 방법
+```typescript
+// src/App.tsx에 추가된 코드
+
+// tourData 자동 저장 (lines 74-77)
+useEffect(() => {
+  localStorage.setItem('tourData', JSON.stringify(tourData));
+}, [tourData]);
+
+// pageConfigs 자동 저장 (lines 133-136)
+useEffect(() => {
+  localStorage.setItem('pageConfigs', JSON.stringify(pageConfigs));
+}, [pageConfigs]);
+```
+
+### 테스트 결과
+
+| 테스트 | 수정 전 | 수정 후 |
+|--------|---------|---------|
+| 일정 추가 후 화면 표시 | ✅ | ✅ |
+| 방문 국가 자동 추가 | ✅ | ✅ |
+| 페이지 새로고침 후 데이터 유지 | ❌ 사라짐 | ✅ 유지 |
+
+### 변경된 파일
+
+| 파일 | 변경 내용 |
+|------|-----------|
+| 📝 `src/App.tsx` | tourData와 pageConfigs 자동 저장 useEffect 추가 |
+
+### 참조한 문서
+- `src/App.tsx` - 메인 앱 상태 관리 및 localStorage 저장 로직
+- `src/components/ItineraryCalendarPage.tsx` - 여행일정 페이지 컴포넌트
+
+### 영향 범위
+이 수정으로 **모든 페이지**에서 데이터 변경 시 즉시 localStorage에 저장됩니다:
+- 여행 일정 페이지 (일정 추가/수정)
+- 숙소 페이지
+- 견적 페이지
+- 결제 페이지
+- 기타 모든 데이터 편집 기능
+
+---
+
+## History #40
+**날짜**: 2025-12-16
+**사용자 질문**: 초기화 후에 여행일정 페이지에서 달력에 일정을 추가해도 적용이 안돼.
+
+### 테스트 시나리오
+Playwright를 사용하여 다음 시나리오를 테스트:
+1. 로그인
+2. 초기화(리셋) 버튼 클릭
+3. 다시 로그인
+4. 여행 일정 페이지(8페이지)로 이동
+5. 편집 모드 활성화
+6. D4 날짜 클릭 → 일정 추가 다이얼로그 열림
+7. "이탈리아", "로마" 입력 → 저장
+8. D5 날짜 클릭 → "스페인", "바르셀로나" 입력 → 저장
+9. 페이지 간 이동 테스트
+10. 페이지 새로고침 테스트
+
+### 테스트 결과: 버그 재현 실패 ✅
+
+| 테스트 항목 | 결과 |
+|------------|------|
+| 초기화 후 D4 일정 추가 | ✅ 정상 표시 |
+| 방문 국가에 "이탈리아" 추가 | ✅ 정상 표시 |
+| D5 일정 추가 (빈 셀) | ✅ 정상 표시 |
+| 방문 국가에 "스페인" 추가 | ✅ 정상 표시 |
+| 페이지 간 이동 후 데이터 유지 | ✅ 유지됨 |
+| 페이지 새로고침 후 데이터 유지 | ✅ 유지됨 |
+
+### 분석 결과
+**History #39에서 추가한 auto-save useEffect 덕분에 버그가 이미 해결된 것으로 확인됩니다.**
+
+```typescript
+// src/App.tsx lines 74-77 (History #39에서 추가)
+useEffect(() => {
+  localStorage.setItem('tourData', JSON.stringify(tourData));
+}, [tourData]);
+
+// src/App.tsx lines 133-136 (History #39에서 추가)
+useEffect(() => {
+  localStorage.setItem('pageConfigs', JSON.stringify(pageConfigs));
+}, [pageConfigs]);
+```
+
+이 auto-save 로직이 있기 때문에:
+1. 초기화 후 customDefaultData가 localStorage에 저장됨
+2. 일정 추가 시 tourData 상태 변경
+3. useEffect가 변경된 tourData를 즉시 localStorage에 저장
+4. 페이지 새로고침 시에도 데이터가 유지됨
+
+### 수행한 작업
+- [x] Playwright로 초기화 후 일정 추가 테스트
+- [x] D4 (기존 데이터 있는 날짜) 테스트
+- [x] D5 (빈 날짜) 테스트
+- [x] 페이지 새로고침 후 데이터 유지 확인
+- [x] auto-save useEffect 코드 존재 확인
+
+### 변경된 파일
+없음 (테스트 및 검증만 수행)
+
+### 참조한 문서
+- `src/App.tsx` - auto-save useEffect 코드 확인
+- `src/components/ItineraryCalendarPage.tsx` - 일정 추가 로직
+
+### 사용자 참고사항
+현재 코드에서는 버그가 재현되지 않습니다. 만약 여전히 문제가 발생한다면:
+1. 브라우저 캐시를 완전히 삭제 후 재시도
+2. 다른 브라우저에서 테스트
+3. 구체적인 재현 단계를 알려주시면 추가 조사하겠습니다
+
+---
+
+## History #41
+**날짜**: 2025-12-16
+**사용자 질문**: 이탈리아를 입력하면 적용이 되는데 다른나라를 입력하면 적용이 안되네? 일본이나 중국을 입력하면 저장을 눌러도 적용이 안돼.
+
+### 테스트 시나리오
+Playwright를 사용하여 특정 국가명 저장 버그 테스트:
+1. 로그인 (password: "thekadang")
+2. 좌측 메뉴에서 초기화 클릭 → 확인
+3. 페이지 새로고침 후 다시 로그인
+4. 편집 모드 활성화
+5. 여행 일정 페이지(8페이지)로 이동
+6. D4 날짜 클릭 → "일본", "도쿄" 입력 → 저장
+7. D5 날짜 클릭 → "중국", "베이징" 입력 → 저장
+8. 데이터 표시 및 방문 국가 확인
+9. 페이지 새로고침 후 데이터 유지 확인
+
+### 테스트 결과: 버그 재현 실패 ✅
+
+| 테스트 항목 | 결과 |
+|------------|------|
+| D4에 "일본/도쿄" 입력 및 저장 | ✅ 정상 저장 |
+| D4에 "일본 - 도쿄" 표시 | ✅ 정상 표시 |
+| D5에 "중국/베이징" 입력 및 저장 | ✅ 정상 저장 |
+| D5에 "중국 - 베이징" 표시 | ✅ 정상 표시 |
+| 방문 국가에 "일본" 추가 | ✅ 정상 표시 |
+| 방문 국가에 "중국" 추가 | ✅ 정상 표시 |
+| 페이지 새로고침 후 데이터 유지 | ✅ 유지됨 |
+
+### 코드 분석
+
+**handleSave 함수 (ItineraryCalendarPage.tsx:178-215)**
+```typescript
+if (editCountry && editCity) {
+  const newItem = {
+    date: dateNum,
+    country: editCountry,  // 어떤 문자열이든 그대로 저장
+    city: editCity,
+    transport: editTransport === 'none' ? null : editTransport,
+    dayNum: editingDay.dayNum,
+  };
+  // ...
+}
+```
+- 국가명 필터링 로직 없음 - 모든 문자열 저장 가능
+- "이탈리아", "일본", "중국" 등 어떤 국가명도 동일하게 처리
+
+### 수행한 작업
+- [x] Playwright로 초기화 후 "일본" 국가 저장 테스트
+- [x] Playwright로 초기화 후 "중국" 국가 저장 테스트
+- [x] ItineraryCalendarPage.tsx handleSave 함수 분석
+- [x] 국가명 필터링 로직 존재 여부 확인 → 없음
+
+### 변경된 파일
+없음 (테스트 및 코드 분석만 수행)
+
+### 참조한 문서
+- `src/components/ItineraryCalendarPage.tsx` - handleSave 함수
+- `src/App.tsx` - 초기화 로직
+
+### 사용자 참고사항
+현재 코드에서는 버그가 재현되지 않습니다. "일본", "중국" 모두 정상 저장됩니다.
+만약 여전히 문제가 발생한다면:
+1. 브라우저 캐시 완전히 삭제 후 재시도
+2. Ctrl+Shift+R 강력 새로고침 시도
+3. 다른 브라우저(Chrome, Firefox, Edge)에서 테스트
+4. 구체적인 재현 단계를 알려주시면 추가 조사하겠습니다
+
+---
+
+## History #42 ⭐
+**날짜**: 2025-12-16
+**사용자 질문**: 숙소 안내 페이지에서 항목명을 수정할 수 있도록 생긴건 확인했는데 항목명을 변경했는데 실제 페이지에 적용이 안된다.
+
+### 문제 분석
+- **증상**: 숙소 페이지에서 "항목명 편집" 섹션에서 라벨을 변경하고 저장해도 실제 페이지에 반영되지 않음
+- **근본 원인**: **Race Condition (경쟁 상태)**
+
+### 버그 원인 상세
+
+**EditableAccommodationPage.tsx의 handleSave 함수 (lines 126-133)**:
+```typescript
+const handleSave = () => {
+  onUpdate(editData);        // 1. 호텔 데이터 업데이트
+  if (onStyleChange) {
+    onStyleChange(editLabels);  // 2. 라벨 업데이트
+  }
+  setIsEditing(false);
+};
+```
+
+**App.tsx의 핸들러들 (lines 605-633)**:
+- `onUpdate`와 `onStyleChange`가 순차적으로 호출됨
+- 두 핸들러 모두 렌더링 시점에 캡처된 `accPageData`를 사용
+- React state 업데이트는 비동기적이므로:
+  1. `onUpdate` 호출 → pageConfigs 업데이트 큐에 추가
+  2. `onStyleChange` 호출 → 아직 OLD `accPageData` 사용 → 첫 번째 업데이트 덮어씀!
+
+### 수행한 작업
+- [x] Sequential MCP로 심층 분석 수행
+- [x] EditableAccommodationPage.tsx handleSave 함수 분석
+- [x] App.tsx accommodation 핸들러 분석
+- [x] Race condition 버그 원인 파악
+- [x] 함수형 업데이트로 수정 적용
+- [x] 빌드 테스트 통과
+- [x] Playwright 테스트: 라벨 변경 → 저장 → 페이지에 반영 확인 ✅
+- [x] Playwright 테스트: 페이지 새로고침 후 데이터 유지 확인 ✅
+
+### 해결 방법
+`setPageConfigs`에 함수형 업데이트를 사용하여 최신 state 참조:
+
+**수정 전 (onUpdate)**:
+```typescript
+onUpdate={(updated) => {
+  const currentAccommodations = accPageData.accommodations ? [...] : [...];
+  const newPages = [...pageConfigs];  // ❌ 클로저에서 캡처된 stale 값
+  // ...
+  setPageConfigs(newPages);
+}}
+```
+
+**수정 후 (onUpdate)**:
+```typescript
+onUpdate={(updated) => {
+  setPageConfigs(prevConfigs => {  // ✅ 함수형 업데이트
+    const newPages = [...prevConfigs];
+    const currentAccPageData = newPages[currentPage].data?.pageData || tourData;  // ✅ 최신 값
+    // ...
+    return newPages;
+  });
+}}
+```
+
+**수정 전 (onStyleChange)**:
+```typescript
+onStyleChange={(updated) => {
+  const newPages = [...pageConfigs];  // ❌ stale 값
+  // ...
+  pageData: { ...accPageData, ...updated }  // ❌ stale accPageData
+  setPageConfigs(newPages);
+}}
+```
+
+**수정 후 (onStyleChange)**:
+```typescript
+onStyleChange={(updated) => {
+  setPageConfigs(prevConfigs => {  // ✅ 함수형 업데이트
+    const newPages = [...prevConfigs];
+    const currentAccPageData = newPages[currentPage].data?.pageData || tourData;  // ✅ 최신 값
+    // ...
+    pageData: { ...currentAccPageData, ...updated }  // ✅ 최신 pageData 참조
+    return newPages;
+  });
+}}
+```
+
+### 변경된 파일
+
+| 파일 | 변경 내용 |
+|------|-----------|
+| 📝 `src/App.tsx` | accommodation case의 onUpdate, onStyleChange 핸들러를 함수형 업데이트로 변경 |
+
+### 테스트 결과
+
+| 테스트 항목 | 결과 |
+|------------|------|
+| "체크인" → "체크인 시간" 라벨 변경 | ✅ 정상 적용 |
+| 저장 후 페이지에 라벨 표시 | ✅ "체크인 시간" 표시됨 |
+| 페이지 새로고침 후 데이터 유지 | ✅ 유지됨 |
+
+### 참조한 문서
+- `src/App.tsx` - accommodation 렌더링 및 핸들러 (lines 595-650)
+- `src/components/EditableAccommodationPage.tsx` - handleSave 함수
+
+### 기술적 배경
+React의 `setState`는 비동기적으로 동작합니다. 두 개의 setState 호출이 연속으로 발생할 때:
+- 일반 업데이트: 클로저에 캡처된 stale 값 사용 → 두 번째가 첫 번째 덮어씀
+- 함수형 업데이트: `prevState` 파라미터로 최신 값 참조 → 두 업데이트 모두 적용됨
+
+---
+
+## History #43
+**날짜**: 2025-12-16
+**사용자 질문**: 숙소 안내 페이지에서 호텔명 옆의 "호텔" 배지를 변경하고 싶은데, 편집창에서 숙소종류 항목을 만들어서 변경할 수 있게 해줘.
+
+### 수행한 작업
+- [x] 문제 분석: "호텔" 배지는 `hotel.type` 필드로 렌더링되지만, 편집 모달에 해당 필드가 없음
+- [x] EditableAccommodationPage.tsx에 "숙소 종류" 입력 필드 추가
+- [x] Playwright 테스트: "호텔" → "에어비엔비" 변경 성공
+- [x] 페이지에 변경된 배지 표시 확인
+
+### 변경된 파일
+
+| 파일 | 변경 내용 |
+|------|-----------|
+| 📝 `src/components/EditableAccommodationPage.tsx` | "숙소 종류" 입력 필드 추가 (호텔명 아래, line 860-867) |
+
+### 추가된 코드
+```typescript
+<div>
+  <label className="block text-sm mb-2 text-gray-700">숙소 종류</label>
+  <Input
+    value={editData.type}
+    onChange={(e) => setEditData({ ...editData, type: e.target.value })}
+    placeholder="호텔, 에어비엔비, 리조트 등"
+  />
+</div>
+```
+
+### 테스트 결과
+
+| 테스트 항목 | 결과 |
+|------------|------|
+| 편집 모달에 "숙소 종류" 필드 표시 | ✅ 정상 |
+| "호텔" → "에어비엔비" 변경 | ✅ 정상 적용 |
+| 저장 후 배지 텍스트 변경 확인 | ✅ 배지가 "에어비엔비"로 변경됨 |
+
+### 참조한 문서
+- `src/components/EditableAccommodationPage.tsx` - 숙소 편집 모달 (lines 850-920)
+- `src/types/tour-data.ts` - HotelData 인터페이스 (type: string)
+
+---
+
+## History #44 ⭐
+**날짜**: 2025-12-16
+**사용자 질문**: 결제안내 페이지에서 마지막에 있는 문의하기 내용이 있지? 이 부분을 따로 다음페이지에 문의 페이지로 빼줘. 제목이나 블러처리 같은 양식은 기존 페이지와 통일하고 제목을 문의 하기 로 해서 이 부분만 마지막 페이지로 옮기면 좋을것 같아.
+
+### 수행한 작업
+- [x] PaymentPage.tsx의 문의하기 섹션 구조 분석 (lines 657-824)
+- [x] ContactPage.tsx 컴포넌트 신규 생성 (문의하기 독립 페이지)
+- [x] tour-data.ts에 contactPageTitle, contactPageTitleStyle 타입 및 기본값 추가
+- [x] usePageConfigs.ts에 'contact' 페이지 타입 추가
+- [x] App.tsx에 ContactPage import 및 contact case 렌더링 추가
+- [x] 기본 페이지 설정에 contact 페이지 추가 (마지막 페이지)
+- [x] PaymentPage.tsx에서 문의하기 섹션 제거
+- [x] Playwright 테스트: 16번 페이지에 문의하기 페이지 확인, 15번 결제안내 페이지에서 문의 섹션 제거 확인
+
+### 변경된 파일
+
+| 파일 | 변경 내용 |
+|------|-----------|
+| 📄 `src/components/ContactPage.tsx` | 새로 생성 - 문의하기 독립 페이지 컴포넌트 |
+| 📝 `src/types/tour-data.ts` | contactPageTitle, contactPageTitleStyle 타입 및 기본값 추가 |
+| 📝 `src/hooks/usePageConfigs.ts` | 'contact' 페이지 타입 추가, 기본 설정에 contact 페이지 추가 |
+| 📝 `src/App.tsx` | ContactPage import, PageConfig 타입에 'contact' 추가, renderPage에 contact case 추가, 기본 페이지에 contact 추가 |
+| 📝 `src/components/PaymentPage.tsx` | 문의하기 섹션 제거 (lines 657-824) |
+
+### ContactPage 주요 기능
+- 페이지 제목: "문의 하기" (StylePicker로 스타일 편집 가능)
+- 연락처 카드 (시안 그라데이션 배경)
+  - 문의하기 제목 (편집 가능)
+  - 담당자, 이메일, 전화번호 (편집 가능)
+- 블러 영역 지원
+- 페이지 복제/삭제 기능 지원
+- 기존 페이지들과 동일한 레이아웃 패턴 적용
+
+### 테스트 결과
+
+| 테스트 항목 | 결과 |
+|------------|------|
+| 문의하기 페이지가 마지막(16번) 페이지로 표시 | ✅ 정상 |
+| "문의 하기" 제목 표시 | ✅ 정상 |
+| 담당자/이메일/전화번호 정보 표시 | ✅ 정상 |
+| 결제안내 페이지(15번)에서 문의 섹션 제거 확인 | ✅ 정상 |
+
+### 참조한 문서
+- `src/components/PaymentPage.tsx` - 기존 문의하기 섹션 구조
+- `src/types/tour-data.ts` - 데이터 타입 정의
+- `src/App.tsx` - 페이지 렌더링 패턴
+
+---
+
+## History #45
+**날짜**: 2025-12-16
+**사용자 질문**: 비번을 변경하고 싶어 (01089885545)
+
+### 수행한 작업
+- [x] PasswordProtection.tsx에서 비밀번호 변경
+- [x] 빌드 확인
+
+### 변경된 파일
+
+| 파일 | 변경 내용 |
+|------|-----------|
+| 📝 `src/components/PasswordProtection.tsx` | 비밀번호 'thekadang' → '01089885545'로 변경 (line 15) |
+
+---
+
 ## 롤백 안내
 
 롤백이 필요한 경우:
