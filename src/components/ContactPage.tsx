@@ -166,7 +166,56 @@ export function ContactPage({
                 </h1>
               )}
             </div>
-            <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-8" />
+            <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-yellow-400 mx-auto rounded-full mb-4" />
+          </div>
+          <div className="flex items-center justify-center gap-2">
+            <div data-blur-key="contactPageSubtitle">
+              {isEditMode ? (
+                editingField === 'contactPageSubtitle' ? (
+                  <input
+                    type="text"
+                    value={tempValue}
+                    onChange={(e) => setTempValue(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        saveEdit();
+                      } else if (e.key === 'Escape') {
+                        e.preventDefault();
+                        cancelEdit();
+                      }
+                    }}
+                    onBlur={saveEdit}
+                    autoFocus
+                    className="text-gray-600 bg-blue-50 px-3 py-1 rounded border border-blue-300 focus:outline-none focus:border-blue-500"
+                    style={getStyleObject(data.contactPageSubtitleStyle)}
+                  />
+                ) : (
+                  <p
+                    className="text-gray-600 cursor-pointer hover:bg-blue-50 px-3 py-1 rounded transition-colors"
+                    style={getStyleObject(data.contactPageSubtitleStyle)}
+                    onClick={() => startEdit('contactPageSubtitle', data.contactPageSubtitle || '담당자 연락처')}
+                  >
+                    {data.contactPageSubtitle || '담당자 연락처'}
+                  </p>
+                )
+              ) : (
+                <p
+                  className="text-gray-600"
+                  style={getStyleObject(data.contactPageSubtitleStyle)}
+                >
+                  {data.contactPageSubtitle || '담당자 연락처'}
+                </p>
+              )}
+            </div>
+            {isEditMode && editingField !== 'contactPageSubtitle' && (
+              <StylePicker
+                currentStyle={data.contactPageSubtitleStyle}
+                onStyleChange={(style) => onUpdate?.({ contactPageSubtitleStyle: style })}
+                fieldKey="contactPageSubtitle"
+                backgroundColorClass="bg-white"
+              />
+            )}
           </div>
         </div>
 

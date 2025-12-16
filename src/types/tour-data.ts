@@ -371,6 +371,8 @@ export interface TourData {
   // Contact page
   contactPageTitle?: string;
   contactPageTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+  contactPageSubtitle?: string;
+  contactPageSubtitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
 
   // Payment page data
   paymentMethodsAddButtonText: string;
@@ -1270,5 +1272,7 @@ export const defaultTourData: TourData = {
   contactTitleStyle: { size: '20px', weight: 'normal', color: '#fafcff' },
   contactInfoStyle: { size: '20px', weight: 'normal', color: '#f4f6fa' },
   contactPageTitle: '문의 하기',
-  contactPageTitleStyle: { size: '35px', weight: 'semibold', color: '#0891b2' }
+  contactPageTitleStyle: { size: '35px', weight: 'semibold', color: '#0891b2' },
+  contactPageSubtitle: '담당자 연락처',
+  contactPageSubtitleStyle: { size: '20px', weight: 'normal', color: '#374151' }
 };

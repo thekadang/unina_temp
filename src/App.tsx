@@ -559,9 +559,12 @@ export default function App() {
         const itineraryPageData = {
           ...tourData,
           ...(config.data?.pageData || {}),
+          // 공유 필드: 항상 tourData에서 동기화
           startDate: tourData.startDate,
           endDate: tourData.endDate,
           duration: tourData.duration,
+          nights: tourData.nights,
+          days: tourData.days,
         };
         return (
           <ItineraryCalendarPage

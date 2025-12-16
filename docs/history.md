@@ -2366,6 +2366,239 @@ React의 `setState`는 비동기적으로 동작합니다. 두 개의 setState �
 
 ---
 
+## History #46
+**날짜**: 2025-12-16
+**사용자 질문**: 여행소개 페이지에서 일정을 작성하면 여행일정 페이지에 적용이 되어야 하는데, 뒤에 몇박 몇일인지 여부는 연동이 안되고 있어.
+
+### 수행한 작업
+- [x] IntroductionPage 일정 데이터 구조 분석
+- [x] ItineraryCalendarPage 데이터 사용 분석
+- [x] App.tsx 데이터 동기화 로직 확인
+- [x] 버그 원인 파악: itineraryPageData 병합 시 nights/days 필드 누락
+- [x] App.tsx에서 itinerary 케이스에 nights, days 필드 추가
+- [x] Playwright 테스트: 여행소개(5박) → 여행일정(5박) 동기화 확인
+
+### 버그 원인 분석
+
+**문제**: 여행소개 페이지에서 nights/days 값을 변경해도 여행일정 페이지에 반영되지 않음
+
+**원인**: `App.tsx`의 itinerary 케이스에서 `itineraryPageData` 병합 시 `nights`와 `days` 필드가 명시적으로 포함되지 않았음
+
+```typescript
+// 수정 전: nights, days 필드 누락
+case 'itinerary':
+  const itineraryPageData = {
+    ...tourData,
+    ...(config.data?.pageData || {}),
+    startDate: tourData.startDate,
+    endDate: tourData.endDate,
+    duration: tourData.duration,
+    // nights, days 없음!
+  };
+```
+
+**해결**: nights, days 필드를 명시적으로 tourData에서 동기화
+
+```typescript
+// 수정 후: nights, days 필드 추가
+case 'itinerary':
+  const itineraryPageData = {
+    ...tourData,
+    ...(config.data?.pageData || {}),
+    startDate: tourData.startDate,
+    endDate: tourData.endDate,
+    duration: tourData.duration,
+    nights: tourData.nights,  // 추가
+    days: tourData.days,      // 추가
+  };
+```
+
+### 변경된 파일
+
+| 파일 | 변경 내용 |
+|------|-----------|
+| 📝 `src/App.tsx` | itinerary 케이스에 `nights: tourData.nights`, `days: tourData.days` 추가 |
+
+### 테스트 결과
+
+| 테스트 항목 | 결과 |
+|------------|------|
+| 여행소개 페이지에서 7박→5박 변경 | ✅ 정상 |
+| 여행일정 페이지에서 "5박 11일" 표시 확인 | ✅ 동기화 성공 |
+
+### 참조한 문서
+- `src/App.tsx` - 페이지 렌더링 및 데이터 병합 로직
+- `src/components/IntroductionPage.tsx` - 여행소개 페이지 (nights/days 편집)
+- `src/components/ItineraryCalendarPage.tsx` - 여행일정 페이지 (nights/days 표시)
+- `src/hooks/usePageConfigs.ts` - 페이지 설정 구조
+
+---
+
+## History #47
+**날짜**: 2025-12-16
+**사용자 질문**: 세부일정 페이지랑 관광지 리스트 페이지를 보면 제목 아래에 날짜와 day1 이런식으로 표시가 되잖아? 그냥 day1, day2 이 표시는 없어도 될것 같아. 그냥 날짜만 표시해줘. 그리고 마지막의 문의정보 페이지가 사라졌다?
+
+### 수행한 작업
+- [x] DetailedSchedulePage.tsx에서 날짜 라인의 "(DAY {dayNumber})" 제거
+- [x] TouristSpotListPage.tsx에서 날짜 라인의 "(DAY {dayNumber})" 제거
+- [x] 문의 페이지 사라진 원인 분석: localStorage에 저장된 이전 pageConfigs에 contact 페이지 누락
+- [x] usePageConfigs.ts에 contact 페이지 자동 마이그레이션 로직 추가
+- [x] Playwright 테스트: 날짜 표시 확인, 문의 페이지 복구 확인
+
+### 변경 내용
+
+**날짜 표시 변경 (DAY 제거)**:
+```typescript
+// Before (DetailedSchedulePage.tsx, TouristSpotListPage.tsx)
+{dateStr} (DAY {dayNumber})
+
+// After
+{dateStr}
+```
+
+**문의 페이지 마이그레이션 (usePageConfigs.ts)**:
+```typescript
+const [pageConfigs, setPageConfigs] = useState<PageConfig[]>(() => {
+  const saved = storage.get(STORAGE_KEYS.PAGE_CONFIGS, defaultPageConfigs);
+
+  // 마이그레이션: contact 페이지가 없으면 추가
+  if (!saved.some((p: PageConfig) => p.type === 'contact')) {
+    const contactPage: PageConfig = { id: '14', type: 'contact', title: '문의 하기' };
+    return [...saved, contactPage];
+  }
+
+  return saved;
+});
+```
+
+### 변경된 파일
+
+| 파일 | 변경 내용 |
+|------|-----------|
+| 📝 `src/components/DetailedSchedulePage.tsx` | 날짜 라인에서 "(DAY {dayNumber})" 제거 |
+| 📝 `src/components/TouristSpotListPage.tsx` | 날짜 라인에서 "(DAY {dayNumber})" 제거 |
+| 📝 `src/hooks/usePageConfigs.ts` | contact 페이지 자동 마이그레이션 로직 추가 |
+
+### 테스트 결과
+
+| 테스트 항목 | 결과 |
+|------------|------|
+| 세부일정 페이지 날짜: "2026.08.05" (DAY 없음) | ✅ 정상 |
+| 관광지 리스트 페이지 날짜: "2026.08.05" (DAY 없음) | ✅ 정상 |
+| 문의하기 페이지 16번째 표시 | ✅ 정상 |
+| 날짜 수정 기능 유지 | ✅ 정상 |
+
+### 참조한 문서
+- `src/components/DetailedSchedulePage.tsx` - 세부일정 페이지 (line 444)
+- `src/components/TouristSpotListPage.tsx` - 관광지 리스트 페이지 (line 401)
+- `src/hooks/usePageConfigs.ts` - 페이지 설정 및 마이그레이션
+
+---
+
+## History #48
+**날짜**: 2025-12-16
+**사용자 질문**: Contact 페이지 스타일 통일 - 제목/서브타이틀 양식을 다른 페이지와 맞추고, 초기화 후에도 Contact 페이지가 유지되도록 수정
+
+### 수행한 작업
+- [x] Contact 페이지와 다른 페이지들(IntroductionPage 등) 스타일 패턴 비교 분석
+- [x] TourData 인터페이스에 `contactPageSubtitle`, `contactPageSubtitleStyle` 필드 추가
+- [x] defaultTourData에 기본값 추가
+- [x] ContactPage.tsx에 서브타이틀 섹션 추가 (IntroductionPage 패턴과 동일)
+- [x] custom-default-data.json의 tourData에 새 필드 추가
+- [x] custom-default-data.json의 pageConfigs에 contact 페이지 추가 (초기화 시 유지)
+- [x] Playwright 테스트: UI 확인, 초기화 후 Contact 페이지 유지 확인
+
+### 변경 내용
+
+**TourData 인터페이스 확장 (tour-data.ts)**:
+```typescript
+// Contact page
+contactPageTitle?: string;
+contactPageTitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };
+contactPageSubtitle?: string;  // NEW
+contactPageSubtitleStyle?: { size: string; weight: 'normal' | 'semibold' | 'bold'; color: string; };  // NEW
+```
+
+**ContactPage 헤더 구조 변경**:
+```typescript
+// Before: 제목만 있음
+<h1>문의 하기</h1>
+<div className="...gradient-line mb-8..." />
+
+// After: 제목 + 서브타이틀 (다른 페이지와 동일 패턴)
+<h1>문의 하기</h1>
+<div className="...gradient-line mb-4..." />
+<p>담당자 연락처</p>  // NEW
+```
+
+**custom-default-data.json 업데이트**:
+- tourData에 `contactPageTitle`, `contactPageTitleStyle`, `contactPageSubtitle`, `contactPageSubtitleStyle` 추가
+- pageConfigs 배열 끝에 contact 페이지 추가
+
+### 변경된 파일
+
+| 파일 | 변경 내용 |
+|------|-----------|
+| 📝 `src/types/tour-data.ts` | contactPageSubtitle, contactPageSubtitleStyle 필드 추가 |
+| 📝 `src/components/ContactPage.tsx` | 서브타이틀 섹션 추가, gradient line mb-8→mb-4 변경 |
+| 📝 `src/data/custom-default-data.json` | tourData에 새 필드 추가, pageConfigs에 contact 페이지 추가 |
+
+### 테스트 결과
+
+| 테스트 항목 | 결과 |
+|------------|------|
+| Contact 페이지 제목 "문의 하기" 표시 | ✅ 정상 |
+| Contact 페이지 서브타이틀 "담당자 연락처" 표시 | ✅ 정상 |
+| 초기화 후 Contact 페이지 유지 (17/17) | ✅ 정상 |
+| 편집 모드에서 제목/서브타이틀 수정 가능 | ✅ 정상 |
+| 스타일 피커 작동 | ✅ 정상 |
+
+### 참조한 문서
+- `src/components/IntroductionPage.tsx` - 제목/서브타이틀 패턴 참조
+- `src/components/ContactPage.tsx` - 수정 대상
+- `src/types/tour-data.ts` - 타입 정의
+- `src/data/custom-default-data.json` - 커스텀 기본 데이터
+
+---
+
+## History #49
+**날짜**: 2025-12-16
+**사용자 질문**: 관광지 리스트 페이지에서 제목 옆에 DAY 표시 제거 - "관광지 픽 DAY{dayNumber}"를 "관광지 픽"으로 변경
+
+### 수행한 작업
+- [x] TouristSpotListPage.tsx에서 제목 옆 DAY 표시 위치 확인 (line 381)
+- [x] DAY 표시 코드 제거: `관광지 픽 DAY{dayNumber}` → `관광지 픽`
+- [x] Playwright 테스트: 페이지 11/16에서 제목이 "관광지 픽"으로만 표시되는지 확인
+
+### 변경 내용
+
+**TouristSpotListPage.tsx (line 381)**:
+```tsx
+// Before
+관광지 픽 DAY{dayNumber}
+
+// After
+관광지 픽
+```
+
+### 변경된 파일
+
+| 파일 | 변경 내용 |
+|------|-----------|
+| 📝 `src/components/TouristSpotListPage.tsx` | 제목에서 "DAY{dayNumber}" 제거 |
+
+### 테스트 결과
+
+| 테스트 항목 | 결과 |
+|------------|------|
+| 관광지 픽 페이지 제목 "관광지 픽" 표시 | ✅ 정상 |
+| DAY 표시 제거 확인 | ✅ 정상 |
+
+### 참조한 문서
+- `src/components/TouristSpotListPage.tsx` - 수정 대상
+
+---
+
 ## 롤백 안내
 
 롤백이 필요한 경우:

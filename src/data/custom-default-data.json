@@ -1406,6 +1406,18 @@
       "size": "20px",
       "weight": "normal",
       "color": "#f4f6fa"
+    },
+    "contactPageTitle": "문의 하기",
+    "contactPageTitleStyle": {
+      "size": "35px",
+      "weight": "semibold",
+      "color": "#0891b2"
+    },
+    "contactPageSubtitle": "담당자 연락처",
+    "contactPageSubtitleStyle": {
+      "size": "20px",
+      "weight": "normal",
+      "color": "#374151"
     }
   },
   "pageConfigs": [
@@ -21290,6 +21302,11 @@
           }
         }
       }
+    },
+    {
+      "id": "14",
+      "type": "contact",
+      "title": "문의 하기"
     }
   ],
   "exportedAt": "2025-12-12T01:10:45.136Z"

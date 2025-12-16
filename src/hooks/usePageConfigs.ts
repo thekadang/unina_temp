@@ -35,7 +35,15 @@ const defaultPageConfigs: PageConfig[] = [
  */
 export function usePageConfigs() {
   const [pageConfigs, setPageConfigs] = useState<PageConfig[]>(() => {
-    return storage.get(STORAGE_KEYS.PAGE_CONFIGS, defaultPageConfigs);
+    const saved = storage.get(STORAGE_KEYS.PAGE_CONFIGS, defaultPageConfigs);
+
+    // 마이그레이션: contact 페이지가 없으면 추가
+    if (!saved.some((p: PageConfig) => p.type === 'contact')) {
+      const contactPage: PageConfig = { id: '14', type: 'contact', title: '문의 하기' };
+      return [...saved, contactPage];
+    }
+
+    return saved;
   });
 
   const [currentPage, setCurrentPage] = useState(0);

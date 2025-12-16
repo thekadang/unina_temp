@@ -378,7 +378,7 @@ export function TouristSpotListPage({ data, dayNumber, isEditMode, onUpdate, onD
                   style={getStyleObject(data.detailedScheduleDayTitleStyle)}
                   onClick={() => startEdit('dayTitle', daySchedule.title)}
                 >
-                  관광지 픽 DAY{dayNumber}
+                  관광지 픽
                 </h1>
               )}
               {isEditMode && (
@@ -398,7 +398,7 @@ export function TouristSpotListPage({ data, dayNumber, isEditMode, onUpdate, onD
               className="text-sm print:text-xs text-gray-500"
               style={getStyleObject(data.detailedScheduleDateStyle)}
             >
-              {dateStr} (DAY {dayNumber})
+              {dateStr}
               {daySchedule.customDate && isEditMode && (
                 <span className="text-xs text-cyan-600 ml-1">(수정됨)</span>
               )}

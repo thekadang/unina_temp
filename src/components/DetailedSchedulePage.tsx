@@ -441,7 +441,7 @@ export function DetailedSchedulePage({
                 className="text-sm print:text-xs text-gray-500"
                 style={getStyleObject(data.detailedScheduleDateStyle)}
               >
-                {dateStr} (DAY {dayNumber})
+                {dateStr}
                 {daySchedule.customDate && isEditMode && (
                   <span className="text-xs text-cyan-600 ml-1">(수정됨)</span>
                 )}
