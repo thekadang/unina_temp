@@ -1726,6 +1726,52 @@ if (customDefaultData.pageConfigs) {
 
 ---
 
+## History #35
+**날짜**: 2025-12-16
+**사용자 질문**: 초기화 후 여행소개 페이지에서 날짜를 변경해도 일정 캘린더 페이지에 반영되지 않는 버그 수정
+
+### 문제 분석
+- **현상**: 초기화 후 여행소개 페이지에서 날짜 변경 시 일정 캘린더 페이지에 동기화되지 않음
+- **근본 원인**:
+  1. 초기화 시 각 페이지의 `pageData`에 날짜 정보(startDate, endDate, duration)가 저장됨
+  2. IntroductionPage에서 날짜 변경 시 전역 `tourData`만 업데이트됨
+  3. 다른 페이지들은 `{ ...tourData, ...(config.data?.pageData || {}) }` 형태로 데이터 병합
+  4. `pageData`의 이전 날짜가 `tourData`의 새 날짜를 덮어씀
+
+### 수행한 작업
+- [x] 여행소개 페이지 및 여행 기간 관련 코드 분석
+- [x] 초기화 버튼 로직 분석
+- [x] 다른 페이지에서의 여행 기간 연동 코드 분석
+- [x] 버그 원인 파악 및 수정
+- [x] 테스트 및 검증
+
+### 해결 방법
+데이터 병합 시 날짜 관련 필드(startDate, endDate, duration)는 항상 `tourData`에서 가져오도록 수정:
+```typescript
+const pageData = {
+  ...(config.data?.pageData || tourData),
+  startDate: tourData.startDate,
+  endDate: tourData.endDate,
+  duration: tourData.duration,
+};
+```
+
+### 변경된 파일
+
+| 파일 | 변경 내용 |
+|------|-----------|
+| 📝 `src/App.tsx` | cover, intro, itinerary 페이지의 데이터 병합 로직 수정 |
+
+### 테스트 결과
+- ✅ 초기화 후 여행소개 페이지에서 출발일 변경 (12/17 → 12/20)
+- ✅ 일정 캘린더 페이지에서 변경된 날짜 정상 반영 확인
+
+### 참조한 문서
+- `src/App.tsx` - renderPage 함수의 데이터 병합 로직
+- `CLAUDE.md` - JSON 저장/불러오기 호환성 원칙
+
+---
+
 ## 롤백 안내
 
 롤백이 필요한 경우:

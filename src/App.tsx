@@ -340,7 +340,13 @@ export default function App() {
   const renderPage = (config: PageConfig) => {
     switch (config.type) {
       case 'cover':
-        const coverPageData = config.data?.pageData || tourData;
+        // 날짜 관련 필드는 항상 tourData에서 가져옴 (여행소개 페이지에서 변경 시 동기화)
+        const coverPageData = {
+          ...(config.data?.pageData || tourData),
+          startDate: tourData.startDate,
+          endDate: tourData.endDate,
+          duration: tourData.duration,
+        };
         return (
           <CoverPage
             key={config.id}
@@ -369,7 +375,13 @@ export default function App() {
           />
         );
       case 'intro':
-        const introPageData = config.data?.pageData || tourData;
+        // 날짜 관련 필드는 항상 tourData에서 가져옴 (날짜 동기화)
+        const introPageData = {
+          ...(config.data?.pageData || tourData),
+          startDate: tourData.startDate,
+          endDate: tourData.endDate,
+          duration: tourData.duration,
+        };
         return (
           <IntroductionPage
             key={config.id}
@@ -525,7 +537,14 @@ export default function App() {
         );
       case 'itinerary':
         // ItineraryCalendarPage는 항상 전역 tourData를 사용 (날짜 연동을 위해)
-        const itineraryPageData = { ...tourData, ...(config.data?.pageData || {}) };
+        // 날짜 관련 필드는 항상 tourData에서 가져옴 (여행소개 페이지에서 변경 시 동기화)
+        const itineraryPageData = {
+          ...tourData,
+          ...(config.data?.pageData || {}),
+          startDate: tourData.startDate,
+          endDate: tourData.endDate,
+          duration: tourData.duration,
+        };
         return (
           <ItineraryCalendarPage
             key={config.id}
