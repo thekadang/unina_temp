@@ -121,7 +121,7 @@ export default function App() {
       { id: '4', type: 'flight-transit', title: '항공편 (중간이동)' },
       { id: '5', type: 'flight-arrival', title: '항공편 (도착)' },
       { id: '6', type: 'itinerary', title: '여행 일정' },
-      { id: '7', type: 'accommodation', title: '숙소 안내 (니스)', data: { index: 0 } },
+      { id: '7', type: 'accommodation', title: '숙소 안내', data: { index: 0 } },
       { id: '6-1', type: 'detailed-schedule', title: '세부 일정 (DAY 1)', data: { dayNumber: 1 } },
       { id: '6-4', type: 'tourist-spot', title: '관광지 리스트 (DAY 1)', data: { dayNumber: 1 } },
       { id: '12', type: 'transportation-ticket', title: '교통편 안내' },
@@ -942,19 +942,35 @@ export default function App() {
     let newPage: PageConfig;
     if (pageToDuplicate.type === 'accommodation') {
       const accIndex = pageToDuplicate.data?.index ?? 0;
-      const hotelToDuplicate = tourData.accommodations[accIndex];
+      // pageData에서 먼저 찾고, 없으면 tourData에서 찾기 (편집 중인 데이터 반영)
+      const pageData = pageToDuplicate.data?.pageData;
+      const hotelToDuplicate = pageData?.accommodations?.[accIndex] || tourData.accommodations[accIndex];
       const newAccommodations = [...tourData.accommodations];
       // 깊은 복사를 위해 JSON.parse(JSON.stringify()) 사용
       const duplicatedHotel = JSON.parse(JSON.stringify(hotelToDuplicate));
       duplicatedHotel.name = duplicatedHotel.name + ' (복사)';
       newAccommodations.push(duplicatedHotel);
       setTourData({ ...tourData, accommodations: newAccommodations });
-      
+
+      // pageData도 깊은 복사하여 스타일 정보 유지
+      const duplicatedPageData = pageData
+        ? JSON.parse(JSON.stringify(pageData))
+        : null;
+
+      // 복제된 pageData에서 accommodations 배열도 업데이트
+      if (duplicatedPageData) {
+        duplicatedPageData.accommodations = duplicatedPageData.accommodations || [...tourData.accommodations];
+        duplicatedPageData.accommodations.push(duplicatedHotel);
+      }
+
       newPage = {
         id: newId,
         type: 'accommodation',
         title: pageToDuplicate.title + ' (복사)',
-        data: { index: newAccommodations.length - 1 }
+        data: {
+          index: newAccommodations.length - 1,
+          pageData: duplicatedPageData
+        }
       };
     } else if (pageToDuplicate.type === 'detailed-schedule') {
       const currentDayNumber = pageToDuplicate.data?.dayNumber ?? 1;
@@ -1221,7 +1237,7 @@ export default function App() {
     const newPage: PageConfig = {
       id: Date.now().toString(),
       type: 'accommodation',
-      title: `숙소 안내 (${newHotel.city})`,
+      title: '숙소 안내',
       data: { index: newAccommodations.length - 1 }
     };
 

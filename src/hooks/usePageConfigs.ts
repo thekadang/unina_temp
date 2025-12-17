@@ -18,7 +18,7 @@ const defaultPageConfigs: PageConfig[] = [
   { id: '4', type: 'flight-transit', title: '항공편 (중간이동)' },
   { id: '5', type: 'flight-arrival', title: '항공편 (도착)' },
   { id: '6', type: 'itinerary', title: '여행 일정' },
-  { id: '7', type: 'accommodation', title: '숙소 안내 (니스)', data: { index: 0 } },
+  { id: '7', type: 'accommodation', title: '숙소 안내', data: { index: 0 } },
   { id: '6-1', type: 'detailed-schedule', title: '세부 일정 (DAY 1)', data: { dayNumber: 1 } },
   { id: '6-4', type: 'tourist-spot', title: '관광지 리스트 (DAY 1)', data: { dayNumber: 1 } },
   { id: '12', type: 'transportation-ticket', title: '교통편 안내' },
